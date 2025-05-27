@@ -1,0 +1,974 @@
+:root{
+    --navbar-primary-color: #EFEEEA;
+    --navbar-secondary-color: #000000;
+    --navbar-secondary-color-2 : #FFFFFF;
+    --navbar-tertiary-color: #FE7743;
+    --navbar-tertiary-color-2: #273F4F;
+    --charcoal : #212121;
+}
+
+.comic-neue-regular {
+    font-family: "Comic Neue", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body, html{
+    background-color: var(--navbar-primary-color);
+    height: 100%;
+    margin: 0;
+    overflow: scroll;       
+    scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;          
+}
+
+.comic-neue-regular {
+    font-family: "Comic Neue", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* ------------------------------------------------------ section-1 Part A ------------------------------------- */
+
+.get-started-div{
+    height: 83.5vh;
+    background-color: var(--navbar-primary-color);
+    margin: 0.2rem 2rem 0 5rem;                     /* top right bottom left */
+    padding: 4rem 1rem 2rem 2.5rem;
+    position: relative;
+}
+
+.get-started-div::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 3.3rem;  
+    bottom: 3.5rem; 
+    width: 2.5px;
+    background-color: var(--navbar-tertiary-color-2);
+    animation: moveToDown 2.5s ease-out 0.2s forwards; 
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+
+@keyframes moveToDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }    
+}
+
+.get-started-div h1{
+    color: var(--charcoal);
+    font-weight: 600;
+    padding-top: 3rem;
+    padding-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3), -1px -1px 1px rgba(255, 255, 255, 0.2); 
+}
+
+.get-started-div p {
+    font-family: "Noto Sans", "Inter", sans-serif;
+    color: var(--charcoal);
+    font-weight: 400;
+    font-size: 1.05rem;
+    line-height: 1.7rem;
+    letter-spacing: 0.03rem;
+    text-align: justify;
+    margin-top: 1rem;
+    padding-right: 1rem ;
+    text-shadow: 0.3px 0.3px 0.6px rgba(0, 0, 0, 0.05);
+}
+
+.typewriter-text {
+    display: inline-block;
+    color: var(--navbar-tertiary-color-2);
+    margin-top: 0.5rem;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: 400;
+    font-size: 1.35rem;
+    letter-spacing: 0.02rem;
+    text-align: justify;
+    width: 0;
+    animation: typing 3.5s steps(40, end) infinite, blink 0.75s step-end;
+    animation-delay: 0.6s, 0s; 
+    animation-fill-mode: both;
+  }
+  
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  @keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: #000 }
+  }
+
+.btn{ 
+    height: 3rem;
+    width: 9rem;
+    border-radius: 2rem;
+    background-color: var(--navbar-tertiary-color);
+    color: var(--navbar-secondary-color-2);
+    padding : 8px 10px;
+    text-align: center; 
+}
+
+.btn:hover{
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+    background-color: var(--navbar-tertiary-color);
+    color: var(--navbar-secondary-color-2);
+}
+
+
+/* -------------------------------------------------------- section-1_part B ------------------------------------------------------- */
+
+.landing-images-div{
+    height: 70.5vh;
+    background-color: var(--navbar-primary-color);
+    margin: 0.5rem 0 0 1rem;
+    padding-top: 4rem;
+}
+
+.landing-images-div .images-container{
+    height : 460px;
+    width: 800px;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: start;
+}
+
+.card {
+    width : 80px;
+    height: 410px;
+    position: relative;
+    overflow: hidden;
+    border: 2px soild var(--navbar-tertiary-color);
+    border-radius: 1.8rem;
+    background-size: cover;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: 0.6s cubic-bezier(0.28, -0.03, 0, 0.99);
+    box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.6);
+}
+
+.glass-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1;
+    border-radius: 1.8rem;
+    box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.05);
+}
+
+input{
+    display: none;
+}
+
+input:checked + label{
+    width : 780px;
+}
+
+input:checked + label .glass-overlay{
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    background: rgba(255, 255, 255, 0); 
+}
+
+.card[for = "c4"]{
+    background-image: url("/static/images/landing_page_images/Parking_image1_tree.jpg");
+    background-size: cover;
+}
+
+.card[for="c2"]{
+    background-image: url("/static/images/landing_page_images/Parking_image_4.jpg");
+    background-size: cover;
+}
+
+.card[for="c3"]{
+    background-size: cover;
+    background-image: url("/static/images/landing_page_images/Parking_image2.jpg");
+}
+
+.card[for="c1"]{
+    background-image: url("/static/images/landing_page_images/Parking_image3.jpg");
+    background-size: cover;
+}
+
+
+@keyframes slideUpFade {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-slide-up {
+    animation: slideUpFade 0.9s ease-out 0.2s forwards; 
+    opacity: 0;
+    position: relative;
+    will-change: transform, opacity;
+}
+
+
+/* ----------------------------------------------------------------- MEDIA QUERIES --------------------------------------------------------- */
+@media (max-width: 1280px){
+    .landing-images-div{
+        height: 60.5vh;
+        margin: 2rem 0 0 2rem;
+        padding-top: 2rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 650px;
+        margin-bottom: 0.7rem;
+        padding-top: 1rem;
+    }
+
+    .card {
+        width : 55px;
+        height: 350px;
+        border-radius: 1.3rem;
+        margin: 0 7px;
+    }
+
+    .get-started-div{
+        height: 65.5vh;
+        margin: 0.2rem 0 0 4.5rem;                     /* top right bottom left */
+        padding: 3rem 0.1rem 2rem 2rem;
+    }
+
+    .get-started-div::before {
+        top: 2.5rem;  
+        bottom: 3rem; 
+        width: 1.8px;
+    }
+
+    .get-started-div h1{
+        padding-top: 4rem;
+        font-size: 1.33rem;
+    }
+
+    .get-started-div p {
+        font-size: 0.68rem;
+        line-height: 1.5rem;
+        letter-spacing: 0.018rem;
+        margin-top: 0.8rem;
+        padding-right: 0.6rem ;
+    }
+
+    .typewriter-text {
+        font-size: 0.95rem;
+        letter-spacing: 0.015rem;
+        margin-top: 1rem;
+    }
+
+    .btn{
+        height: 2.5rem;
+        width: 7rem;
+        margin-top: 1rem;
+        padding : 8px 8px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 1024px){
+    .landing-images-div{
+        height: 40.5vh;
+        margin: 2rem 0 0 0.75rem;
+        padding-top: 2rem;
+    }
+
+    .landing-images-div .images-container{
+        height: 350px;
+        width: 510px;
+        margin-bottom: 0.7rem;
+        padding-top: 2rem;
+    }
+
+    .card {
+        width : 50px;
+        height: 270px;
+    }
+
+    .get-started-div{
+        height: 35.5vh;
+        margin: 0.2rem 0 0 4.5rem;                     /* top right bottom left */
+        padding: 3rem 0.1rem 2rem 2rem;
+    }
+
+    .get-started-div::before {
+        top: 2.5rem;  
+        bottom: 3rem; 
+    }
+
+    .get-started-div h1{
+        padding-top: 3rem;
+        font-size: 1.35rem;
+    }
+
+    .get-started-div p {
+        font-size: 0.62rem;
+        line-height: 1.35rem;
+        letter-spacing: 0.018rem;
+        margin-top: 0.55rem;
+        padding-right: 0.65rem ;
+    }
+
+    .typewriter-text {
+        margin-top: 0.6rem;
+    }
+
+    .btn{
+        height: 2.4rem;
+        width: 6.5rem;
+        margin-top: 0.2rem;
+        padding : 8px 8px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 990px) {
+    .landing-images-div{
+        margin: 2rem 0 0 0.5rem;
+        padding-top: 2rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 540px;
+        margin-bottom: 0.7rem;
+        padding-top: 1rem;
+    }
+
+    .card {
+        width : 60px;
+        height: 350px;
+        border: 1.5px soild var(--navbar-tertiary-color);
+        border-radius: 1.5rem;
+        margin: 0 7px;
+    }
+
+    .get-started-div{
+        margin: 0.2rem 0 0 3rem;                     /* top right bottom left */
+        padding: 3rem 0.1rem 2rem 1.8rem;
+        position: relative;
+    }
+
+    .get-started-div::before {
+        top: 3.2rem;  
+        bottom: 4rem; 
+        width: 2px;
+    }
+
+    .get-started-div h1{
+        padding-top: 3.5rem;
+        font-size: 1.4rem;
+    }
+
+    .get-started-div p {
+        font-size: 0.7rem;
+        line-height: 1.5rem;
+        letter-spacing: 0.02rem;
+        margin-top: 0.8rem;
+        padding-right: 0.7rem ;
+    }
+
+    .typewriter-text {
+        font-size: 0.95rem;
+        letter-spacing: 0.015rem;
+    }
+
+    .btn{
+        height: 2.5rem;
+        width: 7rem;
+        padding : 8px 8px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 947px){
+    .landing-images-div{
+        height: 40.5vh;
+        margin: 2rem 0 0 1rem;
+        padding-top: 3rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 440px;
+        margin-bottom: 0.7rem;
+        padding-top: 2rem;
+    }
+
+    .card {
+        height: 260px;
+        border: 1.5px soild var(--navbar-tertiary-color);
+        border-radius: 1.5rem;
+    }
+
+    .get-started-div{
+        height: 38.5vh;
+        margin: 0.2rem 0 0 3rem;                     /* top right bottom left */
+        padding: 3rem 0.1rem 2rem 1.8rem;
+        position: relative;
+    }
+
+    .get-started-div::before {
+        top: 1.5rem;  
+        bottom: 12rem; 
+        width: 1.5px;
+    }
+
+    .get-started-div h1{
+        padding-top: 4.5rem;
+        font-size: 1.45rem;
+    }
+
+
+    .get-started-div p {
+        font-size: 0.6rem;
+        line-height: 1.35rem;
+        letter-spacing: 0.02rem;
+        padding-right: 0.4rem;
+    }
+
+    .get-started-div::before {
+        top: 3.2rem;  
+        bottom: 4rem; 
+        width: 2px;
+    }
+
+    .typewriter-text {
+        font-size: 0.91rem;
+        letter-spacing: 0.012rem;
+    }
+
+    .btn{
+        height: 2.3rem;
+        width: 6.5rem;
+        padding : 7px 7px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 900px){
+    .get-started-div h1{
+        padding-top: 3rem;
+        font-size: 1.3rem;
+    }
+
+    .get-started-div p {
+        line-height: 1.4rem;
+        padding-right: 0.35rem;
+    }
+
+    .get-started-div::before {
+        top: 3.2rem;  
+        bottom: 9rem; 
+        width: 2px;
+    }
+
+    .btn{
+        height: 2.15rem;
+        width: 6rem;
+        font-size: 0.65rem;
+    }
+
+    .get-started-div p {
+        font-size: 0.62rem;
+        letter-spacing: 0.015rem;
+        padding-right: 0.3rem;
+    }
+}
+
+@media (max-width: 860px){
+    .landing-images-div{
+        height: 35.5vh;
+        margin: 2rem 0 0 0.3rem;
+        padding-top: 3rem;
+    }
+
+    .get-started-div{
+        height: 40.5vh;
+        margin: 0.2rem 0 0 3rem;                     /* top right bottom left */
+    }
+
+    .get-started-div::before {
+        top: 3.2rem;  
+        bottom: 4rem; 
+        width: 2px;
+    }  
+
+    .landing-images-div .images-container{
+        width: 470px;
+        margin-bottom: 0.7rem;
+        padding-top: 1rem;
+    }
+
+    .card {
+        height: 260px;
+        border: 1.2px soild var(--navbar-tertiary-color);
+        border-radius: 1.2rem;
+        margin: 0 5px;
+    }
+}
+
+
+@media (max-width: 846px){
+    .get-started-div::before {
+        top: 3.2rem;  
+        bottom: 9.5rem; 
+        width: 2px;
+    }    
+}
+
+@media (max-width: 826px){
+    .landing-images-div{
+        height: 30.5vh;
+        margin: 2rem 0 0 0.3rem;
+        padding-top: 2rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 420px;
+        padding-top: 2rem;
+    }
+
+    .get-started-div{
+        height: 39.5vh;
+        margin: 0.2rem 0 0 3rem;                     /* top right bottom left */
+    }
+
+    .get-started-div::before {
+        top: 2.2rem;  
+        bottom: 3rem; 
+        width: 2px;
+    }    
+    
+    .get-started-div::before {
+        width: 1.3px;
+    }
+
+    .card {
+        height: 235px;
+        border: 1px soild var(--navbar-tertiary-color);
+        border-radius: 1rem;
+        margin: 0 4px;
+    }
+
+    .get-started-div h1{
+        padding-top: 2rem;
+        font-size: 1.3rem;
+    }
+
+    .get-started-div p {
+        font-size: 0.5rem;
+        letter-spacing: 0.01rem;
+        padding-right: 0.1rem;
+    }
+}
+
+@media (max-width: 770px){
+    .get-started-div{
+        height: 40.5vh;
+        margin: 0.2rem 0 0 3rem;                     /* top right bottom left */
+    }
+
+    .get-started-div::before {
+        top: 2.2rem;  
+        bottom: 0.1rem; 
+    }    
+}
+
+@media(max-width: 745px){
+    .landing-images-div .images-container{
+        width: 380px;
+        padding-top: 2.5rem;
+    }
+}
+
+
+@media (max-width: 700px) {
+    .get-started-div, .landing-images-div {
+        width: 80% !important;
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    .row.landing-div {
+        flex-direction: column;
+    }
+
+    .get-started-div{
+        margin: 0.2rem 0 0 4.5rem;                     /* top right bottom left */
+        padding: 3rem 0.1rem 2rem 2.5rem;
+        position: relative;
+    }
+
+    .get-started-div::before {
+        top: 3.8rem;  
+        bottom: 0.1rem; 
+        width: 2px;
+    }
+
+    .get-started-div h1{
+        padding-top: 2rem;
+        font-size: 2rem;
+    }
+
+    .get-started-div p {
+        font-size: 0.9rem;
+        line-height: 1.5rem;
+        letter-spacing: 0.02rem;
+        margin-top: 0.8rem;
+        padding-right: 0.7rem ;
+    }
+
+    .typewriter-text {
+        font-size: 1.5rem;
+        letter-spacing: 0.05rem;
+    }
+
+    .btn{
+        height: 2.5rem;
+        width: 8rem;
+        padding : 10px 10px;
+        border-radius: 10px;
+        font-size: 0.8rem;
+    }
+
+    .landing-images-div{
+        margin: 2rem 0 0 5rem;
+        padding-top: 0.1rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 540px;
+        margin-bottom: 0.7rem;
+        padding-top: 0.5rem;
+    }
+
+    .card {
+        height: 280px;
+        border: 1.2px soild var(--navbar-tertiary-color);
+        border-radius: 1.2rem;
+        margin: 0 5px;
+    }
+}
+
+
+@media (max-width: 650px){
+    .landing-images-div{
+        margin: 2rem 0 0 4.5rem;
+        padding-top: 0.1rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 510px;
+        margin-bottom: 0.7rem;
+        padding-top: 0.5rem;
+    }
+
+    .card {
+        height: 280px;
+        border: 1.2px soild var(--navbar-tertiary-color);
+        border-radius: 1.2rem;
+        margin: 0 5px;
+    }
+}
+
+
+@media (max-width: 610px){
+    .landing-images-div{
+        margin: 2rem 0 0 3.3rem;
+        padding-top: 0.1rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 490px;
+        margin-bottom: 0.7rem;
+        padding-top: 0.5rem;
+        padding-left: 1rem;
+    }
+
+    .card {
+        height: 240px;
+        border: 1.2px soild var(--navbar-tertiary-color);
+        border-radius: 1.2rem;
+        margin: 0 5px;
+    }
+}
+
+
+@media (max-width: 560px){
+    .landing-images-div{
+        margin: 2rem 0 0 3.5rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 455px;
+        padding-top: 0.2rem;
+        padding-left: 0.8rem;
+    }
+
+    .card {
+        height: 210px;
+        border: 0.7px soild var(--navbar-tertiary-color);
+        margin: 0 4px;
+    }
+}
+
+
+@media (max-width: 540px){
+    .get-started-div{
+        margin: 0.2rem 0 0 3.5rem;                     /* top right bottom left */
+        padding: 3rem 0.1rem 2rem 2rem;
+        position: relative;
+    }
+
+    .get-started-div::before {
+        top: 3.8rem;  
+        bottom: 0.2rem; 
+        width: 1.5px;
+    }
+
+    .get-started-div h1{
+        padding-top: 2rem;
+        font-size: 1.7rem;
+    }
+
+    .get-started-div p {
+        font-size: 0.7rem;
+        line-height: 1.2rem;
+        letter-spacing: 0.02rem;
+        margin-top: 0.8rem;
+        padding-right: 0.4rem ;
+    }
+
+    .typewriter-text {
+        font-size: 1.1rem;
+        letter-spacing: 0.03rem;
+    }
+
+    .btn{
+        height: 1.9rem;
+        width: 6rem;
+        padding : 6px 6px;
+        border-radius: 8px;
+        font-size: 0.6rem;
+    }
+
+    .landing-images-div{
+        margin: 2rem 0 0 3rem;
+    }
+
+    .landing-images-div .images-container{
+        height: 250px;
+        width: 410px;
+        padding-left: 0.5rem;
+    }
+
+    .card {
+        height: 190px;
+        margin: 0 7px;
+    }
+}
+
+
+@media (max-width: 490px){
+    .landing-images-div{
+        margin: 2rem 0 0 3rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 390px;
+        padding-left: 0.5rem;
+    }
+
+    .card {
+        height: 190px;
+        margin: 0 4px;
+    }   
+}
+
+
+@media (max-width: 470px){
+    .landing-images-div{
+        margin: 2rem 0 0 2.5rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 370px;
+        padding-left: 0.5rem;
+    }
+
+    .card {
+        height: 170px;
+        margin: 0 4px;
+    } 
+}
+
+@media (max-width: 431px){
+    .landing-images-div{
+        margin: 2rem 0 0 2.3rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 350px;
+        padding-left: 0.5rem;
+    }
+
+    .card {
+        height: 170px;
+        margin: 0 4px;
+    } 
+
+    .landing-images-div{
+        margin: 2rem 0 0 2.2rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 320px;
+        padding-left: 0.2rem;
+    }
+
+    .card {
+        height: 170px;
+    } 
+
+    .get-started-div{
+        margin: 0.2rem 0 0 3.3rem;                     /* top right bottom left */
+        padding: 3rem 0.8rem 2rem 1rem;
+    }
+
+    .get-started-div::before {
+        top: 3.8rem;  
+        bottom: 0.2rem; 
+        width: 1.5px;
+    }
+
+    .get-started-div h1{
+        padding-top: 2rem;
+        font-size: 1.4rem;
+    }
+
+    .typewriter-text {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 420px){
+    .landing-images-div{
+        margin: 2rem 0 0 1.9rem;
+    }
+
+    .landing-images-div .images-container{
+        height: 210px;
+        width: 340px;
+        padding-left: 0.5rem;
+    }
+
+    .card {
+        height: 165px;
+        margin: 0 4px;
+    } 
+
+    .get-started-div{
+        margin: 0.2rem 0 0 3.5rem;                     /* top right bottom left */
+    }
+
+    .get-started-div h1{
+        padding-top: 2rem;
+        font-size: 1.6rem;
+        padding-left: 0.3rem;
+    }
+
+    .get-started-div p {
+        font-size: 0.56rem;
+        padding-right: 0.5rem;
+        padding-left: 0.3rem;
+    }
+
+    .typewriter-text {
+        font-size: 0.75rem;
+        padding-left: 0.3rem;
+    }
+
+    .btn{
+        height: 1.9rem;
+        width: 4.9rem;
+        padding : 4.5px 4.5px;
+        border-radius: 6.5px;
+        font-size: 0.6rem;
+        margin-left: 0.3rem;
+    }
+}
+
+@media (max-width: 385px){
+    .landing-images-div{
+        margin: 2rem 0 0 2.2rem;
+    }
+
+    .landing-images-div .images-container{
+        width: 320px;
+        padding-left: 0.2rem;
+    }
+
+    .card {
+        height: 170px;
+    } 
+
+    .get-started-div{
+        margin: 0.2rem 0 0 3.3rem;                     /* top right bottom left */
+        padding: 3rem 0.8rem 2rem 1rem;
+    }
+
+    .get-started-div::before {
+        top: 3.8rem;  
+        bottom: 0.2rem; 
+        width: 1.5px;
+    }
+
+    .get-started-div h1{
+        padding-top: 2rem;
+        font-size: 1.4rem;
+    }
+
+    .typewriter-text {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 370px){
+    .landing-images-div{
+        display: none;
+    }
+
+    .get-started-div h1{
+        padding-top: 2.5rem;
+    }
+}
+
+

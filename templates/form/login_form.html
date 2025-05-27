@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruLot Parking App</title>
+    <link rel="icon" href="{{ url_for('static', filename='/images/form_images/form.webp') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/form_css/login.css')}}">
+    <!-- cdn link for fonts and icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">    
+    <style>
+        #login-form {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #login-form.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+    </style>      
+</head>
+<body>
+    <!-- id to form and input box are used in styling -->
+
+    <!-- name to input boxes is used, so that as a post request is sent to the url, req.form.get can get the value user enters -->
+    <!-- value = {{ variable }} is used to preserve the old values user puts -->
+    
+    <!-- when using redirect with blueprint then action should be like this -->
+    <form action="{{ url_for('login.login_form_submit') }}" method="POST" id="login-form" onsubmit="return validateForm(event)"> 
+      <div class="flash-messages">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for message in messages %}
+                <p>{{ message }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+      </div>
+
+      <div>
+        <div class="cross"><a href="/TruLotParking"><i class="fa-solid fa-house fa-lg"></i></a></div>
+        <h1 class="login-heading comic-neue-regular">Log In to TruLot</h1>
+      </div>
+      
+      <div>
+        <h2>Important</h2>
+        <ul class="Notice-list">
+          <li><p class="comic-neue-regular">password can have alphabets and digits (but must contain a Uppercase and a special character).</p></li>
+        </ul>
+      </div>
+      
+      <div class="subform-container">
+        <div class="subform">
+          <div class="container-row">
+            <div class="username-container">
+              <div class="label-container">
+                <label for="login-input-email">Enter Your Email Address:</label>
+                <div class="star-marked">*</div>
+              </div>
+              <input type="text" placeholder="enter your email...." id='login-input-email' name="email" value="{{email}}">
+            </div>
+            <div id="email-error-div"></div>
+          </div>
+          
+          <div class="password-container">
+            <div class="label-container-password">
+              <label for="login-input-password">Enter Your Password:</label>
+              <div class="star-marked">*</div>
+            </div>
+            <div class="password-wrapper">
+              <input type="password" placeholder="enter your password....." id='login-input-password' name="password" value="{{password}}">
+              <div id="toggle-password-div"><i id='eye-icon' class="fa-solid fa-eye-slash fa-md"></i></div>
+            </div>
+          </div>
+          <div id="password-error-div"></div><br>
+        </div>
+      </div>
+
+      <div class="login-div">
+        <button type='submit' id="login-button" class="comic-neue-regular">Login</button>
+      </div>
+      
+      <div class="forget-password comic-neue-regular">
+        <a href="/otpForm/requestOtp">Forget Password ?</a>
+      </div>
+    </form>
+
+    <div class="bubble-container">
+        <div class="bubble"><p class="comic-neue-regular">TruLot</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Login</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Park</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Slot</p></div>
+        <div class="bubble"><p class="comic-neue-regular">TruLot</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Login</p></div>
+    </div>  
+    
+    {% include 'components/loader.html' %}
+
+  <script src="{{ url_for('static', filename='JAVASCRIPT/login_form_validation.js')}}"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('login-form');
+    
+      setTimeout(() => {
+        form.classList.add('animate-in');    // add the animate in class after 100ms
+      }, 100); 
+    });
+  </script>
+
+</body>
+</html>

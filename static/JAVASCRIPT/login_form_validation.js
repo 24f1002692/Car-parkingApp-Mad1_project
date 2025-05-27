@@ -1,0 +1,88 @@
+document.addEventListener('DOMContentLoaded', () => {
+    setupTogglePassword();
+});
+
+
+function setupTogglePassword() {
+    console.log('togglePassword-called')
+    const passwordInput = document.getElementById('login-input-password');
+    const icon = document.getElementById('eye-icon');
+    
+    icon.addEventListener('click', () => {
+        if(passwordInput.type == 'password'){
+            passwordInput.type = 'text';
+        }else {
+            passwordInput.type = 'password';
+        }
+
+        icon.classList.toggle('fa-eye');        // initially i set the class to slash(hide) in my html icon, now as user clicks, the toggle will add fa-eye and remove fa-eye-slash....and on again click event things revert and so on
+        icon.classList.toggle('fa-eye-slash');
+    });
+};
+
+//------------------------------------------------------------------------------------------
+
+async function validateForm(event) {
+    event.preventDefault();       
+    const loader = document.getElementById('loader');
+    loader.style.display = 'flex';
+    const emailInput = document.getElementById('login-input-email');
+    const passwordInput = document.getElementById('login-input-password');
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    const email_error_div = document.getElementById('email-error-div');
+    const password_error_div = document.getElementById('password-error-div');
+
+    emailInput.addEventListener('focus', () => {
+        email_error_div.innerHTML = '';
+    });
+
+    passwordInput.addEventListener('focus', () => {
+        password_error_div.innerHTML = '';
+    });
+
+    
+    // Validating form
+    if(email == ''){
+        email_error_div.innerHTML = 'email field is required';
+        emailInput.style.border = '0.6px solid red';
+        loader.style.display = 'none';
+        return false;
+    }else if(email.length > 40 || email.length < 11){
+        email_error_div.innerHTML = 'email format is incorrect';
+        emailInput.style.border = '0.6px solid red';
+        loader.style.display = 'none';
+        return false;
+    }else if((!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ds\.study\.iitm\.ac\.in)$/.test(email))){
+        email_error_div.innerHTML = 'format of email is invalid, check it.';
+        emailInput.style.border = '0.6px solid red';
+        loader.style.display = 'none';
+        return false;
+    }else{
+        email_error_div.innerHTML = '';
+    }
+
+
+    if (password == ''){
+        password_error_div.innerHTML = 'password field is required';
+        passwordInput.style.border = '0.6px solid red';
+        loader.style.display = 'none';
+        return false;
+    }else if(password.length < 8 || password.length > 15){
+        password_error_div.innerHTML = 'password should be of 8-15 characters.';
+        passwordInput.style.border = '0.6px solid red';
+        loader.style.display = 'none';
+        return false;
+    }else if(!(/[!@#$%^&*(),.?":{}|<>]/.test(password) && /[A-Z]/.test(password))){
+        password_error_div.innerHTML = 'Incorrect password Format.';
+        passwordInput.style.border = '0.6px solid red';
+        loader.style.display = 'none';
+        return false;
+    }else{
+        password_error_div.innerHTML = '';
+    }
+    
+    document.getElementById('login-form').submit();  // Manually submit the form
+}

@@ -1,0 +1,116 @@
+:root{
+    --navbar-primary-color: #EFEEEA;
+    --navbar-secondary-color: #000000;
+    --navbar-secondary-color-2 : #FFFFFF;
+    --navbar-tertiary-color: #FE7743;
+    --navbar-tertiary-color-2: #273F4F;
+    --charcoal : #212121;
+}
+
+.comic-neue-regular {
+    font-family: "Comic Neue", cursive;
+    font-weight: 500;
+    font-style: normal;
+}
+
+
+.footer-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 175px;
+    background: var(--navbar-tertiary-color);
+    padding: 0.75rem;
+    margin-bottom: 0.2rem;
+}
+
+.gmail-icon-div, .icons-container, .icons-container .icons, .icons div, .copyright-msg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.1rem;
+}
+
+.icons-container .icons div{
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 2px var(--navbar-secondary-color-2);
+    transition: box-shadow 0.3s ease;
+}
+
+.icons-container .icons div:hover {
+    box-shadow: -1px -1px 2px var(--navbar-secondary-color-2);
+    cursor: pointer;
+}
+
+.gmail-icon-div i, .icons div i, .copyright-msg h5{
+    margin-right: 0.5rem;
+    font-size: 1.6rem;
+    color: var(--navbar-secondary-color-2);
+}
+
+.gmail-icon-div i{
+    margin-bottom: 0.5rem;
+}
+
+.icons-container .icons div{
+    margin-right: 1.25rem;
+}
+
+.icons div i{
+    margin-right: 0rem;
+}
+
+.gmail-icon-div .contact-text, .copyright-msg span{
+    margin-bottom: 0.25rem;
+    color: var(--navbar-secondary-color-2);
+    font-style: oblique;
+}
+
+.gmail-icon-div .contact-text a, .copyright-msg h5{
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.icons-container{
+    margin-top: 0.5rem;
+    padding-top: 0.2rem;
+}
+
+.icons i{
+    margin-right: 1.5rem;
+}
+
+.copyright-msg{
+    padding: 0.2rem;
+    margin-right: 0.25rem;
+}
+
+
+.contact-text a{
+    text-decoration: none;
+    color:#2A3439;
+
+}
+
+.link-parent{
+    position: relative;
+}
+
+.contact-text a::after {
+    content: '';
+    position: absolute;
+    left: -2%;
+    bottom: -5%;
+    width: 0%;
+    height: 1.3px;
+    border-radius: 2px;
+    background-color: #2A3439;
+    box-shadow: 1px 1px 1px #2A3439; 
+    transition: width 0.3s ease;
+}
+
+.contact-text a:hover::after {
+    width: 100%;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruLot Parking App</title>
+    <link rel="icon" href="{{ url_for('static', filename='/images/form_images/form.webp') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/form_css/requestOtp.css')}}">
+    <!-- cdn link for fonts and icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">  
+    <style>
+        #requestOtp_form {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #requestOtp_form.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+    </style>
+</head>
+<body>  
+    <form id="requestOtp_form">
+        <div class="cross"><a href="/TruLotParking/loginUser"><i class="fa-solid fa-circle-arrow-left"></i></a></div>
+        <div class="error-message">
+            <div id="messages-div"></div>
+        </div>
+        <div class="heading">
+            <h1 class="comic-neue-regular">Login via OTP</h1>
+        </div>
+        <div id="subform">
+            <div class="email-label">
+                <label for="otp-input-email">Enter Your Email Address:</label>
+            </div>
+
+            <div class="star-marked-div">
+                <div class="star-marked">*</div>
+            </div>
+            <div class="input-div">
+                <input type="email" placeholder="enter your email...." id='otp-input-email' name="email" value="{{email}}">
+            </div>
+            <div class="email-error-div">
+                <div id="email-error-div"></div>
+            </div>
+        </div>
+            
+        <div id="otp-section" style="display: none;">
+            <div class="otp-label">
+                <label for="otp-box">Enter your OTP :</label>
+            </div>
+            <div id="otp-box">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+            </div>
+        </div>
+
+        <div class="btn-div">
+            <button id="requestOtp_btn" type='button' class="comic-neue-regular">Request OTP</button>
+        </div>
+    </form>
+
+    <div class="bubble-container">
+        <div class="bubble"><p class="comic-neue-regular">TruLot</p></div>
+        <div class="bubble"><p class="comic-neue-regular">OTP</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Verify</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Slot</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Email</p></div>
+        <div class="bubble"><p class="comic-neue-regular">TruLot</p></div>
+    </div>  
+
+    {% include 'components/loader.html' %}
+
+    <script type='module' src="{{ url_for('static', filename='JAVASCRIPT/requestOtpValidation.js')}}"></script>
+    <script type="module" src="{{ url_for('static', filename='JAVASCRIPT/verifyOtp.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='JAVASCRIPT/OtpPageFeatures.js') }}"></script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('requestOtp_form');
+    
+            setTimeout(() => {
+                form.classList.add('animate-in');    // add the animate in class after 100ms
+            }, 100); 
+        });
+
+        document.getElementById("requestOtpAgain_btn").addEventListener("click", () => {
+            location.reload();        // Reloads the current page
+        });
+    </script>
+
+</body>
+</html>

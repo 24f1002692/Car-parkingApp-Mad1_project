@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruLot Signup Form</title>
+    <link rel="icon" href="{{ url_for('static', filename='/images/form_images/form.webp') }}" type="image/x-icon">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/form_css/signup.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        #signup-form {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #signup-form.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+    </style>
+    
+</head>
+<body>
+    <!-- id to form and input box are used in styling -->
+
+    <!-- id to input boxes is used, so that as a post request is sent to the url, req.form.get can get the value user enters -->
+    <!-- value = {{ variable }} is used to preserve the old values user puts -->
+
+    <form action="/TruLotParking/userDashboard" method="POST" id="signup-form" onsubmit="return validateForm(event)">
+      <div class="cross">
+        <a href="/TruLotParking"><i class="fa-solid fa-house fa-lg"></i></a>
+      </div>
+      <div class="signup-heading comic-neue-regular">
+        <h1>Create Your Account on TruLot</h1>
+      </div>
+      
+      <div>
+        <h2>Important</h2>
+        <ul class="Notice-list">
+          <li><p class="comic-neue-regular">Username: max 15 characters and Password: 8 to 15 characters.</p></li>
+          <li><p class="comic-neue-regular">password can have alphabets and digits (but must contain a Uppercase and a special character).</p></li>
+        </ul>
+      </div>
+      
+      <div class="subform-container">
+        <div class="subform">
+          <div class="username-container">
+            <div class="label-container">
+              <label for="signup-input-username" class="label">Set Your Username : </label>
+              <div class="star-marked">*</div>
+            </div>
+            <input type="text" placeholder="enter your username...." id='signup-input-username' name="username" value="{{username}}">
+          </div>
+          <div id="username-error-div"></div><br>
+
+          <div class="password-container">
+            <div class="label-container-password">
+              <label for="signup-input-password" class="label">Set Your Password :</label>
+              <div class="star-marked">*</div>
+            </div>
+            <div class="password-wrapper">
+              <input type="password" placeholder="enter your password....." id='signup-input-password' name="password" value="{{password}}">
+              <div id="toggle-password-div"><i id='eye-icon' class="fa-solid fa-eye-slash fa-md"></i></div>
+            </div>
+          </div>
+          <div id="password-error-div" class="label"></div><br>
+
+          <div class="email-container">
+            <div class="label-container">
+              <label for="signup-input-email" class="label">Type Your email :</label>
+              <div class="star-marked">*</div>
+            </div>
+            <input type="text" placeholder="enter your email...." id='signup-input-email' name="email" value="{{email}}"><br>
+          </div>
+          <div id="email-error-div"></div><br>
+          
+          <div class="country-container">
+            <div class="label-container">
+              <label for="signup-input-country" class="label">Select Your Country:</label>
+              <div class="star-marked">*</div>
+            </div>
+            <input list="countries" id="signup-input-country" name="country" placeholder="type your country name...">
+          </div>
+          <div id="country-error-div"></div><br>
+
+          <datalist id="countries">
+            <option value="United States">
+            <option value="China">
+            <option value="India">
+            <option value="Russia">
+            <option value="Australia">
+            <option value="United Kingdom">
+            <option value="France">
+            <option value="South Africa">
+            <option value="Japan">
+            <option value="Italy">
+            <option value="Saudi Arabia">
+            <option value="Egypt">
+            <option value="'others">
+          </datalist>
+        </div>
+      </div>
+      
+      <div class="signup-div">
+        <button type='submit' id="signup-button">Sign-up</button>
+      </div>
+    </form>
+
+    <div class="bubble-container">
+        <div class="bubble"><p class="comic-neue-regular">TruLot</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Signup</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Park</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Slot</p></div>
+        <div class="bubble"><p class="comic-neue-regular">TruLot</p></div>
+        <div class="bubble"><p class="comic-neue-regular">Slot</p></div>
+    </div>    
+    {% include 'components/loader.html' %}
+
+
+  <script src="{{ url_for('static', filename='JAVASCRIPT/signup_form_validation.js')}}"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('signup-form');
+    
+      setTimeout(() => {
+        form.classList.add('animate-in');    // add the animate in class after 100ms
+      }, 100); 
+    });
+</script>
+
+</body>
+</html>

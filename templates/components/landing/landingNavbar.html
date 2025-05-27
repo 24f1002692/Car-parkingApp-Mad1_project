@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <!-- Toggler for small screen view view -->
+            <button class="navbar-toggler animate-slide-up" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-brand animate-slide-up">
+                <div class="app-container">
+                    <img id='app-logo' src="{{ url_for('static', filename='/images/landing_page_images/logo.png')}}" alt="logo">
+                    <div id="app-subtitle-div">
+                        <img id='app-subtitle' src="{{ url_for('static', filename='/images/landing_page_images/subtitle.png')}}" alt="subtitle">
+                    </div>
+                </div>
+            </div>
+      
+          <!-- Every link is collapses inside one block -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link comic-neue-regular animate-slide-up" href="#">About TruLot</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link comic-neue-regular animate-slide-up" href="#">Reach Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link comic-neue-regular animate-slide-up" href="#">FAQ</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right-aligned signup/login buttons -->
+            <div class="d-flex btn-container">
+                <button type='button' id='signup-btn' class="comic-neue-regular animate-slide-up">Signup</button>
+                <button id="login-btn" class="comic-neue-regular animate-slide-up">Login</button>
+            </div>
+        </div>
+    </nav>      
+</body>
+</html>
