@@ -1,0 +1,19 @@
+# Environment file
+.env
+
+# Python virtual environments
+venv/
+env/
+virtual_env/
+
+# SQLite database files
+*.sqlite3
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+
+# Log files
+*.log
+
