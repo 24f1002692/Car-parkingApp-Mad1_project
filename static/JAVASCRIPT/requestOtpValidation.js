@@ -40,13 +40,12 @@ requestOtp_btn.addEventListener('click', async (e) => {
         loader.style.display = 'none';
         requestOtp_btn.disabled = false;
         return;
-    } else if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email)) {
+    }else if((!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ds\.study\.iitm\.ac\.in)$/.test(email))){     // from frontend only supporting three types of email.
         email_error_div.innerHTML = 'Email must be a valid @gmail.com address';
         loader.style.display = 'none';
         requestOtp_btn.disabled = false;
         return;
     }
-
 
     // If OTP already requested already...
     if (otpRequested) {

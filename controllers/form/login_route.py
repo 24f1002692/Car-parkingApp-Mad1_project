@@ -5,7 +5,10 @@ from flask import Blueprint, render_template, request, jsonify, flash, session, 
 import sib_api_v3_sdk
 
 from models.user_model.user import User
+from models.user_model.userSchema import LoginModel
+
 from controllers.form.generators import generate_jwt
+from controllers.form.formMiddleware import validate_form
 
 
 # Set up api-key
@@ -38,10 +41,12 @@ def login_form():
 
 
 @login_bp.route('/yourDashboard', methods=['POST'])        # login.login_form_submit(used in login form) is equivalent to /yourDashboard
+@validate_form(LoginModel)
 def login_form_submit():
-    email = request.form.get('email')       # name attributes are used to get the data here
-    password = request.form.get('password')
-    
+    validated_data = request.validated_data
+    email = validated_data.email
+    password = validated_data.password
+        
     try:
         user = User.query.filter_by(email=email, password=password).first()
 
@@ -114,7 +119,7 @@ def otpPage():
 
 @otpForm_bp.route('/requestOtp/verifyOtp', methods=['POST'])       # otpForm.verifyOtp
 def verifyOtp():
-    data = request.get_json()
+    data = request.get_json()          # req.form.get() used to get form value, here we r sending fetch request from frontend
     email = data.get('email')
     otp_entered = data.get('otp')
 

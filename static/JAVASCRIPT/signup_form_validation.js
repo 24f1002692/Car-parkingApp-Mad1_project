@@ -117,7 +117,7 @@ async function validateForm(event) {
         usernameInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
-    }else if(username.length > 15){
+    }else if(username.length > 15 || username.length < 5){
         username_error_div.innerHTML = 'username exceeds limit of 15 characters';
         usernameInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
@@ -147,7 +147,6 @@ async function validateForm(event) {
     }
 
 
-
     if(email == ''){
         email_error_div.innerHTML = 'email field is required';
         emailInput.style.border = '0.6px solid red';
@@ -158,7 +157,7 @@ async function validateForm(event) {
         emailInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
-    }else if((!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ds\.study\.iitm\.ac\.in)$/.test(email))){
+    }else if((!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ds\.study\.iitm\.ac\.in)$/.test(email))){     // from frontend only supporting three types of email. (can new free api to allow every email after verify their addresses using api)
         email_error_div.innerHTML = 'format of email is invalid, check it.';
         emailInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
@@ -166,9 +165,15 @@ async function validateForm(event) {
     }else{
         email_error_div.innerHTML = '';
     }
+    
 
     if(country == ''){
         country_error_div.innerHTML = 'country field is required.';
+        countryInput.style.border = '0.6px solid red';
+        loader.style.display = 'none';
+        return false;
+    }else if(country.length > 20 || country.length < 2){
+        country_error_div.innerHTML = 'country name is invalid.';
         countryInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
