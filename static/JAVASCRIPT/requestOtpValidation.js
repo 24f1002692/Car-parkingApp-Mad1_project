@@ -51,36 +51,37 @@ requestOtp_btn.addEventListener('click', async (e) => {
     if (otpRequested) {
         submitOtp++;
 
-        const url = await verifyOtp(email, requestOtp_btn, messages_div, emailInput, otp_section);
-        if(url){
+        const result = await verifyOtp(email, requestOtp_btn, messages_div, emailInput, otp_section);
+        if(result.url){
             setTimeout(() => {
                 loader.style.display = 'none';
-                window.location.href = url;    // artificial delay so that, above message will appear to user...
+                window.location.href = result.url;    // artificial delay so that, above message will appear to user...
             }, 500);
         }else{
             loader.style.display = 'none';
             requestOtp_btn.disabled = false;
-            messages_div.innerHTML = 'Verification Failed, Invalid Otp...Try Again !'
+            messages_div.innerHTML =  result.error || 'Verification Failed, Invalid Otp...Try Again !'
             requestOtp_btn.innerHTML = 'Submit Otp';
             if(submitOtp > 2) {
-                // document.getElementById('requestOtpAgain_btn').style.display = 'block';
-                const wrapperDiv = document.createElement('div');
-                wrapperDiv.classList.add('requestAgainOtpBtn-div');
+                if(!document.getElementById('requestAgainOtp_btn')){
+                    const wrapperDiv = document.createElement('div');
+                    wrapperDiv.classList.add('requestAgainOtpBtn-div');
 
-                const requestAgainOtpBtn = document.createElement("button");
-                requestAgainOtpBtn.id = "requestAgainOtp_btn";
-                requestAgainOtpBtn.classList.add('requestAgainOtpBtn');
+                    const requestAgainOtpBtn = document.createElement("button");
+                    requestAgainOtpBtn.id = "requestAgainOtp_btn";
+                    requestAgainOtpBtn.classList.add('requestAgainOtpBtn');
 
-                requestAgainOtpBtn.type = "button";
-                requestAgainOtpBtn.textContent = "Request OTP Again";
+                    requestAgainOtpBtn.type = "button";
+                    requestAgainOtpBtn.textContent = "Request OTP Again";
 
-                const form = document.getElementById("requestOtp_form");
-                wrapperDiv.appendChild(requestAgainOtpBtn);
-                form.appendChild(wrapperDiv);
+                    const form = document.getElementById("requestOtp_form");
+                    wrapperDiv.appendChild(requestAgainOtpBtn);
+                    form.appendChild(wrapperDiv);
 
-                requestAgainOtpBtn.addEventListener("click", () => {
-                    window.location.href = "/otpForm/requestOtp";
-                });
+                    requestAgainOtpBtn.addEventListener("click", () => {
+                        window.location.href = "/otpForm/requestOtp";
+                    });
+                }
             }
         }
         return

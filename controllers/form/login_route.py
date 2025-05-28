@@ -1,5 +1,5 @@
 import re, random
-import os
+import os, time
 
 from flask import Blueprint, render_template, request, jsonify, flash, session, redirect, url_for, make_response
 import sib_api_v3_sdk
@@ -72,6 +72,7 @@ def login_form_submit():
             return render_template('/form/login_form.html', email = email, password = password)
     except Exception as error:
         print(error)
+        return jsonify({'success': False, 'error': 'Internal Server Error'}), 500
         
 
 @otpForm_bp.route('/requestOtp', methods=['GET', 'POST'])
@@ -87,11 +88,13 @@ def otpPage():
         if email :
             try:
                 user = User.query.filter_by(email = email).first()
-                print(user)
             
                 if user : 
                     otp = random.randint(1000, 9999)     # 4-digit otp
-                    session[email] = otp
+                    session[email] = {
+                        'otp': otp,
+                        'timestamp': time.time()   # time of session creation.
+                    }
 
                     subject = "TruLot Login OTP via Email..."
                     sender = {"name": "TruLot Parking App", "email": "shivamkumar987148@gmail.com"}
@@ -115,6 +118,7 @@ def otpPage():
                     return jsonify({'success': False, 'error': 'please signup first with this email id....'})
             except Exception as error:
                 print(error)
+                return jsonify({'success': False, 'error': 'Internal Server Error'}), 500
 
 
 @otpForm_bp.route('/requestOtp/verifyOtp', methods=['POST'])       # otpForm.verifyOtp
@@ -129,12 +133,18 @@ def verifyOtp():
     if not email :
         return jsonify({'success': False, 'error': 'Email and OTP are required'}), 400
 
-    stored_otp = session.get(email)
+    stored_otp_data = session.get(email)
 
-    if stored_otp is None:
-        return jsonify({'success': False, 'error': 'OTP has not been requested...'}), 400      # handling direct endpoint hit
+    if stored_otp_data is None:
+        return jsonify({'success': False, 'error': 'OTP has not been requested...'}), 400
+    
+    OTP_EXPIRY_SECONDS = 300
+    if time.time() - stored_otp_data.get('timestamp', 0) > OTP_EXPIRY_SECONDS:
+        session.pop(email, None)      # clear OTP if expired.
+        return jsonify({'success': False, 'error': 'OTP has expired, please request a new one'}), 400
 
-    if str(stored_otp) == str(otp_entered):
+
+    if str(stored_otp_data.get('otp')) == str(otp_entered):
         try:
             session.pop(email, None)         # clear OTP, if verifiied...
             user = User.query.filter_by(email = email).first()
@@ -161,6 +171,7 @@ def verifyOtp():
             return response
         except Exception as error:
             print(error)
+            return jsonify({'success': False, 'error': 'Internal Server Error'}), 500
     else:
         return jsonify({'success': False, 'error': 'Incorrect OTP, Authentication Failed...'})
 

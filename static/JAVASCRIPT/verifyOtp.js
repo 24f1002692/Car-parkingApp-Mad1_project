@@ -26,18 +26,18 @@ export async function verifyOtp(email, requestOtp_btn, messages_div){
         });
 
         const result = await response.json();
-        console.log(result.url);
+        console.log(result.error);
 
         if (response.ok && result.success) {
             loader.style.display = 'none';
             messages_div.innerHTML = 'OTP verified successfully. Redirecting to your Dashboard...';
             requestOtp_btn.disabled = false;
-            return result.url;
+            return result
             
         } else {            
             loader.style.display = 'none';
             requestOtp_btn.disabled = false;
-            return null;
+            return result
         }
     } catch (err) {
         console.error(err);
