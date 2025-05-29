@@ -1,7 +1,9 @@
 import re
 
 from flask import Blueprint, render_template, request, jsonify, make_response
-from models.user_model.user import db, User
+
+from db import db
+from models.user_model.user import User
 from models.user_model.userSchema import SignupModel
 
 from controllers.form.generators import generate_jwt

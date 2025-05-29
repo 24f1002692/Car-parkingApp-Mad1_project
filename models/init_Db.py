@@ -1,8 +1,10 @@
 import os
 
 def init_user_db():
-    from app import app  
-    from models.user_model.user import db, User  
+    from app import app
+    from db import db
+    from models.user_model.user import User
+    from models.adminDashboard_model.parkingLots import Lots, GeographicalDetails, ParkingSpots, ReservedSpots
     
     with app.app_context():
 
@@ -16,4 +18,3 @@ def init_user_db():
             print("Database initialized. Admin user created.")
         else:
             print("Database already initialized.") 
-            print('here bete ', User.query.filter_by(role='admin').all())

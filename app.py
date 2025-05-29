@@ -4,8 +4,8 @@ load_dotenv()
 
 from flask import Flask
 
-from models.user_model.user import db
-from models.user_model.init_userDb import init_user_db  # Import the init_db func
+from db import db
+from models.init_Db import init_user_db  # Import the init_db func
 
 
 # controllers
@@ -15,7 +15,7 @@ from controllers.landingPage.landing_route import landing_bp
 
 
 app = Flask(__name__)
-app.secret_key = 'Jerry_IITM_987148'
+app.secret_key = os.getenv('APP_SECRET_KEY')      # used for session cookies
 
 current_dir = os.path.abspath(os.path.dirname(__file__))      # app.py is in the directory parking_app, value of current_dir is path to the parking_app
 
@@ -36,8 +36,6 @@ app.register_blueprint(signup_bp)
 app.register_blueprint(login_bp)
 app.register_blueprint(otpForm_bp)
 app.register_blueprint(role_bp)
-
-
 
 
 if __name__ == '__main__':
