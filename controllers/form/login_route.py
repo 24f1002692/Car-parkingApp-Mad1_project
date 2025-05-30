@@ -7,8 +7,8 @@ import sib_api_v3_sdk
 from models.user_model.user import User
 from models.user_model.userSchema import LoginModel
 
-from controllers.form.generators import generate_jwt
-from controllers.form.formMiddleware import validate_form
+from controllers.form.generators import generate_jwt, decode_jwt
+from controllers.middlewares.validate_form import validate_form
 
 
 # Set up api-key
@@ -19,7 +19,7 @@ configuration.api_key['api-key'] = os.getenv('BREVO-API-KEY')
 email_sender = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
 
 
-role_bp = Blueprint('role', __name__, url_prefix='/role')
+role_bp = Blueprint('role', __name__, url_prefix='/TruLotParking/role')
 login_bp = Blueprint('login', __name__, url_prefix='/TruLotParking')
 otpForm_bp = Blueprint('OtpForm', __name__, url_prefix='/otpForm')
 
@@ -27,12 +27,30 @@ otpForm_bp = Blueprint('OtpForm', __name__, url_prefix='/otpForm')
 
 @role_bp.route('/adminDashboard')
 def adminDashboard():
-    return render_template('/admin/admin_page.html')
+    token = request.cookies.get('token')
+    if not token:
+        return "Unauthorized", 401
+
+    decoded = decode_jwt(token)
+    if not decoded:
+        return "Invalid or expired token", 401
+
+    username = decoded.get('username', 'Guest')
+
+    return render_template('/admin/admin_page.html', username=username)
 
 @role_bp.route('/userDashboard')
 def userDashboard():
-    return render_template('/user/user_page.html')
+    token = request.cookies.get('token')
+    if not token:
+        return "Unauthorized", 401
 
+    decoded = decode_jwt(token)
+    if not decoded:
+        return "Invalid or expired token", 401
+
+    username = decoded.get('username', 'Guest')
+    return render_template('/user/user_page.html', username=username)
 
 
 @login_bp.route('/loginUser')
@@ -51,9 +69,9 @@ def login_form_submit():
         user = User.query.filter_by(email=email, password=password).first()
 
         if user :
-            token = generate_jwt(email)
+            token = generate_jwt(email, user.name)
             if user.role == 'admin':
-                response = make_response(redirect(url_for('role.adminDashboard')))
+                response = make_response(redirect(url_for('role.adminDashboard')))    # /role/adminDashboard
             elif user.role == 'user':
                 response = make_response(redirect(url_for('role.userDashboard')))
             else:

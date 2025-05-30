@@ -12,6 +12,7 @@ from models.init_Db import init_user_db  # Import the init_db func
 from controllers.form.signup_route import signup_bp
 from controllers.form.login_route import login_bp, otpForm_bp, role_bp
 from controllers.landingPage.landing_route import landing_bp
+from controllers.admin.createLot import lot_bp
 
 
 app = Flask(__name__)
@@ -36,6 +37,7 @@ app.register_blueprint(signup_bp)
 app.register_blueprint(login_bp)
 app.register_blueprint(otpForm_bp)
 app.register_blueprint(role_bp)
+app.register_blueprint(lot_bp)
 
 
 if __name__ == '__main__':

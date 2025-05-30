@@ -8,4 +8,4 @@ class User(db.Model):
     email = db.Column(db.String(40), nullable=False, unique=True)
     country = db.Column(db.String(20), nullable=False)
     role = db.Column(db.String(20), default='user')
-    reserved_spot_details = db.relationship('ReservedSpots', back_populates='user_detail')
+    reserved_spot_detail = db.relationship('ReservedSpot', back_populates='user_detail')   # one user can reserve many spots

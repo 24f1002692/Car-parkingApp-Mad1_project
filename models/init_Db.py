@@ -4,7 +4,7 @@ def init_user_db():
     from app import app
     from db import db
     from models.user_model.user import User
-    from models.adminDashboard_model.parkingLots import Lots, GeographicalDetails, ParkingSpots, ReservedSpots
+    from models.adminDashboard_model.parkingLots import Lot, GeographicalDetail, ParkingSpot, ReservedSpot
     
     with app.app_context():
 

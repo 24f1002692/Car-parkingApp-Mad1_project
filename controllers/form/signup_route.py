@@ -1,13 +1,13 @@
 import re
 
-from flask import Blueprint, render_template, request, jsonify, make_response
+from flask import Blueprint, render_template, request, jsonify, make_response, redirect, url_for
 
 from db import db
 from models.user_model.user import User
 from models.user_model.userSchema import SignupModel
 
-from controllers.form.generators import generate_jwt
-from controllers.form.formMiddleware import validate_form
+from controllers.form.generators import generate_jwt, decode_jwt
+from controllers.middlewares.validate_form import validate_form
 
 
 # signup blueprint
@@ -17,9 +17,24 @@ signup_bp = Blueprint('signup', __name__, url_prefix='/TruLotParking')
 # routes
 @signup_bp.route('/signup/creatingUser')
 def signup_form():
-        return render_template('form/signup_form.html')
+    return render_template('form/signup_form.html')
 
-@signup_bp.route('/userDashboard', methods=['POST'])
+
+@signup_bp.route('/role/newUserDashboard')
+def userDashboard():
+    token = request.cookies.get('token')
+    if not token:
+        return "Unauthorized", 401
+
+    decoded = decode_jwt(token)
+    if not decoded:
+        return "Invalid or expired token", 401
+
+    username = decoded.get('username', 'Guest')
+    return render_template('/user/user_page.html', username=username)
+
+
+@signup_bp.route('/role/userDashboard', methods=['POST'])
 @validate_form(SignupModel)
 def signup_form_submit():
     validated_data = request.validated_data
@@ -35,8 +50,8 @@ def signup_form_submit():
         db.session.commit()
 
         #sign a jwt token as cookie for user
-        token = generate_jwt(email)
-        response = make_response(render_template('/user/user_page.html'))
+        token = generate_jwt(email, username)
+        response = make_response(redirect(url_for('signup.userDashboard')))
         response.set_cookie(
             'token', 
             token,
@@ -45,7 +60,7 @@ def signup_form_submit():
             samesite='Strict'    
         )
         
-        return response, 200
+        return response
     except Exception as error:
         print(error)
 
