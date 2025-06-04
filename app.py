@@ -7,7 +7,6 @@ from flask import Flask
 from db import db
 from models.init_Db import init_user_db  # Import the init_db func
 
-
 # controllers
 from controllers.form.signup_route import signup_bp
 from controllers.form.login_route import login_bp, otpForm_bp, role_bp
@@ -38,6 +37,11 @@ app.register_blueprint(login_bp)
 app.register_blueprint(otpForm_bp)
 app.register_blueprint(role_bp)
 app.register_blueprint(lot_bp)
+
+
+# @app.context_processor
+# def inject_base_url():
+#     return dict(BASE_URL=app.config['BASE_URL'])
 
 
 if __name__ == '__main__':

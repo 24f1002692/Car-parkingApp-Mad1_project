@@ -91,7 +91,7 @@ requestOtp_btn.addEventListener('click', async (e) => {
     try {
         await new Promise(resolve => setTimeout(resolve, 200));      // sleep the code, setTimeout stops itself for a while, but sleep stops everything..... to show loader
 
-        const response = await fetch('http://localhost:5000/otpForm/requestOtp', {
+        const response = await fetch('/otpForm/requestOtp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -2,7 +2,7 @@
     --navbar-primary-color: #EFEEEA;
     --navbar-secondary-color: #000000;
     --navbar-secondary-color-2 : #FFFFFF;
-    --navbar-tertiary-color: #FE7743;
+    --navbar-tertiary-color: #1e293b;
     --navbar-tertiary-color-2: #273F4F;
     --charcoal : #212121;
 }
@@ -22,6 +22,8 @@
     background: var(--navbar-tertiary-color);
     padding: 0.75rem;
     margin-bottom: 0.2rem;
+    margin-left: 22rem;
+    position: relative;
 }
 
 .gmail-icon-div, .icons-container, .icons-container .icons, .icons div, .copyright-msg{
@@ -90,9 +92,8 @@
 
 .contact-text a{
     text-decoration: none;
-    color: var(--navbar-secondary-color-2);
-    font-weight: 800;
-    font-size: 1.05rem;
+    color:#FFFFFF;
+    margin-left: 0.25rem;
 
 }
 
@@ -103,13 +104,13 @@
 .contact-text a::after {
     content: '';
     position: absolute;
-    left: -1%;
-    bottom: -5%;
+    left: 0%;
+    bottom: -15%;
     width: 0%;
     height: 1.3px;
     border-radius: 2px;
-    background-color: var(--navbar-secondary-color-2);
-    box-shadow: 1px 1px 1px var(--navbar-secondary-color-2); 
+    background-color: #FFFFFF;
+    box-shadow: 1px 1px 1px #2A3439; 
     transition: width 0.3s ease;
 }
 

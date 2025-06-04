@@ -5,6 +5,7 @@ from flask import Blueprint, render_template, request, jsonify, flash, session, 
 import sib_api_v3_sdk
 
 from models.user_model.user import User
+from models.adminDashboard_model.parkingLots import Lot
 from models.user_model.userSchema import LoginModel
 
 from controllers.form.generators import generate_jwt, decode_jwt
@@ -36,8 +37,11 @@ def adminDashboard():
         return "Invalid or expired token", 401
 
     username = decoded.get('username', 'Guest')
+    # lots data from database
+    lots = Lot.query.all()
+    print(lots)
 
-    return render_template('/admin/admin_page.html', username=username)
+    return render_template('/admin/adminPage.html', username=username, lots=lots)
 
 @role_bp.route('/userDashboard')
 def userDashboard():

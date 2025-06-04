@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8fafc;
+}
+
+:root{
+    --primary-color: #4a90e2;
+    --primary-color-2: #0CA678;
+    --primary-color-3: #1e293b;
+    --secondary-color: #38bdf8;
+    --tertiary-color: #FFFFFF;
+    --label-notice-color: #333;
+    --input-field-box: #36454F;
+    --bright: #fb7185;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background-color: var(--primary-color-3);
+    color: var(--tertiary-color);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;        /*  to stick the navbar on the top */
+    z-index: 1000;
+}
+
+.links ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin-left: 1rem;
+    margin-top: 0.8rem;
+}
+
+.links ul li a {
+    color: var(--tertiary-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 8px 8px;
+    transition: color 0.3s;
+    position: relative;
+}
+
+.links ul li a:hover{
+    color : var(--tertiary-color);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3), -1px -1px 1px rgba(255, 255, 255, 0.2); 
+}
+
+.links ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0%;
+    bottom: 10%;
+    width: 0%;
+    height: 1.5px;
+    border-radius: 1px;
+    background-color: var(--tertiary-color);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3), -1px -1px 1px rgba(255, 255, 255, 0.2); 
+    transition: width 0.3s ease;
+}
+
+.links ul li a:hover::after {
+    width: 100%;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-input-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 4rem;
+}
+
+.search-input-btn input[type="text"] {
+    padding: 10px 12px;
+    border-radius: 16px;
+    outline: none;
+    width: 400px;
+    transition: border 0.3s;
+    font-size: 0.95rem;
+    padding-left: 1.5rem;;
+}
+
+.search-input-btn input[type="text"]:focus {
+    border: 0.1px;
+    border-color: var(--tertiary-color);
+}
+
+.search-input-btn .btn {
+    padding: 6px 12px;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    background: transparent;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    width: 100px;
+    height: 39px;
+}
+
+.search-input-btn .btn:hover {
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+}
+
+
+/* since it is a admin dashboard, we can work on its responive later */
+
+
+
+
+
+
+
+
+
+
+
+
+/* Responsive layout */
+/* @media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .links ul {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .search-input-btn input[type="text"] {
+        width: 100%;
+    }
+
+    .search-bar {
+        width: 100%;
+        justify-content: flex-start;
+    }
+} */

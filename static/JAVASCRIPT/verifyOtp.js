@@ -17,7 +17,7 @@ export async function verifyOtp(email, requestOtp_btn, messages_div){
     
     // if the otp is valid then send a verification request...
     try {
-        const response = await fetch('http://localhost:5000/otpForm/requestOtp/verifyOtp', {
+        const response = await fetch('/otpForm/requestOtp/verifyOtp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

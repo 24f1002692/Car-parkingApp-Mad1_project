@@ -1,11 +1,13 @@
 import random
 from flask import Blueprint, render_template, request, jsonify, make_response
+import requests
 from db import db
 
 from models.user_model.user import User
 from models.adminDashboard_model.lotSchema import lotModel
 from models.adminDashboard_model.parkingLots import Lot, GeographicalDetail, ParkingSpot
 from controllers.middlewares.validate_form import validate_form
+from controllers.admin.generateImages import generate_random_parking_image_url
 
 from controllers.form.generators import decode_jwt
 
@@ -14,6 +16,54 @@ def random_rating():
     return round(random.uniform(3.0, 5.0), 1)
 
 lot_bp = Blueprint('parkingLot', __name__, url_prefix='/TruLotParking/role/adminDashboard')
+
+
+@lot_bp.route('/addLot')
+def addLot():
+    token = request.cookies.get('token')
+    if not token:
+        return jsonify({'error': 'Unauthorized: Token missing'}), 401
+    
+    decoded = decode_jwt(token)
+    if not decoded:
+        return jsonify({'error': 'Unauthorized: Invalid or expired token'}), 401
+    
+    email_In_Token = decoded.get('email')
+    user = User.query.filter_by(email=email_In_Token).first()
+
+    if user and user.role =='admin':
+        return render_template('admin/links/addLot.html')
+    
+
+@lot_bp.route('/parking-lot-details')
+def parking_lot_details():
+    token = request.cookies.get('token')
+    if not token:
+        return jsonify({'error': 'Unauthorized: Token missing'}), 401
+    
+    decoded = decode_jwt(token)
+    if not decoded:
+        return jsonify({'error': 'Unauthorized: Invalid or expired token'}), 401
+    
+    email_In_Token = decoded.get('email')
+    user = User.query.filter_by(email=email_In_Token).first()
+
+    if user:
+        lot_id = request.args.get('lot_id')      # Fetches the lot_id value from the query params
+        if not lot_id:
+            return jsonify({"error" : "Lot ID missing"}), 400
+
+        lot = Lot.query.filter_by(lot_id=lot_id).first()
+        if not lot:
+            return jsonify({'error' : "Lot not found"}), 404
+        
+        spots = ParkingSpot.query.filter_by(lot_id=lot_id).all()
+        if not spots:
+            return jsonify({'error' : 'No spots exists in this lot'}), 404
+
+        return render_template('admin/links/view_lot_details.html', lot=lot, spots=spots)
+
+
 
 @lot_bp.route('/create_parkingLot', methods=['POST'])
 @validate_form(lotModel)
@@ -36,6 +86,9 @@ def create_parkingLot():
             location = GeographicalDetail.query.filter_by(location=validated_data.location).first()
             if location:
                 return jsonify({"success": False, "msg":"Lot is already exist on this location."}), 400
+            
+            image_url = generate_random_parking_image_url()
+            print(image_url)
         
             geo_detail = GeographicalDetail(           # create geo-location object
                 location=validated_data.location,
@@ -49,6 +102,7 @@ def create_parkingLot():
             lot_data = {                       # prepare lot object
                 "lot_name": validated_data.lot_name,
                 "description": validated_data.description,
+                "image_url": image_url,
                 "geographical_id": geo_detail.location_id,  # assuming foreign key relationship
             }
 
@@ -64,6 +118,7 @@ def create_parkingLot():
                     if value is not None:
                         lot_data[field] = value
 
+            lot_data['available_spots'] = lot_data.get('capacity')
             
             new_lot = Lot(**lot_data)
             db.session.add(new_lot)
@@ -81,11 +136,42 @@ def create_parkingLot():
             print(err)
             return jsonify({"success": False, "msg":"Error in creating parking lot"}), 400
         
-        return jsonify({"success": True, "message": "Parking lot created", "lot_id": new_lot.lot_id}), 201
+        alert_message = "Parking lot created successfully!"
+        redirect_url = "/TruLotParking/role/adminDashboard"
+
+        html = f"""
+        <script>
+            alert("{alert_message}");
+            window.location.href = "{redirect_url}";
+        </script>
+        """
+        return make_response(html)        
     else:
         return jsonify({"success": False, "msg":"You are not an admin"}), 400
 
 
-    
+@lot_bp.route('/validate-location', methods=['POST'])
+def validate_location():
+    data = request.json
+    location = data.get('location')
+    state = data.get('state')
+    country = data.get('country')
 
+    query = f"{location}, {state}, {country}"
+    url = "https://nominatim.openstreetmap.org/search"
 
+    try:
+        response = requests.get(url, params={        # sending a get request from flask backend
+            'q': query,
+            'format': 'json'
+        }, headers={
+            'User-Agent': 'TruLotParking/0.1 (shivamkumar987148@gmail.com)'
+        })
+
+        results = response.json()
+        if results:
+            return jsonify(valid=True, details=results[0])
+        else:
+            return jsonify(valid=False)
+    except Exception as e:
+        return jsonify(error='Something went wrong.'), 500

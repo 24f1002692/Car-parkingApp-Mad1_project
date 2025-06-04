@@ -5,70 +5,24 @@
     align-items: center;
     top: 0;
     left: 0;
-    height: 100vh;      /* increase container height, so that ball bounces to more height */
+    height: 100vh;
     width: 100%;
-    backdrop-filter: blur(5px); /* This blurs everything underneath */
-    background-color: rgba(0, 0, 0, 0.356); /* Optional dimming */
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.3);
     z-index: 9999;
 }
 
-.ball {
-    width: 70px;
-    height: 70px;
-    background: radial-gradient(circle at 30% 30%, #000 0%, #000 100%);
-    position: absolute;
-    bottom: 40%;   /* ball start from the ground of container */
-    box-shadow: inset -15px -15px 20px rgba(0, 0, 0, 0.3), 0 10px 25px rgba(0, 0, 0, 0.1);         
-    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #ffffffad;
+    border-top-color: #1e293b; 
     border-radius: 50%;
-    box-sizing: border-box;
-    z-index: 2;
-    animation: bounce 1.5s ease-in-out infinite;
+    animation: spin 1s linear infinite;
 }
 
-/* scale property */
-/* scale(x, y): Stretches or shrinks the element in the horizontal (x) and vertical (y) directions independently. */
-/* scale(s): A single value for uniform scaling in both the horizontal and vertical directions (i.e., making the element bigger or smaller proportionally). */
-
-/* transform: scale(0.7) at 0% means that the element will be scaled down to 70% of its original size (smaller). */
-/* transform: scale(1) at 100% means that the element will return to its original size (100%). */
-
-/* inset */
-
-.shadow {
-    width: 90px;
-    height: 20px;
-    background-color: rgba(0, 0, 0, 0.449);
-    border-radius: 50%;
-    position: absolute;
-    bottom: 40%;
-    transform: scale(0.7);
-    filter: blur(3px);
-    z-index: 1;
-    animation: shadowScale 1.5s ease-in-out infinite;
-}
-
-
-@keyframes bounce {
-    0%, 100% { 
-        transform: translateY(0) scaleY(1) scaleX(1.1);
-    }
-    50% { 
-        transform: translateY(-185px) scaleY(0.9) scaleX(1); 
-        width : 65px;
-        height : 65px;
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }
-
-/* as the 50% of the animation is performed, ball is touched to the ground */
-@keyframes shadowScale {
-    0%, 100% { 
-        transform: scale(0.7);
-        opacity: 0.4;
-    }
-    50% { 
-        transform: scale(0.85);
-        opacity: 0.6;
-    }
-}
-

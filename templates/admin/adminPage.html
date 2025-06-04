@@ -1,0 +1,50 @@
+{% extends "/admin/adminBase.html" %}
+
+{% block title %}TruLot Parking{% endblock %}
+
+{% block adminPage %}
+    <div class="layout">
+        <div class="left-container">
+            <div class="sidebar">
+                <a href="/TruLotParking/role/adminDashboard/addLot">Add New Parking Lot</a>
+            </div>
+        </div>
+
+        <div class="right-container">
+            <div class="greet-container">
+                <h1 class="comic-neue-regular">Hello {{ username }}, Welcome to the Admin dashboard. . . .</h1>
+            </div>
+            <div class="parking-lots-container">
+                <div class="lots-card">
+                    {% for lot in lots %}
+                    <div class="card" style="width: 21rem;">
+                        <img class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.lot_name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ lot.lot_name }}</h5>
+                            <p class="card-text">{{ lot.description }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <!-- <li class="list-group-item">Charges: {{ lot.price_per_hr }} INR</li>
+                            <li class="list-group-item">Location: {{ lot.geographical_detail.location }}, {{ lot.geographical_detail.state }}, {{ lot.geographical_detail.country }}</li> -->
+                            <li class="list-group-item status">
+                                {% if lot.available_spots > 0 %}
+                                    Available parking spots: {{ lot.available_spots }}
+                                {% else %}
+                                    All parking spots are occupied right now.
+                                {% endif %}
+                            </li>
+                        </ul>
+                        <div class="card-body card-body-link">
+                            <a href="/TruLotParking/role/adminDashboard/parking-lot-details?lot_id={{ lot.lot_id }}" class="card-link">View Parking Details</a>
+                            <div class="rating">
+                                <p>{{ lot.rating }}/5</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

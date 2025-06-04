@@ -1,0 +1,198 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+}
+
+.lot-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0.75rem;
+    padding-top: 2.5rem;
+    max-width: 1400px;
+    margin: auto;
+    margin-top: 1rem;
+}
+
+/*---------------------------------------------- CARD BOARD ------------------------------------------------ */ 
+.spots-cardboard {
+    flex: 2;
+    background-color: #ffffff;
+    padding: 2rem;
+    padding-bottom: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.heading{
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.spots-cardboard h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #333333;
+}
+
+.color-symbols{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 13rem;
+    width : 400px;
+}
+
+.red, .green, .yellow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.red div, .green div, .yellow div{
+    height: 20px;
+    width: 20px;
+    border: 2px solid red;
+    border-radius: 50%;
+    margin-right : 0.5rem;
+}
+
+.red p, .green p, .yellow p{
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.green div{
+    border: 2px solid green;
+}
+
+.yellow div{
+    border: 2px solid orange;
+}
+
+.spots-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.spot {
+    width: 60px;
+    height: 60px;
+    background-color: #e0f2fe;
+    margin: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #0c4a6e;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.spot:hover {
+    background-color: #bae6fd;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+}
+
+.details h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #111827; 
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    border-bottom: 2px solid #e5e7eb; 
+    padding-bottom: 0.5rem;
+}
+
+.top-details {
+    background-color: #b58900; 
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    letter-spacing: 0.5px;
+}
+
+.available-slots {
+    background-color: #fef3c7;
+    color: #92400e;           
+    padding: 0.6rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.charges {
+    background-color: #fb7185; 
+    color: #FFFFFF;     
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.location {
+    background-color: #f1f5f9; 
+    color: #475569;          
+    padding: 0.75rem 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    font-style: italic;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+
+button {
+    padding: 0.8rem 2rem;
+    background-color: #1e3a8a;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.4s ease, border-radius 0.6s ease;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+button:hover {
+    border-radius: 2rem;
+}
+
+
+@media (min-width: 768px) {
+    .lot-details {
+        flex-direction: row;
+    }
+}

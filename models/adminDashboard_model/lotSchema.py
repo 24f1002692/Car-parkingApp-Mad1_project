@@ -18,7 +18,7 @@ class lotModel(BaseModel):
             raise ValueError('Lotname cannot be empty')
         if(len(v) < 7):
             raise ValueError('Name for the lot is too short')
-        if(len(v) > 50):
+        if(len(v) > 30):
             raise ValueError('Name of the lot is too long')
         
         return v
@@ -37,33 +37,26 @@ class lotModel(BaseModel):
         
     @validator('price_per_hr')
     def validate_price(cls, v):
-        if v is not None and not (99 <= v <= 999):
-            raise ValueError('Price of parking cost should be between 99 - 999.')
+        if v is not None and not (99 <= v <= 299):
+            raise ValueError('Price of parking cost should be between 99 - 299.')
         
         return v
         
 
     @validator('capacity')
     def validate_capacity(cls, v):
-        if v is not None and not (10 <= v <= 50):           # if v is None then default value will be assigned.
-            raise ValueError('Capacity must be between 10 and 50 if provided.')
+        if v is not None and not (25 <= v <= 50):           # if v is None then default value will be assigned.
+            raise ValueError('Capacity must be between 15 and 50 if provided.')
         
         return v
     
-
-    @validator('rating')
-    def validate_rating(cls, v):
-        if v is not None and not(1 <= v <= 5):
-            raise ValueError('Rating must be between 1-5.')
-        
-        return v
     
     @validator('location')
     def validate_location(cls, v):
         v = v.strip()
         if not v:
             raise ValueError('location Cannot be empty')
-        if not(10 <= len(v) < 200):
+        if not(10 <= len(v) < 100):
             raise ValueError('location is too short or too long.')
         
         return v
@@ -73,7 +66,7 @@ class lotModel(BaseModel):
         v = v.strip()
         if not v:
             raise ValueError('state cannot be empty')
-        if not(1 <= len(v) <= 40):
+        if not(4 <= len(v) <= 40):
             raise ValueError('state name is too long or too short')
         
         return v

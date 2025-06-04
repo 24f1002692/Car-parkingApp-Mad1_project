@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= '/CSS/admin_css/links/view_lot_details.css')}}">
+</head>
+<body>
+    <div class="lot-details">
+        <div class="spots-cardboard">
+            <div class="heading">
+                <h2>CHOOSE A PARKING SPOT AND VIEW ITS DETAILS . . . .</h2>
+                <div class="color-symbols">
+                    <div class="green">
+                        <div></div>
+                        <p>Available</p>
+                    </div>
+                    <div class="red">
+                        <div></div>
+                        <p>Occupied</p>
+                    </div>
+                    <div class="yellow">
+                        <div></div>
+                        <p>Under Maintainence</p>
+                    </div>
+                </div>
+            </div>
+            <div class="spots-wrapper">
+                {% for spot in spots %}
+                    <div class="spot">
+                        {{ spot.spot_id }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="details">
+            <h1>{{ lot.lot_name }}</h1>
+            <div class="top-details">
+                Charges, Availability & Location
+            </div>
+            <div class="available-slots">
+                Available Parking Spots are {{ lot.available_spots }}
+            </div>
+            <div class="charges">Parking charges {{ lot.price_per_hr }}/hr</div>
+            <div class="location">
+                Near by Location is {{ lot.geographical_detail.location }}, {{ lot.geographical_detail.state }}, {{ lot.geographical_detail.country }}
+            </div>
+            <button>UPDATE LOT</button>
+        </div>
+    </div>    
+</body>
+</html>

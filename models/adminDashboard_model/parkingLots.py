@@ -16,12 +16,14 @@ class GeographicalDetail(db.Model):
 class Lot(db.Model):
     __tablename__ = 'lots'
     lot_id = db.Column(db.Integer, primary_key=True)
-    lot_name = db.Column(db.String(10), nullable=False)
+    lot_name = db.Column(db.String(30), nullable=False)
     description = db.Column(db.String(500), nullable=False)
     price_per_hr = db.Column(db.Integer, nullable=False, default=150)
 
     capacity = db.Column(db.Integer, nullable=False, default=30)       # if admin sets the max capacity => then i pass that to both capacity and available spots
+    available_spots = db.Column(db.Integer, nullable=False, default=30)
     rating = db.Column(db.Float, nullable=False)       # will give it a random rating while object creation in request handler 
+    image_url = db.Column(db.String(255), nullable=False)
 
     geographical_id = db.Column(db.Integer, db.ForeignKey('geographical_details.location_id'), nullable=False)     # foreign key (location_id is geographical_id)
     geographical_detail = db.relationship('GeographicalDetail', back_populates='lot_detail')      # relationship are used to access the attributes, many-one => many lots can have same geography
