@@ -28,7 +28,7 @@
             </div>
             <div class="spots-wrapper">
                 {% for spot in spots %}
-                    <div class="spot">
+                    <div class="spot {% if spot.under_maintenance %} maintenance {% elif spot.occupied %} occupied{% else %} available {% endif %}">
                         {{ spot.spot_id }}
                     </div>
                 {% endfor %}
@@ -46,7 +46,7 @@
             <div class="location">
                 Near by Location is {{ lot.geographical_detail.location }}, {{ lot.geographical_detail.state }}, {{ lot.geographical_detail.country }}
             </div>
-            <button>UPDATE LOT</button>
+            <button><a href="/TruLotParking/role/adminDashboard/update-parkingLot-form?lot_id={{ lot.lot_id }}">UPDATE PARKING LOT</a></button>
         </div>
     </div>    
 </body>

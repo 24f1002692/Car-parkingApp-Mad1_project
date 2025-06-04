@@ -18,6 +18,7 @@ def random_rating():
 lot_bp = Blueprint('parkingLot', __name__, url_prefix='/TruLotParking/role/adminDashboard')
 
 
+# -------------------------------------------- get and post for adding lot ----------------------------------------
 @lot_bp.route('/addLot')
 def addLot():
     token = request.cookies.get('token')
@@ -29,40 +30,16 @@ def addLot():
         return jsonify({'error': 'Unauthorized: Invalid or expired token'}), 401
     
     email_In_Token = decoded.get('email')
-    user = User.query.filter_by(email=email_In_Token).first()
 
-    if user and user.role =='admin':
-        return render_template('admin/links/addLot.html')
+    try:
+        user = User.query.filter_by(email=email_In_Token).first()
+
+        if user and user.role =='admin':
+            return render_template('admin/links/addLot.html'), 200
+    except Exception as error:
+        print(error)
+        return jsonify({'error': 'Database Error, while verifying user'}), 400
     
-
-@lot_bp.route('/parking-lot-details')
-def parking_lot_details():
-    token = request.cookies.get('token')
-    if not token:
-        return jsonify({'error': 'Unauthorized: Token missing'}), 401
-    
-    decoded = decode_jwt(token)
-    if not decoded:
-        return jsonify({'error': 'Unauthorized: Invalid or expired token'}), 401
-    
-    email_In_Token = decoded.get('email')
-    user = User.query.filter_by(email=email_In_Token).first()
-
-    if user:
-        lot_id = request.args.get('lot_id')      # Fetches the lot_id value from the query params
-        if not lot_id:
-            return jsonify({"error" : "Lot ID missing"}), 400
-
-        lot = Lot.query.filter_by(lot_id=lot_id).first()
-        if not lot:
-            return jsonify({'error' : "Lot not found"}), 404
-        
-        spots = ParkingSpot.query.filter_by(lot_id=lot_id).all()
-        if not spots:
-            return jsonify({'error' : 'No spots exists in this lot'}), 404
-
-        return render_template('admin/links/view_lot_details.html', lot=lot, spots=spots)
-
 
 
 @lot_bp.route('/create_parkingLot', methods=['POST'])
@@ -147,31 +124,249 @@ def create_parkingLot():
         """
         return make_response(html)        
     else:
-        return jsonify({"success": False, "msg":"You are not an admin"}), 400
+        return jsonify({"success": False, "msg":"Unauthorised Access"}), 400
+    
 
 
-@lot_bp.route('/validate-location', methods=['POST'])
-def validate_location():
-    data = request.json
-    location = data.get('location')
-    state = data.get('state')
-    country = data.get('country')
 
-    query = f"{location}, {state}, {country}"
-    url = "https://nominatim.openstreetmap.org/search"
+# ---------------------------------------------------------- view and edit parking details -------------------------------------------
+
+@lot_bp.route('/parking-lot-details')
+def parking_lot_details():
+    token = request.cookies.get('token')
+    if not token:
+        return jsonify({'error': 'Unauthorized: Token missing'}), 401
+    
+    decoded = decode_jwt(token)
+    if not decoded:
+        return jsonify({'error': 'Unauthorized: Invalid or expired token'}), 401
+    
+    email_In_Token = decoded.get('email')
 
     try:
-        response = requests.get(url, params={        # sending a get request from flask backend
-            'q': query,
-            'format': 'json'
-        }, headers={
-            'User-Agent': 'TruLotParking/0.1 (shivamkumar987148@gmail.com)'
-        })
+        user = User.query.filter_by(email=email_In_Token).first()
 
-        results = response.json()
-        if results:
-            return jsonify(valid=True, details=results[0])
+        if user and user.role=='admin':
+            lot_id = request.args.get('lot_id')        # Fetches the lot_id value from the query params
+            if not lot_id:
+                return jsonify({"error" : "Lot ID missing"}), 400
+
+            lot = Lot.query.filter_by(lot_id=lot_id).first()
+            if not lot:
+                return jsonify({'error' : "Lot not found"}), 404
+            
+            spots = ParkingSpot.query.filter_by(lot_id=lot_id).all()
+            if not spots:
+                return jsonify({'error' : 'No spots exists in this lot'}), 404
+
+            return render_template('admin/links/view_lot_details.html', lot=lot, spots=spots)
+    except Exception as error:
+        print(error)
+        return jsonify({'error' : 'Database Error, while verifying user or finding Lot'}), 400
+    
+
+@lot_bp.route('/update-parkingLot-form')
+def update_parkingLot_form():
+    token = request.cookies.get('token')
+    if not token:
+        return jsonify({'error': 'Unauthorized: Token missing'}), 401
+    
+    decoded = decode_jwt(token)
+    if not decoded:
+        return jsonify({'error': 'Unauthorized: Invalid or expired token'}), 401
+    
+    email_In_Token = decoded.get('email')
+
+    try:
+        user = User.query.filter_by(email=email_In_Token).first()
+
+        if user and user.role=='admin':
+            lot_id = request.args.get('lot_id')      # Fetches the lot_id value from the query params
+            if not lot_id:
+                return jsonify({"error" : "Lot ID missing"}), 400
+
+            lot = Lot.query.filter_by(lot_id=lot_id).first()
+            if not lot:
+                return jsonify({'error' : "Lot not found"}), 404
+
+            return render_template('admin/links/updateLot.html', lot=lot), 200
+    except Exception as error:
+        print(error)
+        return jsonify({'error' : 'Database Error, while verifying user or finding Lot'}), 400
+    
+
+@lot_bp.route('/update-parkingLot', methods=['POST'])
+@validate_form(lotModel)
+def update_parkingLot():
+    if request.form.get('_method') != 'PUT':
+        return jsonify({'error': 'Method not allowed'}), 405
+    
+    token = request.cookies.get('token')
+    if not token:
+        return jsonify({'error': 'Unauthorized: Token missing'}), 401
+    
+    decoded = decode_jwt(token)
+    if not decoded:
+        return jsonify({'error': 'Unauthorized: Invalid or expired token'}), 401
+    
+    email_In_Token = decoded.get('email')
+
+    try:
+        user = User.query.filter_by(email=email_In_Token).first()
+
+        if user and user.role =='admin':
+            lot_id = request.form.get('lot_id')         # Fetches the lot_id value from form because PUT is not allowed in html forms.
+            if not lot_id:
+                return jsonify({"error" : "Lot ID missing"}), 400
+
+            lot = Lot.query.filter_by(lot_id=lot_id).first()
+            if not lot:
+                return jsonify({'error' : "Lot not found"}), 404
+
+            validated_data = request.validated_data
+            lot.lot_name = validated_data.lot_name if validated_data.lot_name is not None else lot.lot_name
+            lot.description = validated_data.description if validated_data.description is not None else lot.description
+            lot.price_per_hr = validated_data.price_per_hr if validated_data.price_per_hr is not None else lot.price_per_hr
+            lot.capacity = validated_data.capacity if validated_data.capacity is not None else lot.capacity
+            lot.location = validated_data.location if validated_data.location is not None else lot.location
+            lot.state = validated_data.state if validated_data.state is not None else lot.state
+            lot.country = validated_data.country if validated_data.country is not None else lot.country
+
+            all_spots = ParkingSpot.query.filter_by(lot_id=lot.lot_id).all()
+            unoccupied_spots = [spot for spot in all_spots if not spot.occupied]
+
+            if len(all_spots) > lot.capacity:                      # reducing spots if admin wants to reduce the capacity of the lot.
+                spots_to_delete = len(all_spots) - lot.capacity
+                if len(unoccupied_spots) >= spots_to_delete:
+                    for spot in unoccupied_spots[:spots_to_delete]:
+                        db.session.delete(spot)
+                else:
+                    alert_message = "Too many occupied spots. Cannot reduce capacity right now !"
+                    redirect_url = "/TruLotParking/role/adminDashboard"
+
+                    html = f"""
+                    <script>
+                        alert("{alert_message}");
+                        window.location.href = "{redirect_url}";
+                    </script>
+                    """
+                    return make_response(html)
+                
+            elif len(all_spots) < lot.capacity:
+                new_spots_needed = lot.capacity - len(all_spots)
+                for _ in range(new_spots_needed):
+                    new_spot = ParkingSpot(lot_id=lot.lot_id)
+                    db.session.add(new_spot)
+
+            lot.available_spots = len([s for s in ParkingSpot.query.filter_by(lot_id=lot.lot_id).all() if not s.occupied and not s.under_maintenance])
+
+            try:
+                print('commit before')
+                db.session.commit()
+                print('commit after')
+            except Exception as e:
+                db.session.rollback()
+                print("COMMIT FAILED:", e)
+                return jsonify({'error': 'Database commit failed'}), 500
+
+            alert_message = "Parking lot updated successfully. Redirecting to your admin dashboard... !"
+            redirect_url = "/TruLotParking/role/adminDashboard"
+
+            html = f"""
+            <script>
+                alert("{alert_message}");
+                window.location.href = "{redirect_url}";
+            </script>
+            """
+            return make_response(html)        
         else:
-            return jsonify(valid=False)
-    except Exception as e:
-        return jsonify(error='Something went wrong.'), 500
+            return jsonify({'error': 'Unauthorized access'}), 403
+    except Exception as error:
+        print(error)
+        return jsonify({'error' : 'Database Error, while verifying user or finding Lot'})
+
+
+# ---------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# @lot_bp.route('/validate-location', methods=['POST'])
+# def validate_location():
+#     data = request.json
+#     location = data.get('location')
+#     state = data.get('state')
+#     country = data.get('country')
+
+#     query = f"{location}, {state}, {country}"
+#     url = "https://nominatim.openstreetmap.org/search"
+
+#     try:
+#         response = requests.get(url, params={        # sending a get request from flask backend
+#             'q': query,
+#             'format': 'json'
+#         }, headers={
+#             'User-Agent': 'TruLotParking/0.1 (shivamkumar987148@gmail.com)'
+#         })
+
+#         results = response.json()
+#         if results:
+#             return jsonify(valid=True, details=results[0])
+#         else:
+#             return jsonify(valid=False)
+#     except Exception as e:
+#         return jsonify(error='Something went wrong.'), 500

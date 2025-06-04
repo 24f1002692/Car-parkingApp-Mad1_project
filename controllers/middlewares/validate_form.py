@@ -13,9 +13,9 @@ def validate_form(schema_class):
                 validated_data = schema_class(**data)
                 request.validated_data = validated_data    # Store the Pydantic model instance in request
             except PydanticValidationError as err:
+                print(err.errors())
                 return jsonify({
-                    'error': 'Validation failed',
-                    'details': err.errors()
+                    'error': 'Validation failed'
                 }), 400
 
             return func(*args, **kwargs)

@@ -14,7 +14,7 @@ body {
     padding-top: 2.5rem;
     max-width: 1400px;
     margin: auto;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
 }
 
 /*---------------------------------------------- CARD BOARD ------------------------------------------------ */ 
@@ -65,7 +65,7 @@ body {
 }
 
 .green div{
-    border: 2px solid green;
+    border: 2px solid #98FB98;
 }
 
 .yellow div{
@@ -81,7 +81,7 @@ body {
 .spot {
     width: 60px;
     height: 60px;
-    background-color: #e0f2fe;
+    /* background-color: #e0f2fe; */
     margin: 0.5rem;
     border-radius: 50%;
     cursor: pointer;
@@ -89,13 +89,26 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
-    color: #0c4a6e;
+    font-weight: 700;
+    color: #333333;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
 }
 
 .spot:hover {
-    background-color: #bae6fd;
+    transform: scale(1.07);
+}
+
+.maintenance{
+    background-color: #FFB347;
+}
+
+.occupied{
+    background-color: #FFC0C0;
+}
+
+.available{
+    background-color: #98FB98;
 }
 
 .details {
@@ -188,6 +201,11 @@ button {
 
 button:hover {
     border-radius: 2rem;
+}
+
+button a{
+    text-decoration: none;
+    color: #FFF;
 }
 
 

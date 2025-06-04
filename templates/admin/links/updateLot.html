@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Parking Lot</title>
+</head>
+<body>
+    <form action="/TruLotParking/role/adminDashboard/update-parkingLot" method="POST" id='parkingLot' onsubmit="return validateParkingLot(event)">
+        <input type="hidden" name="lot_id" value="{{ lot.lot_id }}">
+        <input type="hidden" name="_method" value="PUT">
+        <h1>UPDATE PARKING LOT</h1>
+        <label for="lot_name">Parking Lot Name :</label>
+        <input type="text" id="lot_name" name="lot_name" value="{{ lot.lot_name }}">
+        <div id="lot_name_errorDiv"></div>
+
+        <label for="description">Description : </label>
+        <textarea id="description" name="description" rows="6" cols="70" maxlength="600" style="resize: none;">{{ lot.description }}</textarea>
+        <small>Max 200 characters.</small>
+        <div id="description_errorDiv"></div>
+
+        <label for="price">Price (per hour or per day) : </label>
+        <input type="number" id="price" name="price_per_hr" min="0" step="0.01" value="{{ lot.price_per_hr }}">
+        <div id="price_errorDiv"></div>
+
+        <label for="capacity">Capacity : </label>
+        <input type="number" id="capacity" name="capacity" min="1" value="{{ lot.capacity }}">
+        <div id="capacity_errorDiv"></div>
+
+        <label for="location">Location : </label>
+        <input type="text" id="location" name="location" value="{{ lot.geographical_detail.location }}">
+        <div id="location_errorDiv"></div>
+
+        <label for="state">State : </label>
+        <input type="text" id="state" name="state" value="{{ lot.geographical_detail.state }}">
+        <div id="state_errorDiv"></div>
+
+        <label for="country">Country : </label>
+        <input type="text" id="country" name="country" value="{{ lot.geographical_detail.country }}">
+        <div id="country_errorDiv"></div>
+
+        <button type="submit">Update Parking Lot</button>
+    </form>
+
+
+    {% include 'components/loader.html' %}
+    <script src="{{ url_for('static', filename='JAVASCRIPT/admin/addLot.js')}}"></script>
+    <!-- to validate the update form we can use the same validation js -->
+</body>
+</html>
