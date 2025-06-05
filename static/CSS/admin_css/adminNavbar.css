@@ -73,9 +73,13 @@ body {
     width: 100%;
 }
 
+.links-div{
+    margin-right: 4rem;
+}
 .search-bar {
     display: flex;
     align-items: center;
+    margin-left: 7rem;
 }
 
 .search-input-btn {

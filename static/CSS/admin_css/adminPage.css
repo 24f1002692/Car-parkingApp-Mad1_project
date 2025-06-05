@@ -120,7 +120,7 @@ body{
     border-radius: 1rem;
     margin-right: 1.75rem;
     margin-bottom: 1.25rem;
-    height: 415px;
+    height: 420px;
 }
 
 .card:hover {
@@ -134,11 +134,39 @@ body{
     border-top-right-radius: 1rem;
 }
 
-.card-body h5{
+.heading-delete-icon{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heading-delete-icon .icon{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+.heading-delete-icon .icon i{
+    padding-bottom: 0.4rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #333333;
+    transition: transform 0.3s ease;
+    margin-bottom: 6px;
+    margin-right: 4px;
+}
+
+.heading-delete-icon .icon i:hover{
+    color: #ce2020d0;
+    transform: translateY(-1px);
+}
+
+.card-body .heading-delete-icon h5{
     font-size: 1rem;
     font-weight: 600;
     color: #0b0c10;
 }
+
 
 .card-body p{
     font-size: 0.75rem;

@@ -16,9 +16,9 @@ class lotModel(BaseModel):
         v = v.strip()
         if not v:
             raise ValueError('Lotname cannot be empty')
-        if(len(v) < 7):
+        if(len(v) < 10):
             raise ValueError('Name for the lot is too short')
-        if(len(v) > 30):
+        if(len(v) > 40):
             raise ValueError('Name of the lot is too long')
         
         return v
@@ -30,7 +30,7 @@ class lotModel(BaseModel):
             raise ValueError('Description cannot be empty')
         if(len(v) < 50):
             raise ValueError('Description for the lot is too short.')
-        if(len(v) > 500):
+        if(len(v) > 210):
             raise ValueError('Description for the lot is too long.')
         
         return v
@@ -45,7 +45,7 @@ class lotModel(BaseModel):
 
     @validator('capacity')
     def validate_capacity(cls, v):
-        if v is not None and not (25 <= v <= 50):           # if v is None then default value will be assigned.
+        if v is not None and not (30 <= v <= 80):           # if v is None then default value will be assigned.
             raise ValueError('Capacity must be between 15 and 50 if provided.')
         
         return v
@@ -56,7 +56,7 @@ class lotModel(BaseModel):
         v = v.strip()
         if not v:
             raise ValueError('location Cannot be empty')
-        if not(10 <= len(v) < 100):
+        if not(10 <= len(v) < 150):
             raise ValueError('location is too short or too long.')
         
         return v

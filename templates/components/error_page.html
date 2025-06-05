@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERROR</title>
+     <style>
+        .error-box {
+            background-color: #fef2f2; /* very light red */
+            color: #b91c1c;           /* dark red text */
+            padding: 1rem 2rem;
+            border: 1px solid #fca5a5;
+            border-radius: 8px;
+            font-weight: 500;
+            max-width: 600px;
+            margin: 2rem auto;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-box">
+        {{ error }}
+    </div>
+</body>
+</html>

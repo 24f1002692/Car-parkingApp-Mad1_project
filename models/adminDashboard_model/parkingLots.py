@@ -6,9 +6,9 @@ from datetime import datetime
 class GeographicalDetail(db.Model):
     __tablename__ = 'geographical_details'
     location_id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String(200), nullable=False, unique=True)        # location, state and country given by admin
-    state = db.Column(db.String(30), nullable=False)
-    country = db.Column(db.String(30), nullable=False)
+    location = db.Column(db.String(160), nullable=False, unique=True)        # location, state and country given by admin
+    state = db.Column(db.String(40), nullable=False)
+    country = db.Column(db.String(40), nullable=False)
 
     lot_detail = db.relationship('Lot', back_populates='geographical_detail')    # one-many relationship with lots (one location can have many lots).
 
@@ -16,12 +16,12 @@ class GeographicalDetail(db.Model):
 class Lot(db.Model):
     __tablename__ = 'lots'
     lot_id = db.Column(db.Integer, primary_key=True)
-    lot_name = db.Column(db.String(30), nullable=False)
-    description = db.Column(db.String(500), nullable=False)
+    lot_name = db.Column(db.String(40), nullable=False)
+    description = db.Column(db.String(220), nullable=False)
     price_per_hr = db.Column(db.Integer, nullable=False, default=150)
 
-    capacity = db.Column(db.Integer, nullable=False, default=30)       # if admin sets the max capacity => then i pass that to both capacity and available spots
-    available_spots = db.Column(db.Integer, nullable=False, default=30)
+    capacity = db.Column(db.Integer, nullable=False, default=40)       # if admin sets the max capacity => then i pass that to both capacity and available spots
+    available_spots = db.Column(db.Integer, nullable=False, default=40)
     rating = db.Column(db.Float, nullable=False)       # will give it a random rating while object creation in request handler 
     image_url = db.Column(db.String(255), nullable=False)
 

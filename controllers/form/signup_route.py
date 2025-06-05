@@ -24,11 +24,11 @@ def signup_form():
 def userDashboard():
     token = request.cookies.get('token')
     if not token:
-        return "Unauthorized", 401
+        return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
 
     decoded = decode_jwt(token)
     if not decoded:
-        return "Invalid or expired token", 401
+        return render_template('/components/error_page.html', error='Invalid User / Admin request (token missing or invalid)'), 401
 
     username = decoded.get('username', 'Guest')
     return render_template('/user/user_page.html', username=username)
@@ -63,6 +63,7 @@ def signup_form_submit():
         return response
     except Exception as error:
         print(error)
+        return render_template('/components/error_page.html', error='Internal Server Error (Database error)'), 401
 
 
 @signup_bp.route('/signup/check_user_exists', methods=['POST'])
@@ -81,3 +82,4 @@ def check_user_exists():
             return jsonify({'user_exists' : False}), 200
     except Exception as error:
         print(error)
+        return jsonify({'error':'Internal Server Error (Database error)'}), 401

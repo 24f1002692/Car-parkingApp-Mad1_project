@@ -30,29 +30,26 @@ otpForm_bp = Blueprint('OtpForm', __name__, url_prefix='/otpForm')
 def adminDashboard():
     token = request.cookies.get('token')
     if not token:
-        return "Unauthorized", 401
+        return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
 
     decoded = decode_jwt(token)
     if not decoded:
-        return "Invalid or expired token", 401
+        return render_template('/components/error_page.html', error='Invalid User / Admin request (token missing or invalid)'), 401
 
     username = decoded.get('username', 'Guest')
-    # lots data from database
     lots = Lot.query.all()
-    print(lots)
-
     return render_template('/admin/adminPage.html', username=username, lots=lots)
 
 @role_bp.route('/userDashboard')
 def userDashboard():
     token = request.cookies.get('token')
     if not token:
-        return "Unauthorized", 401
+        return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
 
     decoded = decode_jwt(token)
     if not decoded:
-        return "Invalid or expired token", 401
-
+        return render_template('/components/error_page.html', error='Invalid User / Admin request (token missing or invalid)'), 401
+        
     username = decoded.get('username', 'Guest')
     return render_template('/user/user_page.html', username=username)
 
@@ -62,7 +59,7 @@ def login_form():
     return render_template('/form/login_form.html')
 
 
-@login_bp.route('/yourDashboard', methods=['POST'])        # login.login_form_submit(used in login form) is equivalent to /yourDashboard
+@login_bp.route('/yourDashboard', methods=['POST'])      # login.login_form_submit(used in login form) is equivalent to /yourDashboard, where login is blueprint name
 @validate_form(LoginModel)
 def login_form_submit():
     validated_data = request.validated_data
@@ -94,7 +91,8 @@ def login_form_submit():
             return render_template('/form/login_form.html', email = email, password = password)
     except Exception as error:
         print(error)
-        return jsonify({'success': False, 'error': 'Internal Server Error'}), 500
+        return render_template('/components/error_page.html', error='Internal server error (Database error)'), 500
+        # return jsonify({'success': False, 'error': 'Internal Server Error'}), 500
         
 
 @otpForm_bp.route('/requestOtp', methods=['GET', 'POST'])
@@ -140,7 +138,7 @@ def otpPage():
                     return jsonify({'success': False, 'error': 'please signup first with this email id....'})
             except Exception as error:
                 print(error)
-                return jsonify({'success': False, 'error': 'Internal Server Error'}), 500
+                return render_template('/components/error_page.html', error='Internal server error (Database error)'), 500
 
 
 @otpForm_bp.route('/requestOtp/verifyOtp', methods=['POST'])       # otpForm.verifyOtp
@@ -193,9 +191,16 @@ def verifyOtp():
             return response
         except Exception as error:
             print(error)
-            return jsonify({'success': False, 'error': 'Internal Server Error'}), 500
+            return render_template('/components/error_page.html', error='Internal server error (Database error)'), 500            
     else:
         return jsonify({'success': False, 'error': 'Incorrect OTP, Authentication Failed...'})
+    
+
+@login_bp.route('/logout')
+def logout():
+    response = make_response(redirect(url_for('TruLotParking.TruLotParking')))
+    response.set_cookie('token', '', expires=0)  
+    return response
 
     
 

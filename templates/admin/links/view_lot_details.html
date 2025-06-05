@@ -3,10 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>VIEW LOT DETAILS</title>
     <link rel="stylesheet" href="{{ url_for('static', filename= '/CSS/admin_css/links/view_lot_details.css')}}">
+    <style>
+        .page-body {
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .page-body.visible {
+            opacity: 1;
+        }
+        
+        body::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
 </head>
-<body>
+<body id="page-body" class="page-body">
     <div class="lot-details">
         <div class="spots-cardboard">
             <div class="heading">
@@ -49,5 +64,18 @@
             <button><a href="/TruLotParking/role/adminDashboard/update-parkingLot-form?lot_id={{ lot.lot_id }}">UPDATE PARKING LOT</a></button>
         </div>
     </div>    
+
+    <script>
+        const body = document.getElementById('page-body');
+        function fadeInBody() {
+            console.log('here')
+            body.classList.remove('visible');
+            void body.offsetWidth;                // force reflow to reset animation
+            body.classList.add('visible');
+        }
+
+        document.addEventListener('DOMContentLoaded', fadeInBody);
+        window.addEventListener('pageshow', fadeInBody); 
+    </script>
 </body>
 </html>

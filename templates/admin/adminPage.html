@@ -20,12 +20,13 @@
                     <div class="card" style="width: 21rem;">
                         <img class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.lot_name }}">
                         <div class="card-body">
-                            <h5 class="card-title">{{ lot.lot_name }}</h5>
+                            <div class="heading-delete-icon">
+                                <h5 class="card-title">{{ lot.lot_name }}</h5>
+                                <div class="icon"><i class="bi bi-trash" id="delete-icon" data-lot-id="{{ lot.lot_id }}"></i></div>
+                            </div>
                             <p class="card-text">{{ lot.description }}</p>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <!-- <li class="list-group-item">Charges: {{ lot.price_per_hr }} INR</li>
-                            <li class="list-group-item">Location: {{ lot.geographical_detail.location }}, {{ lot.geographical_detail.state }}, {{ lot.geographical_detail.country }}</li> -->
                             <li class="list-group-item status">
                                 {% if lot.available_spots > 0 %}
                                     Available parking spots: {{ lot.available_spots }}
@@ -46,5 +47,4 @@
             </div>
         </div>
     </div>
-    
 {% endblock %}

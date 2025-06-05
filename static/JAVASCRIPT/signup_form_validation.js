@@ -38,7 +38,11 @@ async function unique_user_check(email) {
             })
     
             const data = await response.json();  // parsing response to readable format (json format)
-            console.log(data);
+
+            if(data.error){
+                email_error_div.innerHTML = 'Internal Server Error';
+                return false;
+            }
             
             if (data.user_exists) {
                 email_error_div.innerHTML = 'User with this email already exists.';
