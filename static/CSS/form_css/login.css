@@ -28,6 +28,7 @@ body{
     width: 590px;
     margin-top: 2rem;
     padding: 1rem 2rem;
+    padding-top: 0rem;
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 1rem; 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
@@ -58,6 +59,7 @@ body{
     align-items: center;
     padding: 0.5rem 0.5rem 0 0;
     margin-left: 0.6rem;
+    font-size: 1.25rem;
 }
 
 .cross a i{
@@ -113,22 +115,23 @@ h2{
 
 .username-container label, .password-container label {
   display: block;
-  margin-bottom: 0.5rem; 
-  margin-left: 0.5rem;
+  margin-bottom: 0.2rem; 
+  margin-left: 1rem;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--label-notice-color);
   font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
 .username-container input, .password-container input {
   width: 130%;
-  padding: 0.5rem 0.75rem;
+  padding: 0.6rem 0.75rem;
+  padding-left: 1rem;
   margin-right: 1rem;
   margin-bottom: 0.3rem;
   font-size: 0.8rem;
   border: 1.3px solid var(--input-field-box);
-  border-radius: 0.5rem;
+  border-radius:2rem;
   background-color: var(--tertiary-color);
   transition: border-color 0.3s ease;
 }
@@ -154,10 +157,6 @@ textarea::placeholder {
   align-items: center;
 }
 
-.star-marked{
-  color: red;
-}
-
 .label-container-password {
     width: 86%;
 }
@@ -169,7 +168,7 @@ textarea::placeholder {
 .password-wrapper {
   display: flex;
   align-items: center;
-  gap: 6px; 
+  gap: 3px; 
 }
 
 #toggle-password-div {

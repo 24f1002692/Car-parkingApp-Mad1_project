@@ -155,11 +155,11 @@ def parking_lot_details():
             if not lot_id:
                 return jsonify({"error" : "Lot ID missing"}), 400
 
-            lot = Lot.query.filter_by(lot_id=lot_id).first()
+            lot = Lot.query.filter_by(lot_id=lot_id, deleteLot=False).first()
             if not lot:
                 return jsonify({'error' : "Lot not found"}), 404
             
-            spots = ParkingSpot.query.filter_by(lot_id=lot_id).all()
+            spots = ParkingSpot.query.filter_by(lot_id=lot_id, deleteSpot=False).all()
             if not spots:
                 return jsonify({'success' : False, 'msg' : 'No spots exists in this lot'}), 404
 
@@ -243,11 +243,12 @@ def update_parkingLot():
             all_spots = ParkingSpot.query.filter_by(lot_id=lot.lot_id).all()
             unoccupied_spots = [spot for spot in all_spots if not spot.occupied]
 
-            if len(all_spots) > lot.capacity:                      # reducing spots if admin wants to reduce the capacity of the lot.
+            if len(all_spots) > lot.capacity:                   # reducing spots if admin wants to reduce the capacity of the lot.
                 spots_to_delete = len(all_spots) - lot.capacity
                 if len(unoccupied_spots) >= spots_to_delete:
                     for spot in unoccupied_spots[:spots_to_delete]:
-                        db.session.delete(spot)
+                        if not spot.deleteSpot:
+                            spot.deleteSpot = True
                 else:
                     alert_message = "Too many occupied spots. Cannot reduce capacity right now !"
                     redirect_url = "/TruLotParking/role/adminDashboard"
@@ -295,28 +296,48 @@ def update_parkingLot():
 # ---------------------------------------------------------------- Delete a Parking Lot -----------------------------------
 @lot_bp.route('/deleteParkingLot', methods=['DELETE'])
 def delete_parkingLot():
-    lot_id = request.args.get('lot_id', type=int)
-    if not lot_id:
-        return jsonify({'success':False, 'msg': 'lot_id is missing'}), 400
+    token = request.cookies.get('token')
+    if not token:
+        return render_template('/components/error_page.html', error='Unauthorized User / Admin (token missing)'), 401
     
+    decoded = decode_jwt(token)
+    if not decoded:
+        return render_template('/components/error_page.html', error='Unauthorized: Invalid or expired token'), 401
+    
+    email_In_Token = decoded.get('email')
+
     try:
-        lot = Lot.query.filter_by(lot_id=lot_id).first()
-        lotName = lot.lot_name
-        if not lot:
-            return jsonify({'success': False, 'msg': 'No lot exist with this id'})
-        
-        all_spots = ParkingSpot.query.filter_by(lot_id=lot.lot_id).all()
-        unoccupied_spots = [spot for spot in all_spots if not spot.occupied]
+        user = User.query.filter_by(email=email_In_Token).first()
 
-        if lot.capacity == len(unoccupied_spots):
-            for spot in unoccupied_spots:
-                db.session.delete(spot)
-            db.session.delete(lot)
-            db.session.commit()
+        if user and user.role =='admin':
+            lot_id = request.args.get('lot_id', type=int)
+            if not lot_id:
+                return jsonify({'success':False, 'msg': 'lot_id is missing'}), 400
+            
+            try:
+                lot = Lot.query.filter_by(lot_id=lot_id, deleteLot=False).first()
+                if not lot:
+                    return jsonify({'success': False, 'msg': 'No lot exist with this id'}), 404
+                
+                lotName = lot.lot_name
+                
+                all_spots = ParkingSpot.query.filter_by(lot_id=lot.lot_id, deleteSpot=False).all()
+                unoccupied_spots = [spot for spot in all_spots if not spot.occupied]
 
-            return jsonify({'success': True, 'msg': f"{lotName} Lot deleted successfully..."}), 200
-        else:
-           return jsonify({'success': False, 'msg': "Cannot delete. Some spots are occupied currently...."}), 409
+                if lot.capacity == len(unoccupied_spots):
+                    for spot in unoccupied_spots:
+                        if not spot.deleteSpot:
+                            spot.deleteSpot = True
+                    
+                    lot.deleteLot = True
+                    db.session.commit()
+
+                    return jsonify({'success': True, 'msg': f"{lotName} Lot deleted successfully..."}), 200
+                else:
+                    return jsonify({'success': False, 'msg': "Cannot delete. Some spots are occupied currently...."}), 409
+            except Exception as error:
+                print(error)
+                return jsonify({'success': False, 'msg': 'Internal server error...'}), 500
     except Exception as error:
         print(error)
         return jsonify({'success': False, 'msg': 'Internal server error...'}), 500

@@ -32,6 +32,7 @@ class Lot(db.Model):
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    deleteLot = db.Column(db.Boolean, default=False)
 
 
 class ParkingSpot(db.Model):
@@ -40,10 +41,13 @@ class ParkingSpot(db.Model):
     lot_id = db.Column(db.Integer, db.ForeignKey('lots.lot_id'), nullable=False)   # foreign key in spot match one spot to one lot.
     occupied = db.Column(db.Boolean, nullable=False, default=False)
     under_maintenance = db.Column(db.Boolean, nullable=False, default=False) 
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     lot_detail = db.relationship('Lot', back_populates='spot_detail')    # many-one   (many spots can belong to one lot)
     reserved_spot_detail=db.relationship('ReservedSpot', back_populates='spot_detail')    # one-many => one parking spots has many reservation over the time
+
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    deleteSpot = db.Column(db.Boolean, default=False)
+
 
 
 class ReservedSpot(db.Model):

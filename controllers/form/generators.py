@@ -1,7 +1,7 @@
 import jwt
 from jwt import ExpiredSignatureError, InvalidTokenError
 import os
-import datetime
+import datetime, time
 
 SECRET_KEY = os.getenv('JWT_SECRET')
 
@@ -11,6 +11,14 @@ def generate_jwt(email, username):
         'email': email,
         'username':username,
         'exp': int(expiration_time.timestamp())  
+    }
+    return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+
+def generate_jwt_email(email):
+    payload = {
+        'email': email,
+        'exp': time.time() + 600 
     }
     return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 

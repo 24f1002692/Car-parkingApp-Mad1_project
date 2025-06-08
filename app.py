@@ -8,8 +8,8 @@ from db import db
 from models.init_Db import init_user_db  # Import the init_db func
 
 # controllers
-from controllers.form.signup_route import signup_bp
-from controllers.form.login_route import login_bp, otpForm_bp, role_bp
+from controllers.form.signup_route import signup_bp, otpForm_bp
+from controllers.form.login_route import login_bp, role_bp
 from controllers.landingPage.landing_route import landing_bp
 from controllers.admin.createLot import lot_bp
 

@@ -1,8 +1,8 @@
 import requests
-import random
+import random, os
 
 def generate_random_parking_image_url():
-    access_key = '5rJ7UnZ_4VhFfTW6nrF7FT7Uoc5CyqrxTYY5wYmf1kg'
+    access_key = os.getenv('IMAGES_ACCESS_KEY')
     headers = {"Authorization": f"Client-ID {access_key}"}
 
     try:

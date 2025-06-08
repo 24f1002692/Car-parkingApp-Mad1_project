@@ -1,12 +1,3 @@
-:root{
-    /* --primary-color: #4a90e2; */
-    --primary-color: #E65100;
-    --secondary-color: #f9f9f9b0;
-    --tertiary-color: #FFFFFF;
-    --label-notice-color: #333;
-    --input-field-box: #36454F;
-}
-
 .comic-neue-regular {
     font-family: "Comic Neue", cursive;
     font-weight: 400;
@@ -14,128 +5,90 @@
 }
 
 body{
-    margin: auto;
-    padding: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--secondary-color);
     overflow: hidden;
 }
 
 #requestOtp_form{
-    height: 450px;
-    width: 450px;
-    margin-top: 4rem;
-    padding: 1rem 2rem;
+    height: 360px;
+    width: 410px;
+    margin-top: 5rem;
+    padding: 1.25rem 2rem;
     background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 1rem; 
+    border-radius: 1.5rem; 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
     transition: all 0.3s ease-in-out;
     z-index: 2;
 }
 
-#messages-div, #email-error-div{
-    height: 45px;
-    width: 80%;
-    margin: 0.25rem 0.5rem 0.2rem 2.5rem;
-    padding: 0.2rem;
-    font-size: 1.1rem;
-    color: red;
-    text-align: center;
-    /* background-color: green; */
-}
-
-#email-error-div{
-    height : 25px;
-    width: 60%;
-    margin-left: 1.25rem;
-    margin-bottom: 1.5rem;
-    font-size: 0.85rem;
-}
-
-.cross{
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    padding: 1rem 0.5rem 0.5 0;
-    margin: 1rem 0rem 0.5rem 0.25rem;
-}
-
-.cross a i{
-  color: var(--primary-color);
-  font-size: 1.8rem;
-}
-
-.heading, .btn-div, .email-label, .input-div, .error-message, .star-marked-div, .email-error-div, #otp-box, .otp-label, .requestAgainOtpBtn-div{
+.notice-message{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.star-marked-div{
-    justify-content: end;
-    align-items: end;
+#notice-message-div{
     color: red;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
 }
 
-.star-marked{
-    width: 5%;
-    margin-right: 3.75rem;
+.request-cross{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 0.4rem;
+    margin-left: 0.6rem;
+    margin-top: 1rem;
 }
 
-.heading{
-    margin: 0.25rem 0.5rem 0.5rem 0.5rem;
-    padding: 0.1rem;
+.request-cross a i{
+    color: var(--primary-color);
+    font-size: 1.4rem;
+}
+
+.request-otp-heading, .btn-div, .input-div, .error-message, #otp-box, .otp-label, .requestAgainOtpBtn-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.request-otp-heading{
+    margin: 0.75rem 0.5rem 0.5rem 0.5rem;
+    padding: 0.5rem 1rem;
     font-size: 0.9rem;
+    color: #333333;
 }
 
-.email-label, #otp-section label{
-    margin-bottom: 0.15rem; 
+#otp-section label{
+    margin-bottom: 0.35rem; 
     margin-left: 0.5rem;
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 600;
     color: var(--label-notice-color);
     font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
-#otp-input-email{
-    width: 60%;
-    padding: 0.55rem 0.75rem;
-    margin: 0rem 0 0rem 0.5rem;
-    font-size: 0.8rem;
-    border: 1.3px solid var(--input-field-box);
-    border-radius: 0.5rem;
-    background-color: var(--tertiary-color);
-    transition: border-color 0.3s ease;
-}
-
-#otp-input-email:focus, #otp-box input:focus{
-    border-color: var(--primary-color);
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
-}
-
-input::placeholder,
+.otp-box input::placeholder,
 textarea::placeholder {
   color: #999;
   font-size: 0.95rem;
   font-style: italic;
   opacity: 1; 
   text-align: center;
+  margin-bottom: 1rem;
 }
 
 
-#requestOtp_btn, .requestAgainOtpBtn{
+#requestOtp_btn, .signup-btn{
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     padding: 0.6rem 1.5rem;
     background-color: var(--primary-color);
     color: var(--tertiary-color);
     border: none;
-    border-radius: 999px;      /* pill-shaped-btns */
+    border-radius: 999px;    
     cursor: pointer;
     font-weight: 500;
     font-size: 0.85rem;
@@ -143,16 +96,11 @@ textarea::placeholder {
     transition: all 0.3s ease;
 }
 
-.requestAgainOtpBtn{
-    margin-top: 2.5rem;
-}
-
-#requestOtp_btn:hover, .requestAgainOtpBtn:hover{
+#requestOtp_btn:hover, .signup-btn:hover{
     background-color: var(--primary-color);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     transform: scale(1.1);
 }
-
 
 .otp-label{
     margin: 0.2rem;
@@ -172,66 +120,6 @@ textarea::placeholder {
     border-radius: 0.75rem;
     text-align: center;
 }
-
-.bubble-container {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    z-index: 0;
-}
-
-.bubble {
-    position: absolute;
-    bottom: -90px;
-    width: 160px;
-    height: 110px;
-    animation: rise 5s linear infinite;
-    left: 50%;                               
-    animation-delay: calc(-1s * var(--i));
-}
-
-.bubble p {
-    font-size: 4rem;
-    letter-spacing: 2px;
-    font-weight: 400;
-    -webkit-text-stroke: 5px var(--primary-color);
-    color: transparent;
-}
-
-
-@keyframes rise {
-    0% {
-        transform:  translateY(0) scale(1);
-        opacity: 0;
-    }
-    
-    30% {
-        opacity: 0.7;
-    }
-
-    60%{
-        opacity: 0.5;
-    }
-
-    90%{
-        opacity: 0.4;
-    }
-
-    100% {
-        transform:  translateY(-700px) scale(0.5);
-        opacity: 0;
-    }
-}
-
-.bubble:nth-child(1) { --i: 0; left: 18%; width: 50px; height: 50px; animation-duration: 5s; }
-.bubble:nth-child(2) { --i: 1; left: 37%; width: 70px; height: 70px; animation-duration: 7s; }
-.bubble:nth-child(3) { --i: 2; left: 55%; width: 60px; height: 60px; animation-duration: 6s; }
-.bubble:nth-child(4) { --i: 5; left: 2%; width: 40px; height: 40px; animation-duration: 7s; }
-.bubble:nth-child(6) { --i: 5; left: 72%; width: 40px; height: 40px; animation-duration: 8s; }
-.bubble:nth-child(5) { --i: 6; left: 86%; width: 70px; height: 70px; animation-duration: 5s; }
-
-
 
 /* -------------------------------------------------------- MEDIA QUERIES ----------------------------------------- */
 

@@ -12,7 +12,7 @@ def init_user_db():
 
         # Add admin user if not exists
         if not User.query.filter_by(role='admin').first():
-            admin = User(name=os.getenv('ADMIN_NAME'), password=os.getenv('PASSWORD'), email =os.getenv('EMAIL'), country =os.getenv('COUNTRY'), role=os.getenv('ROLE'))
+            admin = User(name=os.getenv('ADMIN_NAME'), password=os.getenv('PASSWORD'), email =os.getenv('EMAIL'), phone=os.getenv('PHONE'), role=os.getenv('ROLE'))
             db.session.add(admin)
             db.session.commit()
             print("Database initialized. Admin user created.")

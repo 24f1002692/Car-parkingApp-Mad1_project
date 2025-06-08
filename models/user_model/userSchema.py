@@ -5,14 +5,14 @@ class SignupModel(BaseModel):
     username: str
     password: str
     email: EmailStr
-    country: str
+    phone: str
 
     @validator('username')
     def validate_username(cls, v):    # cls similar to self
         v = v.strip()
         if not v:
             raise ValueError("Username cannot be empty.")
-        if len(v) < 5 or len(v) > 15:
+        if len(v) < 3 or len(v) > 25:
             raise ValueError("Username length should be 5-15 chars.")
         return v
 
@@ -33,21 +33,17 @@ class SignupModel(BaseModel):
     def validate_email(cls, v):
         if not v.strip():
             raise ValueError("Email cannot be empty.")
-        if len(v) > 40:
+        if len(v) > 80:
             raise ValueError("Email is too long.")
         return v
-
-    @validator('country')
-    def validate_country(cls, v):
-        v = v.strip()
-        if not v:
-            raise ValueError("Country name cannot be empty.")
-        if len(v) < 2 or len(v) > 20:
-            raise ValueError("Country name is too short or long.")
-        if not all(char.isalpha() or char.isspace() for char in v):
-            raise ValueError("Country must only contain letters and spaces.")
+    
+    @validator('phone')
+    def validate_phone(cls, v):
+        if not v.strip():
+            raise ValueError("Phone number cannot be empty")
+        if not re.fullmatch(r'^\d{10}$', v):
+            raise ValueError("Phone number must contain only 10 digits")
         return v
-
 
 
 class LoginModel(BaseModel):

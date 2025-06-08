@@ -1,3 +1,5 @@
+import { enableOtpSectionFeatures } from "./OtpPageFeatures.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     setupTogglePassword();
 });
@@ -58,72 +60,70 @@ async function unique_user_check(email) {
     }
 }
 
-async function check_country_exists(country) {
-    console.log(country);
-    try{
-        const response = await fetch(`https://restcountries.com/v3.1/name/${country}`);     // using an external api (rest countries api).
-        console.log(response.ok);
-        // response not came, country won't exist
-        if(!response.ok){
-            return false;
+
+async function validate_phoneNumber(phone) {
+    const phone_error_div = document.getElementById('phone-error-div');
+    const phone_input = document.getElementById('signup-input-phone');
+
+    // sending a separate post request to check whether the user with this email already exists ?
+    try {
+        if (phone) {
+            const response = await fetch('/TruLotParking/signup/validate-phone', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ phone: phone }) 
+            })
+    
+            const data = await response.json();    // parsing resp to json(human readable)
+
+            if(!data.success){
+                phone_error_div.innerHTML = 'Invalid Phone number in India.';
+                phone_input.style.border = '0.6px solid red';
+                return false;
+            }
+            return true;
         }
-        return true;   // country exists
     }catch(e){
-        return {message : 'cannot fetch, check_country_error'};
+        console.log(e);
+        phone_error_div.innerHTML = 'Server error !';
+        return false;
     }
 }
 
-async function validateForm(event) {
-    event.preventDefault();       
+
+const verifyBtn = document.getElementById('verify-email-btn');
+verifyBtn.addEventListener('click', async (event) => {
+    if(event.target.type == 'submit'){
+        return true;
+    }
+    const username_input = document.getElementById('signup-input-username');
+    const email_input = document.getElementById('signup-input-email');
+    const phone_input = document.getElementById('signup-input-phone');
+    const password_input = document.getElementById('signup-input-password');
+
+    const username = username_input.value;
+    const password = password_input.value;
+    const email = email_input.value;
+    const phone = phone_input.value;
+    
+    const email_error_div = document.getElementById('email-error-div');
+    const password_error_div = document.getElementById('password-error-div');
+    const phone_error_div = document.getElementById('phone-error-div');
+    const username_error_div = document.getElementById('username-error-div');
+
     const loader = document.getElementById('loader');
     loader.style.display = 'flex';
 
-    const usernameInput = document.getElementById('signup-input-username');
-    const passwordInput = document.getElementById('signup-input-password');
-    const emailInput = document.getElementById('signup-input-email');
-    const countryInput = document.getElementById('signup-input-country');
-
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value.trim();
-    const email = emailInput.value.trim();
-    const country = countryInput.value.trim();
-
-    const username_error_div = document.getElementById('username-error-div');
-    const password_error_div = document.getElementById('password-error-div');
-    const email_error_div = document.getElementById('email-error-div');
-    const country_error_div = document.getElementById('country-error-div');
-
-
-    usernameInput.addEventListener('focus', () => {
-        username_error_div.innerHTML = '';
-        usernameInput.style.border = '';
-    });
-
-    passwordInput.addEventListener('focus', () => {
-        password_error_div.innerHTML = '';
-        passwordInput.style.border = '';
-    });
-
-    emailInput.addEventListener('focus', () => {
-        email_error_div.innerHTML = '';
-        emailInput.style.border = '';
-    });
-    
-    countryInput.addEventListener('focus', () => {
-        country_error_div.innerHTML = '';
-        countryInput.style.border = '';
-    });
-
-    
-    // Validating form
     if(username == ''){
-        username_error_div.innerHTML = 'username field is required';
-        usernameInput.style.border = '0.6px solid red';
+        username_error_div.innerHTML = 'Username field is required';
+        username_input = '0.6px solid red';
         loader.style.display = 'none';
         return false;
-    }else if(username.length > 15 || username.length < 5){
-        username_error_div.innerHTML = 'username exceeds limit of 15 characters';
-        usernameInput.style.border = '0.6px solid red';
+    }else if(username < 3 || username > 25){
+        username_error_div.innerHTML = 'Username should be within 3-25 characters';
+        username_input = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else{
@@ -133,17 +133,17 @@ async function validateForm(event) {
 
     if (password == ''){
         password_error_div.innerHTML = 'password field is required';
-        passwordInput.style.border = '0.6px solid red';
+        password_input.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
-    }else if(password.length < 8 || password.length > 15){
-        password_error_div.innerHTML = 'password should be of 8-15 characters.';
-        passwordInput.style.border = '0.6px solid red';
+    }else if(password.length < 5 || password.length > 15){
+        password_error_div.innerHTML = 'password should be of 6-15 characters.';
+        password_input.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else if(!(/[!@#$%^&*(),.?":{}|<>]/.test(password) && /[A-Z]/.test(password))){
         password_error_div.innerHTML = 'Incorrect password Format.';
-        passwordInput.style.border = '0.6px solid red';
+        password_input.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else{
@@ -153,51 +153,141 @@ async function validateForm(event) {
 
     if(email == ''){
         email_error_div.innerHTML = 'email field is required';
-        emailInput.style.border = '0.6px solid red';
+        email_input.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else if(email.length > 40 || email.length < 11){
         email_error_div.innerHTML = 'email format is incorrect';
-        emailInput.style.border = '0.6px solid red';
+        email_input.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
-    }else if((!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ds\.study\.iitm\.ac\.in)$/.test(email))){     // from frontend only supporting three types of email. (can new free api to allow every email after verify their addresses using api)
+    }else if((!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ds\.study\.iitm\.ac\.in)$/.test(email))){
         email_error_div.innerHTML = 'format of email is invalid, check it.';
-        emailInput.style.border = '0.6px solid red';
+        email_input.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else{
         email_error_div.innerHTML = '';
     }
-    
 
-    if(country == ''){
-        country_error_div.innerHTML = 'country field is required.';
-        countryInput.style.border = '0.6px solid red';
+
+    if(phone == ''){
+        phone_error_div.innerHTML = 'Your phone number is required';
+        phone_input = '0.6px solid red';
         loader.style.display = 'none';
         return false;
-    }else if(country.length > 20 || country.length < 2){
-        country_error_div.innerHTML = 'country name is invalid.';
-        countryInput.style.border = '0.6px solid red';
-        loader.style.display = 'none';
-        return false;
-    }
-    
-
-    const res = await check_country_exists(country);
-    if(!res){
-        country_error_div.innerHTML = 'Country with this name does not exist.';
-        countryInput.style.border = '0.6px solid red';
+    }else if(!/^\d{10}$/.test(phone)){
+        phone_error_div.innerHTML = 'Your phone number is required';
+        phone_input = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }
 
-    // if inputs are valid then only we reach here to check is there is any duplicate user...
-    const result = await unique_user_check(email);
-    if(!result){
+    await new Promise(resolve => setTimeout(resolve, 100));
+    const resp = await unique_user_check(email);
+    if(!resp){
         loader.style.display = 'none';
         return false;
     }
     
-    document.getElementById('signup-form').submit();  // Manually submit the form, loader disappear due to reload...
-}
+    await new Promise(resolve => setTimeout(resolve, 100));
+    const resp2 = await validate_phoneNumber(phone);     // doing frontend check => to avoid page reload if validate it using server hitting directly, cause otp logic to run again.
+    if(!resp2){
+        loader.style.display = 'none';
+        return false;
+    }
+
+    const payload = { username, email, phone, password };
+
+    const res = await fetch('/signup/emailVerification/requestOtp', {              // request OTP
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+    
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const data = await res.json();
+    if (data.success) {
+        sessionStorage.setItem('otpFailCount', '0');
+        sessionStorage.setItem('formData', JSON.stringify(payload));
+        loader.style.display = 'none';
+        alert(data.message);
+
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('requestOtp_form').style.display = 'block';
+        enableOtpSectionFeatures();
+    } else {
+        loader.style.display = 'none';
+        alert(data.message);
+    }
+});
+
+
+// requestOtp form
+const requestOtp_btn = document.getElementById('requestOtp_btn');
+
+requestOtp_btn.addEventListener('click', async () => {
+    requestOtp_btn.disabled = true;
+
+    const otpInputs = document.querySelectorAll('.otp-value');
+    const otp = Array.from(otpInputs).map(i => i.value).join('');
+
+    if (!/^\d{4}$/.test(otp)) {
+        alert('Enter a valid 4-digit OTP....');
+        requestOtp_btn.disabled = false;
+        loader.style.display = 'none';
+        return false;
+    }
+
+    const formData = JSON.parse(sessionStorage.getItem('formData'));
+    const email = formData.email;
+
+    const res = await fetch('/signup/emailVerification/verifyOtp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp })
+    });
+    await new Promise(resolve => setTimeout(resolve, 500));     // sleep the code, setTimeout stops itself for a while, but sleep stops everything..
+
+    const data = await res.json();
+    if (data.success) {
+        alert(data.message);
+        document.getElementById('signup-input-username').value = formData.username;
+        document.getElementById('signup-input-email').value = formData.email;
+        document.getElementById('signup-input-password').value = formData.password;
+        document.getElementById('signup-input-phone').value = formData.phone;
+
+        verifyBtn.innerText = "Create Account";
+        verifyBtn.type = "submit";
+
+        sessionStorage.removeItem('formData');
+        document.getElementById('signup-form').style.display = 'block';
+        document.getElementById('requestOtp_form').style.display = 'none';
+
+        document.getElementById('success-toast').style.visibility = 'visible';
+    } else {
+        requestOtp_btn.disabled = false;
+        let failedAttempts = Number(sessionStorage.getItem('otpFailCount') || '0');   // get curr count from localstorage and if it is first attempt then initialise to 0
+        failedAttempts += 1;
+
+        if(failedAttempts <= 2){
+            alert(data.error);
+        }
+        sessionStorage.setItem('otpFailCount', failedAttempts);
+
+        if (failedAttempts > 2) {
+            alert('Email Validation Failed, please check your email...');
+            document.getElementById('signup-input-username').value = formData.username;
+            document.getElementById('signup-input-email').value = formData.email;
+            document.getElementById('signup-input-password').value = formData.password;
+            document.getElementById('signup-input-phone').value = formData.phone;
+            otpInputs.forEach(input => input.value = '');
+
+            sessionStorage.removeItem('formData');
+            sessionStorage.removeItem('otpFailCount');
+            document.getElementById('signup-form').style.display = 'block';
+            document.getElementById('requestOtp_form').style.display = 'none';
+        }
+    }
+});
+

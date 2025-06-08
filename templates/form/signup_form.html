@@ -8,20 +8,7 @@
     
     <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/form_css/signup.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <style>
-        #signup-form {
-          opacity: 0;
-          transform: translateY(20px);
-          transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        #signup-form.animate-in {
-          opacity: 1;
-          transform: translateY(0);
-        }
-    </style>
-    
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/form_css/requestOtp.css')}}">
 </head>
 <body>
     <!-- id to form and input box are used in styling -->
@@ -30,9 +17,12 @@
     <!-- value = {{ variable }} is used to preserve the old values user puts -->
 
     <form action="/TruLotParking/role/userDashboard" method="POST" id="signup-form" onsubmit="return validateForm(event)">
-      <div class="cross">
-        <a href="/TruLotParking"><i class="fa-solid fa-house fa-lg"></i></a>
+      <div class="cross"><a href="/TruLotParking"><i class="fa-solid fa-house fa-xl"></i></a></div>
+
+      <div id="success-toast" style="visibility:hidden; max-width: 480px; background-color:#d4edda; color:#155724; text-align: center; padding:2px; margin-left:4.5rem; margin-bottom:6px; border:1px solid #c3e6cb; border-radius:5px;">
+          ✅ Email verified! You can now signup and create your account.
       </div>
+
       <div class="signup-heading comic-neue-regular">
         <h1>Create Your Account on TruLot</h1>
       </div>
@@ -50,47 +40,68 @@
           <div class="username-container">
             <div class="label-container">
               <label for="signup-input-username" class="label">Set Your Username : </label>
-              <div class="star-marked">*</div>
             </div>
-            <input type="text" placeholder="enter your username...." id='signup-input-username' name="username" value="{{username}}">
+            <input type="text" placeholder="enter your username...." id='signup-input-username' name="username" value="{{form_data.get('username', '')}}">
           </div>
           <div id="username-error-div"></div><br>
 
           <div class="password-container">
-            <div class="label-container-password">
+            <div class="label-container password-label-container">
               <label for="signup-input-password" class="label">Set Your Password :</label>
-              <div class="star-marked">*</div>
             </div>
             <div class="password-wrapper">
-              <input type="password" placeholder="enter your password....." id='signup-input-password' name="password" value="{{password}}">
+              <input type="password" placeholder="enter your password....." id='signup-input-password' name="password">
               <div id="toggle-password-div"><i id='eye-icon' class="fa-solid fa-eye-slash fa-md"></i></div>
             </div>
           </div>
           <div id="password-error-div" class="label"></div><br>
 
           <div class="email-container">
-            <div class="label-container">
-              <label for="signup-input-email" class="label">Type Your email :</label>
-              <div class="star-marked">*</div>
+            <div class="label-container email-label-container">
+              <label for="signup-input-email" class="label">Type Your Email :</label>
             </div>
-            <input type="email" placeholder="enter your email...." id='signup-input-email' name="email" value="{{email}}"><br>
+            <input type="email" placeholder="enter your email...." id='signup-input-email' name="email" value="{{form_data.get('email','')}}">
           </div>
           <div id="email-error-div"></div><br>
           
-          <div class="country-container">
+          <div class="phone-container">
             <div class="label-container">
-              <label for="signup-input-country" class="label">Select Your Country:</label>
-              <div class="star-marked">*</div>
+              <label for="signup-input-phone" class="label">Your Phone Number :</label>
             </div>
-            <input type='text' id="signup-input-country" name="country" placeholder="type your country name...">
+            <input type='text' id="signup-input-phone" name="phone" placeholder="type your phone number " value="{{form_data.get('phone','')}}">
+            <div id="phone-error-div"></div><br>
           </div>
-          <div id="country-error-div"></div><br>
         </div>
       </div>
       
       <div class="signup-div">
-        <button type='submit' id="signup-button">Sign-up</button>
+        <button type='button' id="verify-email-btn" class="comic-neue-regular signup-btn">Verify Email</button>
       </div>
+    </form>
+
+    <form id="requestOtp_form" style="display: none;">
+        <div id="error-toast" style= "max-width: 400px; max-width:300px; background-color:#f8d7da; color:#721c24; text-align: center; padding: 2px; margin-top:1rem; margin-left: 3.75rem; border: 1px solid #f5c6cb; border-radius: 5px;">
+          Please do not refresh the page.
+        </div>
+
+        <div class="request-otp-heading">
+            <h1 class="comic-neue-regular">Email Verification</h1>
+        </div>
+        <div id="otp-section">
+            <div class="otp-label">
+                <label for="otp-box">Enter your OTP :</label>
+            </div>
+            <div id="otp-box">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+            </div>
+        </div>
+
+        <div class="btn-div">
+            <button id="requestOtp_btn" type='button' class="comic-neue-regular">Request OTP</button>
+        </div>
     </form>
 
     <div class="bubble-container">
@@ -104,16 +115,7 @@
     {% include 'components/loader.html' %}
 
 
-  <script src="{{ url_for('static', filename='JAVASCRIPT/signup_form_validation.js')}}"></script>
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('signup-form');
-    
-      setTimeout(() => {
-        form.classList.add('animate-in');    // add the animate in class after 100ms
-      }, 100); 
-    });
-</script>
-
+  <script type="module" src="{{ url_for('static', filename='JAVASCRIPT/signup_form_validation.js')}}"></script>
+  <script type="module" src="{{ url_for('static', filename='JAVASCRIPT/OtpPageFeatures.js') }}"></script>
 </body>
 </html>

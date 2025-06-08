@@ -8,19 +8,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/form_css/login.css')}}">
     <!-- cdn link for fonts and icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">    
-    <style>
-        #login-form {
-          opacity: 0;
-          transform: translateY(20px);
-          transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        #login-form.animate-in {
-          opacity: 1;
-          transform: translateY(0);
-        }
-    </style>      
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">     
 </head>
 <body>
     <!-- id to form and input box are used in styling -->
@@ -60,7 +48,6 @@
             <div class="username-container">
               <div class="label-container">
                 <label for="login-input-email">Enter Your Email Address:</label>
-                <div class="star-marked">*</div>
               </div>
               <input type="text" placeholder="enter your email...." id='login-input-email' name="email" value="{{email}}">
             </div>
@@ -70,7 +57,6 @@
           <div class="password-container">
             <div class="label-container-password">
               <label for="login-input-password">Enter Your Password:</label>
-              <div class="star-marked">*</div>
             </div>
             <div class="password-wrapper">
               <input type="password" placeholder="enter your password....." id='login-input-password' name="password" value="{{password}}">
@@ -86,7 +72,7 @@
       </div>
       
       <div class="forget-password comic-neue-regular">
-        <a href="/otpForm/requestOtp">Forget Password ?</a>
+        <a href="/TruLotParking/request-reset-password-form">Forget Password ?</a>
       </div>
     </form>
 
@@ -102,15 +88,5 @@
     {% include 'components/loader.html' %}
 
   <script src="{{ url_for('static', filename='JAVASCRIPT/login_form_validation.js')}}"></script>
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('login-form');
-    
-      setTimeout(() => {
-        form.classList.add('animate-in');    // add the animate in class after 100ms
-      }, 100); 
-    });
-  </script>
-
 </body>
 </html>

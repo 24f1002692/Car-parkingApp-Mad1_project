@@ -68,7 +68,6 @@
     <script>
         const body = document.getElementById('page-body');
         function fadeInBody() {
-            console.log('here')
             body.classList.remove('visible');
             void body.offsetWidth;                // force reflow to reset animation
             body.classList.add('visible');
@@ -77,5 +76,6 @@
         document.addEventListener('DOMContentLoaded', fadeInBody);
         window.addEventListener('pageshow', fadeInBody); 
     </script>
+    {% include 'components/loader.html' %}
 </body>
 </html>
