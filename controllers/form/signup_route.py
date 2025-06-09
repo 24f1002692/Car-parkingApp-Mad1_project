@@ -4,7 +4,8 @@ from flask import Blueprint, render_template, request, jsonify, make_response, r
 import sib_api_v3_sdk
 
 from db import db
-from models.user_model.user import User
+from redisClient import redis_client
+from models.user_model.user import User, EmailVerification
 from models.user_model.userSchema import SignupModel
 
 from controllers.form.generators import generate_jwt, decode_jwt
@@ -30,7 +31,7 @@ email_sender = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(co
 # routes
 @signup_bp.route('/signup/creatingUser')
 def signup_form():
-    form_data = session.pop('form_data', {})          # removes from session after retrieving
+    form_data = session.pop('form_data', {})       # removes from session when a fresh request came.
     return render_template('/form/signup_form.html', form_data=form_data)
 
 
@@ -67,12 +68,22 @@ def signup_form_submit():
 
     res = validate_phoneNumber(phone)
     if not res:
-        return jsonify({'success':False, 'error':'invalid phone number'})
+        return jsonify({'success':False, 'error':'invalid phone number'}), 400
     
     try:
+        user = User.query.filter_by(email=email).first()
+        if user:
+            return jsonify({'success':False, 'message':'User with this email already have an account, you can move to log in to your account'}), 200
+        
+        row = EmailVerification.query.filter_by(email=email).first()
+        if not row.isVerified:
+            return jsonify({'success': False, 'error':'Email id is not Verified'}), 400
+        
         user = User(name = username, password = password, email=email, phone=phone)
         db.session.add(user)
         db.session.commit()
+        
+        session.pop('form_data', None)
 
         #sign a jwt token as cookie for user
         token = generate_jwt(email, username)
@@ -135,6 +146,26 @@ def otpPage():
     
     if email :
         try:
+            otp_limit_key = email
+            otp_max_requests = 2
+            otp_limit_window = 3600
+
+            current_count = redis_client.get(otp_limit_key)
+            current_count = int(current_count) if current_count else 0
+
+            if current_count >= otp_max_requests:
+                return jsonify({'success': False, 'message': 'OTP request limit reached. Try again after few hours.'}), 429
+
+            pipe = redis_client.pipeline()    # Increment request count 
+            pipe.incr(otp_limit_key, 1)
+            if current_count == 0:
+                pipe.expire(otp_limit_key, otp_limit_window)   # set expiry if first time request came from a particular email after cooldown
+            pipe.execute()
+
+            record = EmailVerification.query.filter_by(email=email).first()
+            if record and record.isVerified:
+                return jsonify({'success':False, 'message':'Your Email is already Verified'}), 200
+            
             otp = random.randint(1000, 9999)     # 4-digit otp
             session[email] = {
                 'otp': otp,
@@ -183,6 +214,14 @@ def verifyOtp():
         return jsonify({'success': False, 'error': 'OTP has expired, please request a new one'}), 400
 
     if str(stored_otp_data.get('otp')) == str(otp_entered):
+        record = EmailVerification.query.filter_by(email=email).first()
+        if record:
+            record.isVerified = True
+        else:
+            record = EmailVerification(email=email, isVerified=True)
+            db.session.add(record)
+        db.session.commit()
+
         session.pop(email, None)
         return jsonify({'success': True, 'message': 'OTP verified successfully'}), 200
     else:

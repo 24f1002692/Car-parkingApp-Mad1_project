@@ -3,6 +3,7 @@ import os, time
 import sib_api_v3_sdk
 
 from db import db
+from redisClient import redis_client_2
 from flask import Blueprint, render_template, request, jsonify, flash, session, redirect, url_for, make_response
 
 from models.user_model.user import User, PasswordResetToken
@@ -92,9 +93,7 @@ def login_form_submit():
     except Exception as error:
         print(error)
         return render_template('/components/error_page.html', error='Internal server error (Database error)'), 500
-        # return jsonify({'success': False, 'error': 'Internal Server Error'}), 500
     
-
 
 @login_bp.route('/logout')
 def logout():
@@ -103,7 +102,7 @@ def logout():
     return response
 
 
-@login_bp.route('/reset/change-password', methods=['GET', 'POST'])
+@login_bp.route('/reset/change-password', methods=['GET', 'POST'])    # here user will submit forms, so render templates is better to show error to users.
 def reset_password_form():
     token = request.args.get('token')
     if request.method == 'POST':
@@ -113,7 +112,7 @@ def reset_password_form():
             
             token_record = PasswordResetToken.query.filter_by(token=token).first()
             if not token_record or token_record.used:
-                return render_template('/components/error_page.html', error='This link has already been used.'), 401
+                return render_template('/components/error_page.html', error='This link has already been used or expired.'), 401
 
             decoded = decode_jwt(token)
             if not decoded:
@@ -124,7 +123,14 @@ def reset_password_form():
 
             if not password:
                 return jsonify({'success': False, 'error': 'Password is required'}), 400
-
+            
+            if len(password) < 5 or len(password) > 15:
+                return jsonify({'success':False, 'error':'length of password must be between 5-15 string.'}), 400
+            if not re.search(r"[A-Z]", password):
+                return jsonify({'success':False, 'error':'password must include atleast one capital letter'}), 400
+            if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
+                return jsonify({'success':False, 'error':'password must include atleast one special letter'}), 400
+                
             user = User.query.filter_by(email=email).first()
             if user and user.role == 'user':
                 user.password = password
@@ -142,7 +148,7 @@ def reset_password_form():
     return render_template('/form/change_password.html', token=token)
 
 
-@login_bp.route('/request-reset-password-form', methods=['GET', 'POST'])
+@login_bp.route('/request-reset-password-form', methods=['GET', 'POST'])         # reset link can return json on all return (frontend fetch)
 def resetPasswordForm():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -152,6 +158,30 @@ def resetPasswordForm():
         
         if email :
             try:
+                record = User.query.filter_by(email=email).first()
+                if not record:
+                    return jsonify({'success':False, 'message':'No Accounts exists with this email'}), 403
+                
+                if record.role != 'user':
+                    return jsonify({'success': False, 'message': 'Password reset is only allowed for user accounts'}), 403
+                
+                reset_limit_key = email
+                reset_max_requests = 3
+                reset_limit_window = 3600
+
+                current_count = redis_client_2.get(reset_limit_key)
+                current_count = int(current_count) if current_count else 0
+
+                if current_count >= reset_max_requests:
+                    return jsonify({'success': False, 'message': 'OTP request limit reached. Try again after few hours.'}), 429
+
+                pipe = redis_client_2.pipeline()    # Increment request count 
+                pipe.incr(reset_limit_key, 1)
+                if current_count == 0:
+                    pipe.expire(reset_limit_key, reset_limit_window)   # set expiry if first time request came from a particular email after cooldown
+                pipe.execute()
+                
+                PasswordResetToken.query.filter_by(email=email, used=False).delete()   # remove old token if exists(destroy old tokens).
                 token = generate_jwt_email(email)
                 reset_token = PasswordResetToken(email=email, token=token)
                 db.session.add(reset_token)

@@ -219,6 +219,11 @@ verifyBtn.addEventListener('click', async (event) => {
     } else {
         loader.style.display = 'none';
         alert(data.message);
+        if(data.message == 'Your Email is already Verified'){
+            verifyBtn.innerText = "Create Account";
+            verifyBtn.type = "submit";
+            document.getElementById('success-toast').style.visibility = 'visible';
+        }
     }
 });
 
@@ -241,6 +246,8 @@ requestOtp_btn.addEventListener('click', async () => {
 
     const formData = JSON.parse(sessionStorage.getItem('formData'));
     const email = formData.email;
+    const loader = document.getElementById('loader');
+    loader.style.display = 'flex';
 
     const res = await fetch('/signup/emailVerification/verifyOtp', {
         method: 'POST',
@@ -251,6 +258,7 @@ requestOtp_btn.addEventListener('click', async () => {
 
     const data = await res.json();
     if (data.success) {
+        loader.style.display = 'none';
         alert(data.message);
         document.getElementById('signup-input-username').value = formData.username;
         document.getElementById('signup-input-email').value = formData.email;
@@ -266,6 +274,7 @@ requestOtp_btn.addEventListener('click', async () => {
 
         document.getElementById('success-toast').style.visibility = 'visible';
     } else {
+        loader.style.display = 'none';
         requestOtp_btn.disabled = false;
         let failedAttempts = Number(sessionStorage.getItem('otpFailCount') || '0');   // get curr count from localstorage and if it is first attempt then initialise to 0
         failedAttempts += 1;
