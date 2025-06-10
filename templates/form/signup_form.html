@@ -19,7 +19,7 @@
     <form action="/TruLotParking/role/userDashboard" method="POST" id="signup-form" onsubmit="return validateForm(event)">
       <div class="cross"><a href="/TruLotParking"><i class="fa-solid fa-house fa-xl"></i></a></div>
 
-      <div id="success-toast" style="visibility:hidden; max-width: 480px; background-color:#d4edda; color:#155724; text-align: center; padding:3px; margin-left:4.5rem; margin-bottom:6px; border:1px solid #c3e6cb; border-radius:5px;">
+      <div id="success-toast">
           ✅ Email verified! You can now signup and create your account.
       </div>
 
@@ -39,7 +39,7 @@
         <div class="subform">
           <div class="username-container">
             <div class="label-container">
-              <label for="signup-input-username" class="label">Set Your Username : </label>
+              <label for="signup-input-username" class="label">Set Your Username</label>
             </div>
             <input type="text" placeholder="enter your username...." id='signup-input-username' name="username" value="{{form_data.get('username', '')}}">
           </div>
@@ -47,7 +47,7 @@
 
           <div class="password-container">
             <div class="label-container password-label-container">
-              <label for="signup-input-password" class="label">Set Your Password :</label>
+              <label for="signup-input-password" class="label">Set Your Password</label>
             </div>
             <div class="password-wrapper">
               <input type="password" placeholder="enter your password....." id='signup-input-password' name="password">
@@ -58,7 +58,7 @@
 
           <div class="email-container">
             <div class="label-container email-label-container">
-              <label for="signup-input-email" class="label">Type Your Email :</label>
+              <label for="signup-input-email" class="label">Type Your Email</label>
             </div>
             <input type="email" placeholder="enter your email...." id='signup-input-email' name="email" value="{{form_data.get('email','')}}">
           </div>
@@ -66,7 +66,7 @@
           
           <div class="phone-container">
             <div class="label-container">
-              <label for="signup-input-phone" class="label">Your Phone Number :</label>
+              <label for="signup-input-phone" class="label">Your Phone Number</label>
             </div>
             <input type='text' id="signup-input-phone" name="phone" placeholder="type your phone number " value="{{form_data.get('phone','')}}">
             <div id="phone-error-div"></div><br>
@@ -80,7 +80,7 @@
     </form>
 
     <form id="requestOtp_form" style="display: none;">
-        <div id="error-toast" style= "max-width: 400px; max-width:300px; background-color:#f8d7da; color:#721c24; text-align: center; padding: 2px; margin-top:1rem; margin-left: 3.75rem; border: 1px solid #f5c6cb; border-radius: 5px;">
+        <div id="error-toast">
           Please do not refresh the page.
         </div>
 
@@ -113,8 +113,10 @@
         <div class="bubble"><p class="comic-neue-regular">Slot</p></div>
     </div>    
     {% include 'components/loader.html' %}
+    {% include 'components/alert.html' %}
 
 
+  <script src="{{ url_for('static', filename='/JAVASCRIPT/alert.js')}}"></script>
   <script type="module" src="{{ url_for('static', filename='JAVASCRIPT/signup_form_validation.js')}}"></script>
   <script type="module" src="{{ url_for('static', filename='JAVASCRIPT/OtpPageFeatures.js') }}"></script>
 </body>

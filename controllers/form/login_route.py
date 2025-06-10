@@ -172,7 +172,7 @@ def resetPasswordForm():
                 current_count = redis_client_2.get(reset_limit_key)
                 current_count = int(current_count) if current_count else 0
 
-                if current_count >= reset_max_requests:
+                if current_count > reset_max_requests:
                     return jsonify({'success': False, 'message': 'OTP request limit reached. Try again after few hours.'}), 429
 
                 pipe = redis_client_2.pipeline()    # Increment request count 

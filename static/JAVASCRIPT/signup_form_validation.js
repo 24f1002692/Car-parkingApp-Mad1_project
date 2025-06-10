@@ -28,6 +28,10 @@ async function unique_user_check(email) {
     const email_error_div = document.getElementById('email-error-div');
     const emailInput = document.getElementById('signup-input-email');
 
+    emailInput.addEventListener('focus', () => {
+        email_error_div.innerHTML = '';
+    });
+
     // sending a separate post request to check whether the user with this email already exists ?
     try {
         if (email) {
@@ -64,6 +68,10 @@ async function unique_user_check(email) {
 async function validate_phoneNumber(phone) {
     const phone_error_div = document.getElementById('phone-error-div');
     const phone_input = document.getElementById('signup-input-phone');
+
+    phone_input.addEventListener('focus', () => {
+        phone_error_div.innerHTML = '';
+    });
 
     // sending a separate post request to check whether the user with this email already exists ?
     try {
@@ -116,14 +124,34 @@ verifyBtn.addEventListener('click', async (event) => {
     const loader = document.getElementById('loader');
     loader.style.display = 'flex';
 
+    username_input.addEventListener('focus', () => {
+        username_input.style.border = '';
+        username_error_div.innerHTML = '';
+    })
+
+    email_input.addEventListener('focus', () => {
+        email_input.style.border = '';
+        email_error_div.innerHTML = '';
+    });
+
+    password_input.addEventListener('focus', () => {
+        password_input.style.border = '';
+        password_error_div.innerHTML = '';
+    });
+
+    phone_input.addEventListener('focus', () => {
+        phone_input.style.border = '';
+        phone_error_div.innerHTML = '';
+    })
+
     if(username == ''){
         username_error_div.innerHTML = 'Username field is required';
-        username_input = '0.6px solid red';
+        username_input.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else if(username < 3 || username > 25){
         username_error_div.innerHTML = 'Username should be within 3-25 characters';
-        username_input = '0.6px solid red';
+        username_input.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else{
@@ -173,12 +201,12 @@ verifyBtn.addEventListener('click', async (event) => {
 
     if(phone == ''){
         phone_error_div.innerHTML = 'Your phone number is required';
-        phone_input = '0.6px solid red';
+        phone_input.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else if(!/^\d{10}$/.test(phone)){
         phone_error_div.innerHTML = 'Your phone number is required';
-        phone_input = '0.6px solid red';
+        phone_input.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }
@@ -211,14 +239,14 @@ verifyBtn.addEventListener('click', async (event) => {
         sessionStorage.setItem('otpFailCount', '0');
         sessionStorage.setItem('formData', JSON.stringify(payload));
         loader.style.display = 'none';
-        alert(data.message);
+        customAlert(data.message);
 
         document.getElementById('signup-form').style.display = 'none';
         document.getElementById('requestOtp_form').style.display = 'block';
         enableOtpSectionFeatures();
     } else {
         loader.style.display = 'none';
-        alert(data.message);
+        customAlert(data.message);
         if(data.message == 'Your Email is already Verified'){
             verifyBtn.innerText = "Create Account";
             verifyBtn.type = "submit";
@@ -238,7 +266,7 @@ requestOtp_btn.addEventListener('click', async () => {
     const otp = Array.from(otpInputs).map(i => i.value).join('');
 
     if (!/^\d{4}$/.test(otp)) {
-        alert('Enter a valid 4-digit OTP....');
+        customAlert('Enter a valid 4-digit OTP....');
         requestOtp_btn.disabled = false;
         loader.style.display = 'none';
         return false;
@@ -259,7 +287,7 @@ requestOtp_btn.addEventListener('click', async () => {
     const data = await res.json();
     if (data.success) {
         loader.style.display = 'none';
-        alert(data.message);
+        customAlert(data.message);
         document.getElementById('signup-input-username').value = formData.username;
         document.getElementById('signup-input-email').value = formData.email;
         document.getElementById('signup-input-password').value = formData.password;
@@ -280,12 +308,12 @@ requestOtp_btn.addEventListener('click', async () => {
         failedAttempts += 1;
 
         if(failedAttempts <= 2){
-            alert(data.error);
+            customAlert(data.error);
         }
         sessionStorage.setItem('otpFailCount', failedAttempts);
 
         if (failedAttempts > 2) {
-            alert('Email Validation Failed, please check your email...');
+            customAlert('Email Validation Failed, please check your email...');
             document.getElementById('signup-input-username').value = formData.username;
             document.getElementById('signup-input-email').value = formData.email;
             document.getElementById('signup-input-password').value = formData.password;

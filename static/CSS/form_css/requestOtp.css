@@ -20,30 +20,16 @@ body{
     z-index: 2;
 }
 
-.notice-message{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#notice-message-div{
-    color: red;
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-}
-
-.request-cross{
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    padding-left: 0.4rem;
-    margin-left: 0.6rem;
-    margin-top: 1rem;
-}
-
-.request-cross a i{
-    color: var(--primary-color);
-    font-size: 1.4rem;
+#error-toast{
+    max-width:300px;
+    background-color:#f8d7da; 
+    color:#721c24;
+    text-align: center; 
+    padding: 2px; 
+    margin-top:1rem; 
+    margin-left: 3.75rem; 
+    border: 1px solid #f5c6cb; 
+    border-radius: 5px;
 }
 
 .request-otp-heading, .btn-div, .input-div, .error-message, #otp-box, .otp-label, .requestAgainOtpBtn-div{
@@ -79,7 +65,7 @@ textarea::placeholder {
 }
 
 
-#requestOtp_btn, .signup-btn{
+#requestOtp_btn{
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -96,7 +82,7 @@ textarea::placeholder {
     transition: all 0.3s ease;
 }
 
-#requestOtp_btn:hover, .signup-btn:hover{
+#requestOtp_btn:hover{
     background-color: var(--primary-color);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     transform: scale(1.1);
@@ -123,27 +109,49 @@ textarea::placeholder {
 
 /* -------------------------------------------------------- MEDIA QUERIES ----------------------------------------- */
 
-
-@media (max-width: 990px){
+@media (max-width: 1024px){
     #requestOtp_form{
-        height: 550px;
-        width: 550px;
-        margin-top: 12rem;
+        height: 400px;
+        width:450px;
+        margin-top: 8rem;
+    }
+
+    #error-toast{
+        margin-left: 4.75rem; 
     }
 }
 
 @media (max-width: 540px){
     #requestOtp_form{
-        height: 480px;
+        height: 375px;
         width: 400px;
         margin-top: 6rem;
+        padding-top: 2rem;
+    }
+
+    #error-toast{
+        margin-left: 3.25rem; 
+    }
+
+    .request-otp-heading h1{
+        margin: 0.75rem 0.5rem 0.5rem 0.5rem;
+        padding: 0.5rem 1rem;
+        margin-top: 1.5rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #333333;
     }
 }
 
 @media (max-width: 470px){
     #requestOtp_form{
+        height:360px;
         width: 310px;
-        margin-top: 8rem;
+        margin-top: 10rem;
+    }
+
+    #error-toast{
+        margin-left: 0rem; 
     }
 
     .bubble{
@@ -167,10 +175,19 @@ textarea::placeholder {
 }
 
 @media (max-width: 380px){
-     #requestOtp_form{
-        height: 440px;
+    #requestOtp_form{
+        height: 350px;
         width: 260px;
         margin-top: 6rem;
+    }
+
+    .request-otp-heading h1{
+        margin: 0.75rem 0.5rem 0.5rem 0.5rem;
+        padding: 0.5rem 1rem;
+        margin-top: 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #333333;
     }
 
     .requestAgainOtpBtn{

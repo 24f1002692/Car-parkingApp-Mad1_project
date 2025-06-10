@@ -25,12 +25,25 @@ body{
     height: 640px;
     width: 620px;
     margin-top: 1rem;
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
+    padding-top:1.5rem;
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 1rem; 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
     transition: all 0.3s ease-in-out;
     z-index: 2;
+}
+
+#success-toast{
+  visibility:hidden;
+  max-width: 480px;
+  background-color:#d4edda; 
+  color:#155724;
+  text-align: center;
+  padding:3px;
+  margin-left:4.5rem;
+  border:1px solid #c3e6cb;
+  border-radius:5px;
 }
 
 .signup-heading{
@@ -52,6 +65,7 @@ body{
 
 .cross a i{
   color: var(--primary-color);
+  font-size: 1.25rem !important;
 }
 
 h2{
@@ -102,31 +116,22 @@ h2{
   margin-bottom: 0.2rem;
 }
 
-.email-label-container{
-  gap:16rem;
-}
-
 .label-container .label{
   color: var(--label-notice-color);
   font-size: 0.9rem;
   margin-left: 1rem;
 }
 
-
 .username-container input, .email-container input, .phone-container input{
   padding: 0.5rem;
   padding-left: 1rem;
   border: 1px solid var(--label-notice-color);
   border-radius: 2rem;
-  width: 150%;
+  width: 155%;
 }
 
 .password-container{
-  width: 160%;
-}
-
-.password-container input{
-  width: 140%;
+  width: 165%;
 }
 
 .password-container input{
@@ -177,15 +182,23 @@ h2{
   align-items: start;
 }
 
-#signup-button{
-  height: 2.2rem;
-  width: 8rem;
+#verify-email-btn{
+  height: 2.4rem;
+  width: 9rem;
+  margin-top: 0.75rem;
   padding: 0.55rem;
   border:none;
   border-radius: 2rem;
   background-color: var(--primary-color);
   color: var(--tertiary-color);
   cursor: pointer;
+  font-size: 0.9rem;
+}
+
+#verify-email-btn:hover{
+    background-color: var(--primary-color);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: scale(0.95);
 }
 
 .flash-messages{
@@ -258,3 +271,308 @@ h2{
 
 /* ----------------------------------------------- MEDIA QUERIES ---------------------------------------------------- */
 
+@media (max-width:1280px) {
+  #signup-form {
+    height: 660px;
+    margin-top: 3rem;
+  }
+
+  #verify-email-btn{
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width:1024px){
+  #signup-form{
+    margin-top: 12rem;
+  }
+
+  .bubble-container {
+    height: 80vh;
+  }
+}
+
+@media (max-width:768px){
+  #signup-form{
+    margin-top: 8rem;
+  }
+
+  .bubble-container{
+    height: 90vh;
+  }
+
+  #verify-email-btn{
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width:540px){
+  #signup-form {
+    height: 590px;
+    width: 420px;
+    margin-top: 3rem;
+  }
+
+  h1{
+    font-size: 0.8rem;
+  }
+
+  .Notice-list li p {
+    font-size: 0.64rem;
+    line-height: 1.4;
+    font-weight: 400;
+  }
+
+  .Notice-list li {
+    padding: 0.5rem 1rem; 
+    margin-bottom: 0.25rem;
+  }
+
+  .subform-container{
+    height : 250px;
+    padding:0.5rem;
+    margin-top: 0.75rem;
+    padding-left: 4.5rem;
+  }
+
+  .label-container .label{
+    font-size: 0.75rem;
+    margin-left: 1rem;
+  }
+
+  .username-container input, .email-container input, .phone-container input{
+    padding: 0.375rem;
+    padding-left: 1rem;
+    border-radius: 1.5rem;
+    width: 130%;
+  }
+
+  #username-error-div, #password-error-div, #email-error-div, #phone-error-div{
+    font-size: 0.6rem;
+    letter-spacing: 0.5px;
+    padding-left: 0.5rem;
+    padding-top:0.75px;
+  }
+
+  .password-container{
+    width: 140%;
+  }
+
+  .password-container input{
+    width: 130%;
+    padding: 0.375rem;
+    padding-left: 1rem;
+    border-radius: 1.5rem;
+  }
+
+  .signup-div{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+  }
+
+  #verify-email-btn{
+    margin-top: 1rem;
+    height: 2rem;
+    padding: 0.4rem;
+    font-size: 0.75rem;
+  }
+}
+
+
+@media (max-width:431px){
+  #signup-form {
+    height: 620px;
+    width: 320px;
+    margin-top: 5rem;
+    padding-top: 1rem;
+  }
+
+  .cross i{
+    font-size: 1.25rem !important;
+  }
+
+  #success-toast{
+    visibility:hidden;
+    max-width: 480px;
+    margin-left:1rem;
+    margin-bottom:6px;
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+  }
+
+  .subform-container{
+    height : 240px;
+    padding:0.5rem;
+    margin-top: 1.25rem;
+    padding-left: 3rem;
+  }
+
+   .username-container input, .email-container input, .phone-container input{
+    padding-left: 1rem;
+    width: 180%;
+  }
+
+  #verify-email-btn{
+    height: 2rem;
+    width:6rem;
+    padding: 0.4rem;
+    font-size: 0.6rem;
+    margin-top: 1.5rem;
+  }
+
+  .password-container{
+    width: 200%;
+  }
+
+  .password-container input{
+    width: 190%;
+    padding: 0.375rem;
+    padding-left: 1rem;
+    border-radius: 1.5rem;
+  }
+}
+
+
+@media (max-width:391px){
+  .bubble{
+    display: none;
+  }
+
+  #signup-form {
+    height: 625px;
+    width: 310px;
+    margin-top: 3rem;
+    padding-left:1.75rem;
+    padding-right:1.75rem;
+  }
+
+  h1{
+    font-size: 0.65rem;
+    margin-top: 1rem;
+  }
+
+  .cross i{
+    font-size: 1.1rem !important;
+    margin: 0rem;
+  }
+
+  #success-toast{
+    visibility:hidden;
+    max-width: 290px;
+    margin-top: 14px;
+    margin-left: 0.75rem;
+    font-size: 0.6rem;
+    margin-bottom: 0rem;
+  }
+  
+  .subform-container{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height : 240px;
+    margin-top: 1.5rem;
+    padding-left: 0.25rem;
+    margin-left: 0.5rem;
+  }
+
+  .label-container .label{
+    font-size: 0.7rem;
+    margin-left: 1rem;
+  }
+
+   .username-container input, .email-container input, .phone-container input{
+    padding-left: 1rem;
+    width: 180%;
+  }
+
+  .password-container{
+    width: 200%;
+  }
+
+  .password-container input{
+    width: 185%;
+    padding: 0.375rem;
+    padding-left: 1rem;
+    border-radius: 1.5rem;
+  }
+
+  .password-wrapper{
+    gap:0.25rem;
+  }
+}
+
+@media(max-width:376px){
+   #username-error-div, #password-error-div, #email-error-div, #phone-error-div{
+    font-size: 0.5rem;
+    letter-spacing: 0.5px;
+    padding-left: 0.5rem;
+    padding-top:0.75px;
+  }
+
+  #signup-form{
+    height:610px;
+    width:290px;
+    margin-top: 1rem;
+  }
+
+  #verify-email-btn{
+    margin-top: 1.25rem;
+  }
+
+  .subform-container{
+    margin-left: 0.8rem;
+  }
+
+  .username-container input, .email-container input, .phone-container input{
+    padding-left: 1rem;
+    width: 195%;
+  }
+
+  .password-container{
+    width: 210%;
+  }
+
+  .password-container input{
+    width: 185%;
+  }
+
+}
+
+@media (max-width:360px){
+    #signup-form {
+      height: 625px;
+      width: 280px;
+    }
+
+  .subform-container{
+    margin-left: 0.8rem;
+  }
+
+  .username-container input, .email-container input, .phone-container input{
+    padding-left: 1rem;
+    width: 210%;
+  }
+
+  .password-container{
+    width: 230%;
+  }
+
+  .password-container input{
+    width: 195%;
+  }
+}
+
+
+@media (max-width:345px){
+  #signup-form{
+    height:640px;
+    width:270px;
+    margin-top: 6rem;
+    padding:1.5rem;
+  }
+
+  #verify-email-btn{
+    margin-top: 3rem;
+  }
+}

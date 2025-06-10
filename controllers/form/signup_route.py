@@ -146,14 +146,18 @@ def otpPage():
     
     if email :
         try:
+            record = EmailVerification.query.filter_by(email=email).first()
+            if record and record.isVerified:
+                return jsonify({'success':False, 'message':'Your Email is already Verified'}), 200
+            
             otp_limit_key = email
-            otp_max_requests = 2
+            otp_max_requests = 3
             otp_limit_window = 3600
 
             current_count = redis_client.get(otp_limit_key)
             current_count = int(current_count) if current_count else 0
 
-            if current_count >= otp_max_requests:
+            if current_count > otp_max_requests:
                 return jsonify({'success': False, 'message': 'OTP request limit reached. Try again after few hours.'}), 429
 
             pipe = redis_client.pipeline()    # Increment request count 
@@ -161,10 +165,6 @@ def otpPage():
             if current_count == 0:
                 pipe.expire(otp_limit_key, otp_limit_window)   # set expiry if first time request came from a particular email after cooldown
             pipe.execute()
-
-            record = EmailVerification.query.filter_by(email=email).first()
-            if record and record.isVerified:
-                return jsonify({'success':False, 'message':'Your Email is already Verified'}), 200
             
             otp = random.randint(1000, 9999)     # 4-digit otp
             session[email] = {
