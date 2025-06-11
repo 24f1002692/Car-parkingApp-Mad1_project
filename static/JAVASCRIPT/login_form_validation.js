@@ -46,17 +46,17 @@ async function validateForm(event) {
     
     // Validating form
     if(email == ''){
-        email_error_div.innerHTML = 'email field is required';
+        email_error_div.innerHTML = 'Email field is required';
         emailInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else if(email.length > 40 || email.length < 11){
-        email_error_div.innerHTML = 'email format is incorrect';
+        email_error_div.innerHTML = 'Email format is incorrect';
         emailInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else if((!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ds\.study\.iitm\.ac\.in)$/.test(email))){
-        email_error_div.innerHTML = 'format of email is invalid, check it.';
+        email_error_div.innerHTML = 'Format of Email is invalid, check it.';
         emailInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
@@ -66,17 +66,17 @@ async function validateForm(event) {
 
 
     if (password == ''){
-        password_error_div.innerHTML = 'password field is required';
+        password_error_div.innerHTML = 'Password field is required';
         passwordInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
-    }else if(password.length < 8 || password.length > 15){
-        password_error_div.innerHTML = 'password should be of 8-15 characters.';
+    }else if(password.length < 5 || password.length > 15){
+        password_error_div.innerHTML = 'Password should be of 5-15 character';
         passwordInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
     }else if(!(/[!@#$%^&*(),.?":{}|<>]/.test(password) && /[A-Z]/.test(password))){
-        password_error_div.innerHTML = 'Incorrect password Format.';
+        password_error_div.innerHTML = 'Password must have a Uppercase and a special character';
         passwordInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;

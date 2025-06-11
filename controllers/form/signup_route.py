@@ -5,12 +5,14 @@ import sib_api_v3_sdk
 
 from db import db
 from redisClient import redis_client
-from models.user_model.user import User, EmailVerification
+from models.user_model.user import User, EmailVerification, Address
 from models.user_model.userSchema import SignupModel
 
 from controllers.form.generators import generate_jwt, decode_jwt
 from controllers.middlewares.validate_form import validate_form
 from controllers.middlewares.validate_phone import validate_phoneNumber
+from controllers.middlewares.validate_address import geocode_opencage
+from controllers.admin.generateImages import generate_random_user_image_url
 
 
 # signup blueprint
@@ -57,31 +59,61 @@ def signup_form_submit():
     password = validated_data.password
     email = validated_data.email
     phone = validated_data.phone
+    address = validated_data.address
+    gender = validated_data.gender
+
+    print(validated_data)
     
     phone = '+91'+phone
 
     session['form_data'] = {
         'username': username,
         'email': email,
-        'phone': validated_data.phone
+        'phone': validated_data.phone,
+        'address': address
     }
 
     res = validate_phoneNumber(phone)
     if not res:
         return jsonify({'success':False, 'error':'invalid phone number'}), 400
     
+    res = geocode_opencage(address)
+    if not res:
+        return jsonify({'success': False, 'error':'More precise location needed'}), 400
+    
+    if not res.get('success'):
+        return jsonify({'success': False, 'error':'Location seems invalid'}), 400
+    
+    if res.get('confidence') < 7:
+        return jsonify({'success': False, 'error':'More precise location needed'}), 400
+    
+    components = res.get('components', {})
+    image = generate_random_user_image_url(gender)
+    
     try:
         user = User.query.filter_by(email=email).first()
         if user:
-            return jsonify({'success':False, 'message':'User with this email already have an account, you can move to log in to your account'}), 200
+            return jsonify({'success':False, 'message':'User with this email already have an account, you can move to log in to your account'}), 409
         
         row = EmailVerification.query.filter_by(email=email).first()
-        if not row.isVerified:
+        if not row or not row.isVerified:
             return jsonify({'success': False, 'error':'Email id is not Verified'}), 400
         
-        user = User(name = username, password = password, email=email, phone=phone)
-        db.session.add(user)
-        db.session.commit()
+        try:
+            address_obj = Address(address=address, road=components.get('road'), subLocality=components.get('suburb') or components.get('neighbourhood') or '', pincode=components.get('postcode'), latitude=res.get('latitude'), longitude=res.get('longitude'))
+            db.session.add(address_obj)
+            db.session.flush()
+        except Exception as error:
+            print(error)
+            return render_template('/components/error_page.html', error='Internal Server Error (Database error)'), 401
+
+        try:
+            user = User(name = username, address_id = address_obj.address_id, password = password, email=email, phone=phone, image=image, gender=gender)
+            db.session.add(user)
+            db.session.commit()
+        except Exception as error:
+            print(error)
+            return render_template('/components/error_page.html', error='Internal Server Error (Database error)'), 401
         
         session.pop('form_data', None)
 
@@ -127,15 +159,49 @@ def check_phoneNumber():
     phone = data.get('phone')
     
     if not phone or not re.search(r'\d{10}', phone):
-        return jsonify({'error' : 'Invalid phone number'})
+        return jsonify({'error' : 'Invalid phone number'}), 400
     
     phone = '+91'+phone
     res = validate_phoneNumber(phone)
     if not res:
-        return jsonify({'success':False, 'error':'invalid phone number'}), 200
+        return jsonify({'success':False, 'error':'invalid phone number'}), 400
     
     return jsonify({'success':True}), 200
 
+
+
+@signup_bp.route('/signup/validate-address', methods=['POST'])
+def check_address():
+    data = request.get_json()
+    address = data.get('address')
+    print(address)
+    
+    if not address:
+        return jsonify({'success':False, 'error' : 'address is required'}), 400
+    
+    if len(address) > 300:
+        return jsonify({'success': False, 'error': 'Address is too long'}), 400
+    
+    res = geocode_opencage(address)
+    if not res:
+        return jsonify({'success':False, 'error':'More precised address needed'}), 400
+
+    if not res.get('success'):
+        return jsonify({'success':False, 'error':'Location seems invalid'}), 400
+    
+    if res.get('confidence') < 7:
+        return jsonify({'success': False, 'error':'More precised address needed'}), 400
+    
+    components = res.get('components', {})
+    country = components.get('country', '').lower()
+    
+    if country != 'india':
+        return jsonify({'success': False, 'error': "location isn't lying in india"}), 400
+    
+    return jsonify({'success':True}), 200
+
+
+# ---------------------------------------------------------------- REQUEST OTP AND VERIFY OTP ---------------------------------------------------
 
 @otpForm_bp.route('/requestOtp', methods=['POST'])
 def otpPage():

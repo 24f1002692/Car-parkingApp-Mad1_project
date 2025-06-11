@@ -22,11 +22,11 @@ body{
 }
 
 #signup-form {
-    height: 640px;
+    height: 660px;
     width: 620px;
-    margin-top: 1rem;
-    padding: 0.5rem 2rem;
-    padding-top:1.5rem;
+    margin-top: 0.5rem;
+    padding: 0.2rem 2rem;
+    padding-top:1rem;
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 1rem; 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
@@ -49,7 +49,7 @@ body{
 .signup-heading{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     font-size: 0.5rem;
     font-weight: 200;
     letter-spacing: 1.5px;
@@ -85,7 +85,6 @@ h2{
   background-color: var(--secondary-color);
   border-left: 2px solid var(--primary-color);
   padding: 0.7rem 1rem; 
-  margin-bottom: 0.5rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
@@ -101,19 +100,20 @@ h2{
 }
 
 .subform-container{
-  height : 270px;
+  height : 335px;
   padding:1rem;
-  margin-right: 9rem;
+  margin-right: 10.5rem;
   display: flex;
   justify-content: center;
   align-items: start;
+  margin-bottom: 1rem;
 }
 
 .label-container{
   display: flex;
   justify-content: start;
   align-items: end;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.1rem;
 }
 
 .label-container .label{
@@ -122,20 +122,20 @@ h2{
   margin-left: 1rem;
 }
 
-.username-container input, .email-container input, .phone-container input{
+.username-container input, .email-container input, .phone-container input, .address-container input{
   padding: 0.5rem;
   padding-left: 1rem;
   border: 1px solid var(--label-notice-color);
   border-radius: 2rem;
-  width: 155%;
-}
-
-.password-container{
   width: 165%;
 }
 
+.password-container{
+  width: 170%;
+}
+
 .password-container input{
-  width: 150%;
+  width: 160%;
   margin-right: 0.5rem;
   padding: 0.5rem;
   padding-left: 1rem;
@@ -143,7 +143,7 @@ h2{
   border-radius: 2rem;
 }
 
-.username-container input:focus, .password-container input:focus, .email-container input:focus, .phone-container input:focus{
+.username-container input:focus, .password-container input:focus, .email-container input:focus, .phone-container input:focus, .address-container input:focus{
   border: 1.5px solid var(--primary-color);
   outline: none;
 }
@@ -168,12 +168,14 @@ h2{
   cursor: pointer;
 }
 
-#username-error-div, #password-error-div, #email-error-div, #phone-error-div{
+#username-error-div, #password-error-div, #email-error-div, #phone-error-div, #address-error-div{
   color: red;
   font-size: 0.8rem;
   letter-spacing: 1px;
   padding-left: 1rem;
   padding-top:1px;
+  /* background-color: yellow; */
+  width: 140%;
 }
 
 .signup-div{
@@ -210,6 +212,44 @@ h2{
     text-align:center;
 }
 
+.gender-container{
+  display: flex;
+  justify-content: center;
+  align-items:  center;
+  margin-bottom: 0.4rem;
+  margin-left: 0.6rem;
+}
+
+.gender-container .label-container{
+  color: var(--label-notice-color);
+  font-size: 0.95rem;
+}
+
+.radio-btn{
+  display: inline-flex;
+  align-items: center;
+  margin-left: 1rem;
+  font-size: 16px;
+  color: #333;
+}
+
+.radio-btn label{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--label-notice-color);
+  font-size: 0.95rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.radio-btn label input{
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+
+
 .bubble-container {
     position: fixed;
     width: 100vw;
@@ -243,15 +283,15 @@ h2{
     }
     
     30% {
-        opacity: 0.7;
-    }
-
-    60%{
         opacity: 0.5;
     }
 
-    90%{
+    60%{
         opacity: 0.4;
+    }
+
+    90%{
+        opacity: 0.3;
     }
 
     100% {
@@ -308,9 +348,9 @@ h2{
 
 @media (max-width:540px){
   #signup-form {
-    height: 590px;
+    height: 630px;
     width: 420px;
-    margin-top: 3rem;
+    margin-top: 1.75rem;
   }
 
   h1{
@@ -329,10 +369,10 @@ h2{
   }
 
   .subform-container{
-    height : 250px;
+    height : 320px;
     padding:0.5rem;
     margin-top: 0.75rem;
-    padding-left: 4.5rem;
+    padding-left: 2.5rem;
   }
 
   .label-container .label{
@@ -340,27 +380,30 @@ h2{
     margin-left: 1rem;
   }
 
-  .username-container input, .email-container input, .phone-container input{
+  .username-container input, .email-container input, .phone-container input, .address-container input{
     padding: 0.375rem;
+    padding: 0.5rem;
     padding-left: 1rem;
     border-radius: 1.5rem;
-    width: 130%;
+    width: 140%;
   }
 
-  #username-error-div, #password-error-div, #email-error-div, #phone-error-div{
+  #username-error-div, #password-error-div, #email-error-div, #phone-error-div, #address-error-div{
     font-size: 0.6rem;
     letter-spacing: 0.5px;
-    padding-left: 0.5rem;
-    padding-top:0.75px;
+    padding-left: 0.9rem;
+    padding-top:0.6px;
+    font-weight: 400;
+    margin-bottom: 0rem;
   }
 
   .password-container{
-    width: 140%;
+    width: 150%;
   }
 
   .password-container input{
     width: 130%;
-    padding: 0.375rem;
+    padding: 0.5rem;
     padding-left: 1rem;
     border-radius: 1.5rem;
   }
@@ -372,17 +415,19 @@ h2{
   }
 
   #verify-email-btn{
-    margin-top: 1rem;
-    height: 2rem;
-    padding: 0.4rem;
+    margin-top: 1.75rem;
+    height: 2.3rem;
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
     font-size: 0.75rem;
+    margin-left: 1.25rem;
   }
 }
 
 
 @media (max-width:431px){
   #signup-form {
-    height: 620px;
+    height: 660px;
     width: 320px;
     margin-top: 5rem;
     padding-top: 1rem;
@@ -402,13 +447,13 @@ h2{
   }
 
   .subform-container{
-    height : 240px;
+    height : 310px;
     padding:0.5rem;
     margin-top: 1.25rem;
-    padding-left: 3rem;
+    padding-left: 2.25rem;
   }
 
-   .username-container input, .email-container input, .phone-container input{
+   .username-container input, .email-container input, .phone-container input, .address-container input{
     padding-left: 1rem;
     width: 180%;
   }
@@ -419,6 +464,7 @@ h2{
     padding: 0.4rem;
     font-size: 0.6rem;
     margin-top: 1.5rem;
+    margin-left: 0.5rem;
   }
 
   .password-container{
@@ -440,7 +486,7 @@ h2{
   }
 
   #signup-form {
-    height: 625px;
+    height: 645px;
     width: 310px;
     margin-top: 3rem;
     padding-left:1.75rem;
@@ -470,7 +516,7 @@ h2{
     display: flex;
     justify-content: center;
     align-items: start;
-    height : 240px;
+    height : 310px;
     margin-top: 1.5rem;
     padding-left: 0.25rem;
     margin-left: 0.5rem;
@@ -481,8 +527,9 @@ h2{
     margin-left: 1rem;
   }
 
-   .username-container input, .email-container input, .phone-container input{
+  .username-container input, .email-container input, .phone-container input, .address-container input{
     padding-left: 1rem;
+    padding: 0.4rem;
     width: 180%;
   }
 
@@ -503,7 +550,7 @@ h2{
 }
 
 @media(max-width:376px){
-   #username-error-div, #password-error-div, #email-error-div, #phone-error-div{
+   #username-error-div, #password-error-div, #email-error-div, #phone-error-div, #address-error-div{
     font-size: 0.5rem;
     letter-spacing: 0.5px;
     padding-left: 0.5rem;
@@ -518,13 +565,15 @@ h2{
 
   #verify-email-btn{
     margin-top: 1.25rem;
+
   }
 
   .subform-container{
     margin-left: 0.8rem;
+    height: 300px;
   }
 
-  .username-container input, .email-container input, .phone-container input{
+  .username-container input, .email-container input, .phone-container input, .address-container input{
     padding-left: 1rem;
     width: 195%;
   }
@@ -540,16 +589,12 @@ h2{
 }
 
 @media (max-width:360px){
-    #signup-form {
-      height: 625px;
-      width: 280px;
-    }
-
-  .subform-container{
-    margin-left: 0.8rem;
+  #signup-form {
+    height: 625px;
+    width: 280px;
   }
 
-  .username-container input, .email-container input, .phone-container input{
+  .username-container input, .email-container input, .phone-container input, .address-container input{
     padding-left: 1rem;
     width: 210%;
   }
@@ -566,10 +611,14 @@ h2{
 
 @media (max-width:345px){
   #signup-form{
-    height:640px;
+    height:660px;
     width:270px;
     margin-top: 6rem;
     padding:1.5rem;
+  }
+
+  .subform-container{
+    height: 315px;
   }
 
   #verify-email-btn{

@@ -101,6 +101,54 @@ async function validate_phoneNumber(phone) {
 }
 
 
+async function validate_address(address) {
+    const address_error_div = document.getElementById('address-error-div');
+    const address_input = document.getElementById('signup-input-address');
+
+    address_input.addEventListener('focus', () => {
+        address_error_div.innerHTML = '';
+    });
+
+    // sending a separate post request to check whether the user with this email already exists ?
+    try {
+        if (address) {
+            const response = await fetch('/TruLotParking/signup/validate-address', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ address: address }) 
+            })
+    
+            const data = await response.json();    // parsing resp to json(human readable)
+
+            if(!data.success){
+                address_error_div.innerHTML = data.error;
+                address_input.style.border = '0.6px solid red';
+                return false;
+            }
+            return true;
+        }
+    }catch(e){
+        console.log(e);
+        address_error_div.innerHTML = 'Server error !';
+        return false;
+    }
+}
+
+function validateGenderSelection() {
+    const genderOptions = document.querySelectorAll('input[name="gender"]');
+
+    for (let option of genderOptions) {
+        if (option.checked) {
+            return option.value; 
+        }
+    }
+
+    return null;  
+}
+
+
 const verifyBtn = document.getElementById('verify-email-btn');
 verifyBtn.addEventListener('click', async (event) => {
     if(event.target.type == 'submit'){
@@ -110,19 +158,21 @@ verifyBtn.addEventListener('click', async (event) => {
     const email_input = document.getElementById('signup-input-email');
     const phone_input = document.getElementById('signup-input-phone');
     const password_input = document.getElementById('signup-input-password');
+    const address_input = document.getElementById('signup-input-address');
 
     const username = username_input.value;
     const password = password_input.value;
     const email = email_input.value;
     const phone = phone_input.value;
+    const address = address_input.value;
     
     const email_error_div = document.getElementById('email-error-div');
     const password_error_div = document.getElementById('password-error-div');
     const phone_error_div = document.getElementById('phone-error-div');
     const username_error_div = document.getElementById('username-error-div');
+    const address_error_div = document.getElementById('address-error-div');
 
     const loader = document.getElementById('loader');
-    loader.style.display = 'flex';
 
     username_input.addEventListener('focus', () => {
         username_input.style.border = '';
@@ -142,17 +192,21 @@ verifyBtn.addEventListener('click', async (event) => {
     phone_input.addEventListener('focus', () => {
         phone_input.style.border = '';
         phone_error_div.innerHTML = '';
-    })
+    });
+
+    address_input.addEventListener('focus', () => {
+        address_input.style.border = '';
+        address_error_div.innerHTML = '';
+    });
+
 
     if(username == ''){
         username_error_div.innerHTML = 'Username field is required';
         username_input.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
-    }else if(username < 3 || username > 25){
-        username_error_div.innerHTML = 'Username should be within 3-25 characters';
+    }else if(username.length < 3 || username.length > 25){
+        username_error_div.innerHTML = 'Username must be of 3-25 letters';
         username_input.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else{
         username_error_div.innerHTML = '';
@@ -162,17 +216,14 @@ verifyBtn.addEventListener('click', async (event) => {
     if (password == ''){
         password_error_div.innerHTML = 'password field is required';
         password_input.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else if(password.length < 5 || password.length > 15){
-        password_error_div.innerHTML = 'password should be of 6-15 characters.';
+        password_error_div.innerHTML = 'Password must be of length 5-15';
         password_input.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else if(!(/[!@#$%^&*(),.?":{}|<>]/.test(password) && /[A-Z]/.test(password))){
-        password_error_div.innerHTML = 'Incorrect password Format.';
+        password_error_div.innerHTML = 'Format of password is invalid';
         password_input.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else{
         password_error_div.innerHTML = '';
@@ -180,19 +231,16 @@ verifyBtn.addEventListener('click', async (event) => {
 
 
     if(email == ''){
-        email_error_div.innerHTML = 'email field is required';
+        email_error_div.innerHTML = 'Email field is required';
         email_input.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
-    }else if(email.length > 40 || email.length < 11){
-        email_error_div.innerHTML = 'email format is incorrect';
+    }else if(email.length > 50 || email.length < 11){
+        email_error_div.innerHTML = 'Email format is incorrect';
         email_input.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else if((!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ds\.study\.iitm\.ac\.in)$/.test(email))){
-        email_error_div.innerHTML = 'format of email is invalid, check it.';
+        email_error_div.innerHTML = 'Format of email is invalid, check it.';
         email_input.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else{
         email_error_div.innerHTML = '';
@@ -200,32 +248,61 @@ verifyBtn.addEventListener('click', async (event) => {
 
 
     if(phone == ''){
-        phone_error_div.innerHTML = 'Your phone number is required';
+        phone_error_div.innerHTML = 'phone number is required';
         phone_input.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else if(!/^\d{10}$/.test(phone)){
-        phone_error_div.innerHTML = 'Your phone number is required';
+        phone_error_div.innerHTML = '10 digit phn number only';
         phone_input.style.border = '0.6px solid red';
+        return false;
+    }else{
+        phone_error_div.innerHTML = '';
+    }
+
+    if(address == ''){
+        address_error_div.innerHTML = 'Address field is required';
+        address_input.style.border = '0.6px solid red';
+        return false;
+    }else if(address.length < 30){
+        address_error_div.innerHTML = 'More precise address is required'
+        address_input.style.border = '0.6px solid red';
+        return false;
+    }else if(address.length > 300){
+        address_error_div.innerHTML = 'Address is very long';
+        address_input.style.border = '0.6px solid red';
+        return false;
+    }else{
+        address_error_div.innerHTML = '';
+    }
+
+    loader.style.display = 'flex';
+    const gender = validateGenderSelection();
+    if(!gender){
         loader.style.display = 'none';
+        customAlert("Please select your gender.");
         return false;
     }
 
-    await new Promise(resolve => setTimeout(resolve, 100));
     const resp = await unique_user_check(email);
     if(!resp){
         loader.style.display = 'none';
         return false;
     }
-    
-    await new Promise(resolve => setTimeout(resolve, 100));
+
     const resp2 = await validate_phoneNumber(phone);     // doing frontend check => to avoid page reload if validate it using server hitting directly, cause otp logic to run again.
     if(!resp2){
         loader.style.display = 'none';
         return false;
     }
 
-    const payload = { username, email, phone, password };
+    const resp3 = await validate_address(address);
+    if(!resp3){
+        loader.style.display = 'none';
+        return false;
+    }
+
+
+    const payload = {username, password, email, phone, address, gender};
 
     const res = await fetch('/signup/emailVerification/requestOtp', {              // request OTP
         method: 'POST',
@@ -233,7 +310,6 @@ verifyBtn.addEventListener('click', async (event) => {
         body: JSON.stringify(payload)
     });
     
-    await new Promise(resolve => setTimeout(resolve, 500));
     const data = await res.json();
     if (data.success) {
         sessionStorage.setItem('otpFailCount', '0');
@@ -257,7 +333,7 @@ verifyBtn.addEventListener('click', async (event) => {
 
 
 // requestOtp form
-const requestOtp_btn = document.getElementById('requestOtp_btn');
+const requestOtp_btn = document.getElementById('requestOtp_btn');   // submit otp button 
 
 requestOtp_btn.addEventListener('click', async () => {
     requestOtp_btn.disabled = true;

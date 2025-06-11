@@ -26,12 +26,12 @@
       <div class="signup-heading comic-neue-regular">
         <h1>Create Your Account on TruLot</h1>
       </div>
-      
+
       <div>
         <h2>Important</h2>
         <ul class="Notice-list">
-          <li><p class="comic-neue-regular">Username: max 15 characters and Password: 8 to 15 characters.</p></li>
-          <li><p class="comic-neue-regular">password can have alphabets and digits (but must contain a Uppercase and a special character).</p></li>
+          <!-- <li><p class="comic-neue-regular">Username: max 15 characters and Password: 8 to 15 characters.</p></li> -->
+          <li><p class="comic-neue-regular">password must contain a Uppercase and a special character and address should be precised.</p></li>
         </ul>
       </div>
       
@@ -41,7 +41,7 @@
             <div class="label-container">
               <label for="signup-input-username" class="label">Set Your Username</label>
             </div>
-            <input type="text" placeholder="enter your username...." id='signup-input-username' name="username" value="{{form_data.get('username', '')}}">
+            <input type="text" placeholder="please enter your username...." id='signup-input-username' name="username" value="{{form_data.get('username', '')}}">
           </div>
           <div id="username-error-div"></div><br>
 
@@ -50,7 +50,7 @@
               <label for="signup-input-password" class="label">Set Your Password</label>
             </div>
             <div class="password-wrapper">
-              <input type="password" placeholder="enter your password....." id='signup-input-password' name="password">
+              <input type="password" placeholder="please set your password....." id='signup-input-password' name="password">
               <div id="toggle-password-div"><i id='eye-icon' class="fa-solid fa-eye-slash fa-md"></i></div>
             </div>
           </div>
@@ -60,7 +60,7 @@
             <div class="label-container email-label-container">
               <label for="signup-input-email" class="label">Type Your Email</label>
             </div>
-            <input type="email" placeholder="enter your email...." id='signup-input-email' name="email" value="{{form_data.get('email','')}}">
+            <input type="email" placeholder="please enter your email...." id='signup-input-email' name="email" value="{{form_data.get('email','')}}">
           </div>
           <div id="email-error-div"></div><br>
           
@@ -68,9 +68,31 @@
             <div class="label-container">
               <label for="signup-input-phone" class="label">Your Phone Number</label>
             </div>
-            <input type='text' id="signup-input-phone" name="phone" placeholder="type your phone number " value="{{form_data.get('phone','')}}">
+            <input type='text' id="signup-input-phone" name="phone" placeholder="please type your phone number " value="{{form_data.get('phone','')}}">
             <div id="phone-error-div"></div><br>
           </div>
+
+          <div class="address-container">
+            <div class="label-container">
+              <label for="signup-input-address" class="label">Type Your Address</label>
+            </div>
+            <input type='text' id="signup-input-address" name="address" placeholder="please type your complete address " value="{{form_data.get('address','')}}">
+            <div id="address-error-div"></div><br>
+          </div>
+        </div>
+      </div>
+
+      <div class="gender-container">
+        <div class="label-container">Select Your Gender</div>
+        <div class="radio-btn">
+          <label>
+            <input type="radio" name="gender" value="Male" class="gender">
+            Male
+          </label>
+          <label>
+            <input type="radio" name="gender" value="Female" class="gender">
+            Female
+          </label>
         </div>
       </div>
       

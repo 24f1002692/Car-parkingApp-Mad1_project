@@ -6,6 +6,8 @@ class SignupModel(BaseModel):
     password: str
     email: EmailStr
     phone: str
+    address: str
+    gender: str
 
     @validator('username')
     def validate_username(cls, v):    # cls similar to self
@@ -43,6 +45,23 @@ class SignupModel(BaseModel):
             raise ValueError("Phone number cannot be empty")
         if not re.fullmatch(r'^\d{10}$', v):
             raise ValueError("Phone number must contain only 10 digits")
+        return v
+    
+    @validator('address')
+    def validate_address(cls, v):
+        if not v.strip():
+            raise ValueError("Address cannot be empty")
+        if len(v) > 300:
+            raise ValueError("Address is too long")
+        return v
+    
+    @validator('gender')
+    def validate_gender(cls, v):
+        if not v.strip():
+            raise ValueError('gender is required')
+        if v not in ['Male', 'Female']:
+            raise ValueError("Please specify your gender")
+        
         return v
 
 
