@@ -19,9 +19,10 @@ class Lot(db.Model):
     lot_name = db.Column(db.String(40), nullable=False)
     description = db.Column(db.String(220), nullable=False)
     price_per_hr = db.Column(db.Integer, nullable=False, default=150)
+    timing = db.Column(db.String(80), nullable=False)
 
-    capacity = db.Column(db.Integer, nullable=False, default=40)       # if admin sets the max capacity => then i pass that to both capacity and available spots
-    available_spots = db.Column(db.Integer, nullable=False, default=40)
+    capacity = db.Column(db.Integer, nullable=False, default=100)       # if admin sets the max capacity => then i pass that to both capacity and available spots
+    available_spots = db.Column(db.Integer, nullable=False, default=100)
     rating = db.Column(db.Float, nullable=False)       # will give it a random rating while object creation in request handler 
     image_url = db.Column(db.String(255), nullable=False)
 

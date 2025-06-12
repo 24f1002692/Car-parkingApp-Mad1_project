@@ -65,45 +65,44 @@ async function unique_user_check(email) {
 }
 
 
-async function validate_phoneNumber(phone) {
-    const phone_error_div = document.getElementById('phone-error-div');
-    const phone_input = document.getElementById('signup-input-phone');
+// async function validate_phoneNumber(phone) {
+//     const phone_error_div = document.getElementById('phone-error-div');
+//     const phone_input = document.getElementById('signup-input-phone');
 
-    phone_input.addEventListener('focus', () => {
-        phone_error_div.innerHTML = '';
-    });
+//     phone_input.addEventListener('focus', () => {
+//         phone_error_div.innerHTML = '';
+//     });
 
-    // sending a separate post request to check whether the user with this email already exists ?
-    try {
-        if (phone) {
-            const response = await fetch('/TruLotParking/signup/validate-phone', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ phone: phone }) 
-            })
+//     // sending a separate post request to check whether the user with this email already exists ?
+//     try {
+//         if (phone) {
+//             const response = await fetch('/TruLotParking/signup/validate-phone', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify({ phone: phone }) 
+//             })
     
-            const data = await response.json();    // parsing resp to json(human readable)
+//             const data = await response.json();    // parsing resp to json(human readable)
 
-            if(!data.success){
-                phone_error_div.innerHTML = 'Invalid Phone number in India.';
-                phone_input.style.border = '0.6px solid red';
-                return false;
-            }
-            return true;
-        }
-    }catch(e){
-        console.log(e);
-        phone_error_div.innerHTML = 'Server error !';
-        return false;
-    }
-}
-
+//             if(!data.success){
+//                 phone_error_div.innerHTML = 'Invalid Phone number in India.';
+//                 phone_input.style.border = '0.6px solid red';
+//                 return false;
+//             }
+//             return true;
+//         }
+//     }catch(e){
+//         console.log(e);
+//         phone_error_div.innerHTML = 'Server error !';
+//         return false;
+//     }
+// }
 
 async function validate_address(address) {
     const address_error_div = document.getElementById('address-error-div');
-    const address_input = document.getElementById('signup-input-address');
+    const address_input = document.getElementById('signup-textarea-address');
 
     address_input.addEventListener('focus', () => {
         address_error_div.innerHTML = '';
@@ -156,19 +155,16 @@ verifyBtn.addEventListener('click', async (event) => {
     }
     const username_input = document.getElementById('signup-input-username');
     const email_input = document.getElementById('signup-input-email');
-    const phone_input = document.getElementById('signup-input-phone');
     const password_input = document.getElementById('signup-input-password');
-    const address_input = document.getElementById('signup-input-address');
+    const address_input = document.getElementById('signup-textarea-address');
 
     const username = username_input.value;
     const password = password_input.value;
     const email = email_input.value;
-    const phone = phone_input.value;
     const address = address_input.value;
     
     const email_error_div = document.getElementById('email-error-div');
     const password_error_div = document.getElementById('password-error-div');
-    const phone_error_div = document.getElementById('phone-error-div');
     const username_error_div = document.getElementById('username-error-div');
     const address_error_div = document.getElementById('address-error-div');
 
@@ -187,11 +183,6 @@ verifyBtn.addEventListener('click', async (event) => {
     password_input.addEventListener('focus', () => {
         password_input.style.border = '';
         password_error_div.innerHTML = '';
-    });
-
-    phone_input.addEventListener('focus', () => {
-        phone_input.style.border = '';
-        phone_error_div.innerHTML = '';
     });
 
     address_input.addEventListener('focus', () => {
@@ -246,19 +237,6 @@ verifyBtn.addEventListener('click', async (event) => {
         email_error_div.innerHTML = '';
     }
 
-
-    if(phone == ''){
-        phone_error_div.innerHTML = 'phone number is required';
-        phone_input.style.border = '0.6px solid red';
-        return false;
-    }else if(!/^\d{10}$/.test(phone)){
-        phone_error_div.innerHTML = '10 digit phn number only';
-        phone_input.style.border = '0.6px solid red';
-        return false;
-    }else{
-        phone_error_div.innerHTML = '';
-    }
-
     if(address == ''){
         address_error_div.innerHTML = 'Address field is required';
         address_input.style.border = '0.6px solid red';
@@ -289,20 +267,13 @@ verifyBtn.addEventListener('click', async (event) => {
         return false;
     }
 
-    const resp2 = await validate_phoneNumber(phone);     // doing frontend check => to avoid page reload if validate it using server hitting directly, cause otp logic to run again.
-    if(!resp2){
-        loader.style.display = 'none';
-        return false;
-    }
-
     const resp3 = await validate_address(address);
     if(!resp3){
         loader.style.display = 'none';
         return false;
     }
 
-
-    const payload = {username, password, email, phone, address, gender};
+    const payload = {username, password, email, address, gender};
 
     const res = await fetch('/signup/emailVerification/requestOtp', {              // request OTP
         method: 'POST',
@@ -367,7 +338,7 @@ requestOtp_btn.addEventListener('click', async () => {
         document.getElementById('signup-input-username').value = formData.username;
         document.getElementById('signup-input-email').value = formData.email;
         document.getElementById('signup-input-password').value = formData.password;
-        document.getElementById('signup-input-phone').value = formData.phone;
+        document.getElementById('signup-textarea-address').value = formData.address;
 
         verifyBtn.innerText = "Create Account";
         verifyBtn.type = "submit";
@@ -389,11 +360,11 @@ requestOtp_btn.addEventListener('click', async () => {
         sessionStorage.setItem('otpFailCount', failedAttempts);
 
         if (failedAttempts > 2) {
-            customAlert('Email Validation Failed, please check your email...');
+            customAlert('Email Validation Failed, try again later...');
             document.getElementById('signup-input-username').value = formData.username;
             document.getElementById('signup-input-email').value = formData.email;
             document.getElementById('signup-input-password').value = formData.password;
-            document.getElementById('signup-input-phone').value = formData.phone;
+            document.getElementById('signup-textarea-address').value = formData.address;
             otpInputs.forEach(input => input.value = '');
 
             sessionStorage.removeItem('formData');

@@ -7,6 +7,7 @@ class lotModel(BaseModel):
     price_per_hr: Optional[int] = None
     capacity: Optional[int] = None
     rating: Optional[int] = None
+    timing: str
     location: str
     state: str
     country: str
@@ -45,8 +46,8 @@ class lotModel(BaseModel):
 
     @validator('capacity')
     def validate_capacity(cls, v):
-        if v is not None and not (30 <= v <= 80):           # if v is None then default value will be assigned.
-            raise ValueError('Capacity must be between 15 and 50 if provided.')
+        if v is not None and not (80 <= v <= 400):           # if v is None then default value will be assigned.
+            raise ValueError('Capacity must be between 80 and 400 if provided.')
         
         return v
     
@@ -79,6 +80,21 @@ class lotModel(BaseModel):
         if not(1 <= len(v) <= 40):
             raise ValueError('country name is too long or too short.')
     
+        return v
+    
+
+    @validator('timing')
+    def validate_timing(cls, v):
+        v = v.strip()
+        if not v:
+            raise ValueError('Timings of parking lot is required')
+        
+        if (len(v) > 80):
+            raise ValueError('Timing Field is very long')
+        
+        if len(v) < 18:
+            raise ValueError('Timing should include time and days')
+        
         return v
         
         

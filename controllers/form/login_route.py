@@ -38,8 +38,21 @@ def adminDashboard():
         return render_template('/components/error_page.html', error='Invalid User / Admin request (token missing or invalid)'), 401
 
     username = decoded.get('username', 'Guest')
-    lots = Lot.query.filter_by(deleteLot=False).all()
-    return render_template('/admin/adminPage.html', username=username, lots=lots)
+    email = decoded.get('email')
+    if not email:
+        return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
+    
+    try:
+        user = User.query.filter_by(email=email).first()
+        if user and user.role == 'admin':
+            lots = Lot.query.filter_by(deleteLot=False).all()
+            return render_template('/admin/adminPage.html', username=username, lots=lots)
+        else:
+            return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
+    except Exception as error:
+        print(error)
+        return render_template('/components/error_page.html', error='Internal Server Error'), 401
+
 
 @role_bp.route('/userDashboard')
 def userDashboard():
@@ -52,7 +65,18 @@ def userDashboard():
         return render_template('/components/error_page.html', error='Invalid User / Admin request (token missing or invalid)'), 401
         
     username = decoded.get('username', 'Guest')
-    return render_template('/user/user_page.html', username=username)
+    email = decoded.get('email')
+    if not email:
+        return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
+    
+    try:
+        user = User.query.filter_by(email=email).first()
+        if user and user.role=='user':
+            return render_template('/user/user_page.html', username=username)
+        else:
+            return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
+    except Exception as error:
+        return render_template('/components/error_page.html', error='Internal Server Error'), 401
 
 
 @login_bp.route('/loginUser')

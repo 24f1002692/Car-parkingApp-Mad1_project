@@ -37,27 +37,17 @@ function validateNumberField({ value, input, min, max, errorDiv, loader, require
     return true;
 }
 
-// async function validateLocationWithServer(location, state, country) {
-//     const response = await fetch('/TruLotParking/role/adminDashboard/validate-location', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({ location, state, country })
-//     });
-
-//     const result = await response.json();
-//     return result.valid;
-// }
-
 async function validateParkingLot(event){
     event.preventDefault();       
     const loader = document.getElementById('loader');
+    const loaderBox = document.querySelector('.loader-box');
+    loaderBox.style.visibility = 'visible';
     loader.style.display = 'flex';
 
     const lot_name_input = document.getElementById('lot_name');
     const description_input = document.getElementById('description');
     const price_per_hr_input = document.getElementById('price');
+    const timing_input = document.getElementById('timing');
     const capacity_input = document.getElementById('capacity');
     const location_input = document.getElementById('location');
     const state_input = document.getElementById('state');
@@ -66,16 +56,16 @@ async function validateParkingLot(event){
     const lot_name = lot_name_input.value.trim();
     const description = description_input.value.trim();
     const price_per_hr = price_per_hr_input.value.trim();
+    const timing = timing_input.value.trim();
     const capacity = capacity_input.value.trim();
     const location = location_input.value.trim();
     const state = state_input.value.trim();
     const country = country_input.value.trim();
-
-    console.log(lot_name, description, price_per_hr, capacity, location, state, country);
     
     const lot_name_errorDiv = document.getElementById('lot_name_errorDiv');
     const description_errorDiv = document.getElementById('description_errorDiv');
     const price_per_hr_errorDiv = document.getElementById('price_errorDiv');
+    const timing_errorDiv = document.getElementById('timing_errorDiv');
     const capacity_errorDiv = document.getElementById('capacity_errorDiv');
     const location_errorDiv = document.getElementById('location_errorDiv');
     const state_errorDiv = document.getElementById('state_errorDiv');
@@ -88,7 +78,8 @@ async function validateParkingLot(event){
         { input: capacity_input, errorDiv: capacity_errorDiv },
         { input: location_input, errorDiv: location_errorDiv },
         { input: state_input, errorDiv: state_errorDiv },
-        { input: country_input, errorDiv: country_errorDiv }
+        { input: country_input, errorDiv: country_errorDiv },
+        { input: timing_input, errorDiv: timing_errorDiv}
     ];
 
     inputErrorPairs.forEach(({ input, errorDiv }) => {
@@ -136,14 +127,26 @@ async function validateParkingLot(event){
         },
 
         {
+            value: timing,
+            input: timing_input,
+            min: 18,
+            max: 80,
+            errorDiv: timing_errorDiv,
+            loader: loader,
+            requiredMsg: 'Timing for parking lot is required',
+            rangeMsg: 'length of this input should be between 18-80 chars',
+            validator: validateField
+        },
+
+        {
             value: capacity,
             input: capacity_input,
-            min: 30,
-            max: 80,
+            min: 80,
+            max: 400,
             errorDiv: capacity_errorDiv,
             loader: loader,
             requiredMsg: 'Capacity for parking lot is required',
-            rangeMsg: 'Capacity of Parking Lot must be between 15 and 50.',
+            rangeMsg: 'Capacity of Parking Lot must be between 80 and 400.',
             validator: validateNumberField
         },
 

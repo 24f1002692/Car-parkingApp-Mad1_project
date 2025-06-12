@@ -84,6 +84,7 @@ def create_parkingLot():
                     "description": validated_data.description,
                     "image_url": image_url,
                     "geographical_id": geo_detail.location_id,  # assuming foreign key relationship
+                    "timing": validated_data.timing
                 }
 
                 for field in ["price_per_hr", "capacity", "rating"]:       # adding optional field to the dictionary.
@@ -267,8 +268,9 @@ def update_parkingLot():
                     new_spot = ParkingSpot(lot_id=lot.lot_id)
                     db.session.add(new_spot)
 
-            lot.available_spots = len([s for s in ParkingSpot.query.filter_by(lot_id=lot.lot_id).all() if not s.occupied and not s.under_maintenance])
+            db.session.flush()
 
+            lot.available_spots = len([s for s in ParkingSpot.query.filter_by(lot_id=lot.lot_id, deleteSpot=False).all() if not s.occupied and not s.under_maintenance])
             try:
                 db.session.commit()
             except Exception as e:

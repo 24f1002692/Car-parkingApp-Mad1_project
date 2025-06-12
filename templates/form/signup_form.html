@@ -17,22 +17,24 @@
     <!-- value = {{ variable }} is used to preserve the old values user puts -->
 
     <form action="/TruLotParking/role/userDashboard" method="POST" id="signup-form" onsubmit="return validateForm(event)">
-      <div class="cross"><a href="/TruLotParking"><i class="fa-solid fa-house fa-xl"></i></a></div>
+      <div class="part-1">
+          <div class="cross"><a href="/TruLotParking"><i class="fa-solid fa-house fa-xl"></i></a></div>
 
-      <div id="success-toast">
-          ✅ Email verified! You can now signup and create your account.
-      </div>
+        <div id="success-toast">
+            ✅ Email verified! You can now signup and create your account.
+        </div>
 
-      <div class="signup-heading comic-neue-regular">
-        <h1>Create Your Account on TruLot</h1>
-      </div>
+        <div class="signup-heading comic-neue-regular">
+          <h1>Create Your Account on TruLot</h1>
+        </div>
 
-      <div>
-        <h2>Important</h2>
-        <ul class="Notice-list">
-          <!-- <li><p class="comic-neue-regular">Username: max 15 characters and Password: 8 to 15 characters.</p></li> -->
-          <li><p class="comic-neue-regular">password must contain a Uppercase and a special character and address should be precised.</p></li>
-        </ul>
+        <div>
+          <h2>Important</h2>
+          <ul class="Notice-list">
+            <!-- <li><p class="comic-neue-regular">Username: max 15 characters and Password: 8 to 15 characters.</p></li> -->
+            <li><p class="comic-neue-regular">password must contain a Uppercase and a special character and address should be precised.</p></li>
+          </ul>
+        </div>
       </div>
       
       <div class="subform-container">
@@ -41,9 +43,11 @@
             <div class="label-container">
               <label for="signup-input-username" class="label">Set Your Username</label>
             </div>
-            <input type="text" placeholder="please enter your username...." id='signup-input-username' name="username" value="{{form_data.get('username', '')}}">
+            <div class="input-box">
+              <input type="text" placeholder="please enter your username...." id='signup-input-username' name="username" value="{{form_data.get('username', '')}}">
+            </div>
           </div>
-          <div id="username-error-div"></div><br>
+          <div id="username-error-div"></div>
 
           <div class="password-container">
             <div class="label-container password-label-container">
@@ -54,51 +58,54 @@
               <div id="toggle-password-div"><i id='eye-icon' class="fa-solid fa-eye-slash fa-md"></i></div>
             </div>
           </div>
-          <div id="password-error-div" class="label"></div><br>
+          <div id="password-error-div" class="label"></div>
 
           <div class="email-container">
             <div class="label-container email-label-container">
               <label for="signup-input-email" class="label">Type Your Email</label>
             </div>
-            <input type="email" placeholder="please enter your email...." id='signup-input-email' name="email" value="{{form_data.get('email','')}}">
-          </div>
-          <div id="email-error-div"></div><br>
-          
-          <div class="phone-container">
-            <div class="label-container">
-              <label for="signup-input-phone" class="label">Your Phone Number</label>
+            <div class="input-box">
+              <input type="email" placeholder="please enter your email...." id='signup-input-email' name="email" value="{{form_data.get('email','')}}">
             </div>
-            <input type='text' id="signup-input-phone" name="phone" placeholder="please type your phone number " value="{{form_data.get('phone','')}}">
-            <div id="phone-error-div"></div><br>
           </div>
-
-          <div class="address-container">
-            <div class="label-container">
-              <label for="signup-input-address" class="label">Type Your Address</label>
-            </div>
-            <input type='text' id="signup-input-address" name="address" placeholder="please type your complete address " value="{{form_data.get('address','')}}">
-            <div id="address-error-div"></div><br>
-          </div>
+          <div id="email-error-div"></div>
         </div>
       </div>
 
-      <div class="gender-container">
-        <div class="label-container">Select Your Gender</div>
-        <div class="radio-btn">
-          <label>
-            <input type="radio" name="gender" value="Male" class="gender">
-            Male
-          </label>
-          <label>
-            <input type="radio" name="gender" value="Female" class="gender">
-            Female
-          </label>
+      <div class="address-textarea-container">
+        <div class="address-label-container">
+          <label for="signup-textarea-address" class="label">Type Your Address</label>
         </div>
+        <div class="textarea-container">
+            <textarea
+            id="signup-textarea-address"
+            name="address"
+            placeholder="Please type your complete address...."
+            maxlength="300"
+            rows="4"
+            cols="50"
+          >{{ form_data.get('address', '') }}</textarea>
+        </div>
+        <div id="address-error-div"></div><br>
       </div>
-      
-      <div class="signup-div">
-        <button type='button' id="verify-email-btn" class="comic-neue-regular signup-btn">Verify Email</button>
+
+    <div class="gender-container">
+      <div class="label-container">Select Your Gender</div>
+      <div class="radio-btn">
+        <label>
+          <input type="radio" name="gender" value="Male" class="gender">
+          Male
+        </label>
+        <label>
+          <input type="radio" name="gender" value="Female" class="gender">
+          Female
+        </label>
       </div>
+    </div>
+    
+    <div class="signup-div">
+      <button type='button' id="verify-email-btn" class="comic-neue-regular signup-btn">Verify Email</button>
+    </div>
     </form>
 
     <form id="requestOtp_form" style="display: none;">

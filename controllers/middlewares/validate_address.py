@@ -19,7 +19,6 @@ def geocode_opencage(address):
             result = data['results'][0]
             return {
                 "success": True,
-                "formatted_address": result.get("formatted"),
                 "latitude": result["geometry"]["lat"],
                 "longitude": result["geometry"]["lng"],
                 "confidence": result.get("confidence"),

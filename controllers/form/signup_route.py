@@ -10,7 +10,6 @@ from models.user_model.userSchema import SignupModel
 
 from controllers.form.generators import generate_jwt, decode_jwt
 from controllers.middlewares.validate_form import validate_form
-from controllers.middlewares.validate_phone import validate_phoneNumber
 from controllers.middlewares.validate_address import geocode_opencage
 from controllers.admin.generateImages import generate_random_user_image_url
 
@@ -41,15 +40,27 @@ def signup_form():
 def userDashboard():
     token = request.cookies.get('token')
     if not token:
-        return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
+        return render_template('/components/error_page.html', error='Unauthorized User'), 401
 
     decoded = decode_jwt(token)
     if not decoded:
         return render_template('/components/error_page.html', error='Invalid User / Admin request (token missing or invalid)'), 401
 
     username = decoded.get('username', 'Guest')
-    return render_template('/user/user_page.html', username=username)
-
+    email = decoded.get('email')
+    if not email:
+        return render_template('/components/error_page.html', error='Unauthorized User'), 401
+    
+    try:
+        user = User.query.filter_by(email=email).first()
+        if user and user.role=='user':
+            return render_template('/user/user_page.html', username=username)
+        else:
+            return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
+    except Exception as error:
+        print(error)
+        return render_template('/components/error_page.html', error='Internal Server Error'), 401
+        
 
 @signup_bp.route('/role/userDashboard', methods=['POST'])
 @validate_form(SignupModel)
@@ -58,24 +69,14 @@ def signup_form_submit():
     username = validated_data.username
     password = validated_data.password
     email = validated_data.email
-    phone = validated_data.phone
     address = validated_data.address
     gender = validated_data.gender
-
-    print(validated_data)
-    
-    phone = '+91'+phone
 
     session['form_data'] = {
         'username': username,
         'email': email,
-        'phone': validated_data.phone,
         'address': address
     }
-
-    res = validate_phoneNumber(phone)
-    if not res:
-        return jsonify({'success':False, 'error':'invalid phone number'}), 400
     
     res = geocode_opencage(address)
     if not res:
@@ -100,7 +101,7 @@ def signup_form_submit():
             return jsonify({'success': False, 'error':'Email id is not Verified'}), 400
         
         try:
-            address_obj = Address(address=address, road=components.get('road'), subLocality=components.get('suburb') or components.get('neighbourhood') or '', pincode=components.get('postcode'), latitude=res.get('latitude'), longitude=res.get('longitude'))
+            address_obj = Address(address=address, pincode=components.get('postcode'), latitude=res.get('latitude'), longitude=res.get('longitude'))
             db.session.add(address_obj)
             db.session.flush()
         except Exception as error:
@@ -108,7 +109,7 @@ def signup_form_submit():
             return render_template('/components/error_page.html', error='Internal Server Error (Database error)'), 401
 
         try:
-            user = User(name = username, address_id = address_obj.address_id, password = password, email=email, phone=phone, image=image, gender=gender)
+            user = User(name = username, address_id = address_obj.address_id, password = password, email=email, image=image, gender=gender)
             db.session.add(user)
             db.session.commit()
         except Exception as error:
@@ -153,20 +154,20 @@ def check_user_exists():
         return jsonify({'error':'Internal Server Error (Database error)'}), 401
     
 
-@signup_bp.route('/signup/validate-phone', methods=['POST'])
-def check_phoneNumber():
-    data = request.get_json()
-    phone = data.get('phone')
+# @signup_bp.route('/signup/validate-phone', methods=['POST'])
+# def check_phoneNumber():
+#     data = request.get_json()
+#     phone = data.get('phone')
     
-    if not phone or not re.search(r'\d{10}', phone):
-        return jsonify({'error' : 'Invalid phone number'}), 400
+#     if not phone or not re.search(r'\d{10}', phone):
+#         return jsonify({'error' : 'Invalid phone number'}), 400
     
-    phone = '+91'+phone
-    res = validate_phoneNumber(phone)
-    if not res:
-        return jsonify({'success':False, 'error':'invalid phone number'}), 400
+#     phone = '+91'+phone
+#     res = validate_phoneNumber(phone)
+#     if not res:
+#         return jsonify({'success':False, 'error':'invalid phone number'}), 400
     
-    return jsonify({'success':True}), 200
+#     return jsonify({'success':True}), 200
 
 
 
@@ -191,12 +192,6 @@ def check_address():
     
     if res.get('confidence') < 7:
         return jsonify({'success': False, 'error':'More precised address needed'}), 400
-    
-    components = res.get('components', {})
-    country = components.get('country', '').lower()
-    
-    if country != 'india':
-        return jsonify({'success': False, 'error': "location isn't lying in india"}), 400
     
     return jsonify({'success':True}), 200
 

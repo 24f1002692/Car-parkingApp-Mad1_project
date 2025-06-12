@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,13 +13,17 @@
         <div id="lot_name_errorDiv"></div>
 
         <label for="description">Description : </label>
-        <textarea id="description" name="description" rows="6" cols="70" maxlength="600" style="resize: none;"></textarea>
+        <textarea id="description" name="description" rows="3" cols="70" maxlength="200" style="resize: none;"></textarea>
         <small>Max 200 characters.</small>
         <div id="description_errorDiv"></div>
 
         <label for="price">Price (per hour or per day) : </label>
         <input type="number" id="price" name="price_per_hr" min="0" step="0.01">
         <div id="price_errorDiv"></div>
+
+        <label for="price">Timings of parking Lot : </label>
+        <input type="text" id="timing" name="timing" min="0" step="0.01">
+        <div id="timing_errorDiv"></div>
 
         <label for="capacity">Capacity : </label>
         <input type="number" id="capacity" name="capacity" min="1">
@@ -40,8 +44,86 @@
         <button type="submit">Add Parking Lot</button>
     </form>
 
+    <div class="loader-box" style="visibility: hidden;">
+        {% include 'components/loader.html' %}
+    </div>
+    <script src="{{ url_for('static', filename='JAVASCRIPT/admin/addLot.js')}}"></script>
+</body>
+</html> -->
 
-    {% include 'components/loader.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Parking Lot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="mx-auto" style="max-width: 600px;">
+            <form action="/TruLotParking/role/adminDashboard/create_parkingLot" method="POST" id="parkingLot" onsubmit="return validateParkingLot(event)" class="border p-4 rounded shadow-sm bg-light">
+                <h1 class="mb-4 text-center">ADD A NEW PARKING LOT</h1>
+
+                <div class="mb-3">
+                    <label for="lot_name" class="form-label">Parking Lot Name :</label>
+                    <input type="text" class="form-control" id="lot_name" name="lot_name">
+                    <div id="lot_name_errorDiv" class="form-text text-danger"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description :</label>
+                    <textarea id="description" name="description" rows="3" cols="70" maxlength="200" style="resize: none;" class="form-control"></textarea>
+                    <small class="form-text">Max 200 characters.</small>
+                    <div id="description_errorDiv" class="form-text text-danger"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price (per hour or per day) :</label>
+                    <input type="number" class="form-control" id="price" name="price_per_hr" min="0" step="0.01">
+                    <div id="price_errorDiv" class="form-text text-danger"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="timing" class="form-label">Timings of parking Lot :</label>
+                    <input type="text" class="form-control" id="timing" name="timing" min="0" step="0.01">
+                    <div id="timing_errorDiv" class="form-text text-danger"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="capacity" class="form-label">Capacity :</label>
+                    <input type="number" class="form-control" id="capacity" name="capacity" min="1">
+                    <div id="capacity_errorDiv" class="form-text text-danger"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location :</label>
+                    <input type="text" class="form-control" id="location" name="location">
+                    <div id="location_errorDiv" class="form-text text-danger"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="state" class="form-label">State :</label>
+                    <input type="text" class="form-control" id="state" name="state">
+                    <div id="state_errorDiv" class="form-text text-danger"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="country" class="form-label">Country :</label>
+                    <input type="text" class="form-control" id="country" name="country">
+                    <div id="country_errorDiv" class="form-text text-danger"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Add Parking Lot</button>
+            </form>
+
+            <div class="loader-box text-center mt-4" style="visibility: hidden;">
+                {% include 'components/loader.html' %}
+            </div>
+        </div>
+    </div>
+
     <script src="{{ url_for('static', filename='JAVASCRIPT/admin/addLot.js')}}"></script>
 </body>
 </html>

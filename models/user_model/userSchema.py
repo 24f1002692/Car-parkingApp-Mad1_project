@@ -5,7 +5,6 @@ class SignupModel(BaseModel):
     username: str
     password: str
     email: EmailStr
-    phone: str
     address: str
     gender: str
 
@@ -37,14 +36,6 @@ class SignupModel(BaseModel):
             raise ValueError("Email cannot be empty.")
         if len(v) > 80:
             raise ValueError("Email is too long.")
-        return v
-    
-    @validator('phone')
-    def validate_phone(cls, v):
-        if not v.strip():
-            raise ValueError("Phone number cannot be empty")
-        if not re.fullmatch(r'^\d{10}$', v):
-            raise ValueError("Phone number must contain only 10 digits")
         return v
     
     @validator('address')

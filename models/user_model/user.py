@@ -9,7 +9,6 @@ class User(db.Model):
     name = db.Column(db.String(25), nullable=False)
     password = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(80), nullable=False, unique=True)
-    phone = db.Column(db.String(13), nullable=False)
     image = db.Column(db.String(255), nullable=False)
     gender = db.Column(db.String(6), nullable=False)
     role = db.Column(db.String(20), default='user')
@@ -21,8 +20,6 @@ class Address(db.Model):
     __tablename__ = 'address'
     address_id = db.Column(db.Integer, primary_key=True)
     address = db.Column(db.String(300), nullable=False)
-    road = db.Column(db.String(50), nullable=True)
-    subLocality = db.Column(db.String(100), nullable=True)
     pincode = db.Column(db.String(6), nullable=True)
     latitude = db.Column(db.String(50), nullable=True)
     longitude = db.Column(db.String(50), nullable=True)

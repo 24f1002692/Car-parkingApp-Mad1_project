@@ -16,7 +16,7 @@ def init_user_db():
             db.session.add(row)
             db.session.flush()
 
-            address = Address(address=os.getenv('ADDRESS'), road=os.getenv('ROAD'), subLocality=os.getenv('SUBURB'), pincode=os.getenv('PINCODE'))
+            address = Address(address=os.getenv('ADDRESS'), pincode=os.getenv('PINCODE'))
             db.session.add(address)
             db.session.flush()
             
