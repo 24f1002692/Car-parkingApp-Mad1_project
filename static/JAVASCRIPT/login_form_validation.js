@@ -37,10 +37,12 @@ async function validateForm(event) {
 
     emailInput.addEventListener('focus', () => {
         email_error_div.innerHTML = '';
+        emailInput.style.border='';
     });
 
     passwordInput.addEventListener('focus', () => {
         password_error_div.innerHTML = '';
+        passwordInput.style.border='';
     });
 
     
@@ -51,7 +53,7 @@ async function validateForm(event) {
         loader.style.display = 'none';
         return false;
     }else if(email.length > 40 || email.length < 11){
-        email_error_div.innerHTML = 'Email format is incorrect';
+        email_error_div.innerHTML = 'Email must be 11-40 characters long';
         emailInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;
@@ -76,7 +78,7 @@ async function validateForm(event) {
         loader.style.display = 'none';
         return false;
     }else if(!(/[!@#$%^&*(),.?":{}|<>]/.test(password) && /[A-Z]/.test(password))){
-        password_error_div.innerHTML = 'Password must have a Uppercase and a special character';
+        password_error_div.innerHTML = 'Password must have an Uppercase and a special character';
         passwordInput.style.border = '0.6px solid red';
         loader.style.display = 'none';
         return false;

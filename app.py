@@ -19,6 +19,8 @@ from controllers.form.signup_route import signup_bp, otpForm_bp
 from controllers.form.login_route import login_bp, role_bp
 from controllers.landingPage.landing_route import landing_bp
 from controllers.admin.createLot import lot_bp
+from controllers.admin.registered_users import registered_user_bp
+from controllers.admin.spotDetails import spot_bp
 
 
 app = Flask(__name__)
@@ -47,8 +49,8 @@ app.register_blueprint(login_bp)
 app.register_blueprint(otpForm_bp)
 app.register_blueprint(role_bp)
 app.register_blueprint(lot_bp)
-
-
+app.register_blueprint(registered_user_bp)
+app.register_blueprint(spot_bp)
 
 
 # --------------------------------------------------------------------------------

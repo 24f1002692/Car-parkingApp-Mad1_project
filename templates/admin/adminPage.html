@@ -17,14 +17,14 @@
             <div class="parking-lots-container">
                 <div class="lots-card">
                     {% for lot in lots %}
-                    <div class="card" style="width: 21rem;">
+                    <div class="card lot-card" style="width: 21rem;" data-name="{{ lot.lot_name | lower }}">
                         <img class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.lot_name }}">
                         <div class="card-body">
                             <div class="heading-delete-icon">
                                 <h5 class="card-title">{{ lot.lot_name }}</h5>
                                 <div class="icon"><i class="bi bi-trash" id="delete-icon" data-lot-id="{{ lot.lot_id }}"></i></div>
                             </div>
-                            <p class="card-text">{{ lot.description }}</p>
+                            <p class="card-text" id="description">{{ lot.description }}</p>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item status">
@@ -44,8 +44,35 @@
                     </div>
                     {% endfor %}
                 </div>
+                <p id="no-results" class="result-container" style="display: none;">Sorry, No Parking Lots Found with this Query.</p>
+            </div>
+
+            <div class="pagination-container">
+                <ul class="pagination">
+
+                    {% if pagination.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('role.adminDashboard', page=pagination.prev_num) }}">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                    </li>
+                    {% endif %}
+
+                    {% if pagination.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('role.adminDashboard', page=pagination.next_num) }}">Next</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Next</span>
+                    </li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
     </div>
     {% include 'components/loader.html' %}
+    <script src="{{ url_for('static', filename='JAVASCRIPT/admin/search.js')}}"></script>
 {% endblock %}

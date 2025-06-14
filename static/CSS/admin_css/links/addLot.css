@@ -1,0 +1,140 @@
+:root{
+    --coral : #FF7E67;
+    --deep-violet: #7C3AED;
+    --air-bnb-red: #FF5A5F;
+    --neon-magenta: #F72585;
+    --ink-black: #1E1B2E;
+    --primary-color: #4a90e2;
+}
+
+body{
+    margin:0;
+    padding:0;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    background-color: #FFFFFF;
+    overflow: auto;
+    scrollbar-width: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+
+.add-lot-form, .update-lot-form{
+    height: 930px;
+    width: 660px;
+    background-color: rgba(255, 255, 255, 1);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column ;
+    justify-content: start;
+    align-items: center;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.addLot-container, .updateLot-container{
+    display: flex;
+    flex-direction: column ;
+    justify-content: start;
+    align-items: start;
+    padding: 3rem;
+    padding-top: 0rem;
+}
+
+.addLot-container .heading, .addLot-container .button, .updateLot-container .heading, .updateLot-container .button{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.addLot-container .button, .updateLot-container .button{
+    margin-top: 1rem;
+}
+
+.addLot-container label, .updateLot-container label{
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;       
+    font-weight: 500;
+    color: var(--ink-black);         
+    margin-bottom: 0.1rem;
+    letter-spacing: 1px;
+    padding-left: 2.25rem;
+}
+
+.addLot-container textarea, .updateLot-container textarea{
+    border-radius: 1rem;
+    border-color: var(--ink-black);
+    width: 92%;
+    height: 50px;
+    margin-left: 1.25rem;
+    padding-left: 1rem;
+    padding-top: 0.35rem;
+    margin-bottom: 1px;
+    font-size: 0.9rem;
+}
+
+h1{
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+    color: var(--neon-magenta);
+    line-height: 1.2;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-left: 0.5rem;
+}
+
+.addLot-container input, .updateLot-container input{
+    margin-left: 1.25rem;
+    padding: 0.5rem;
+    width: 90%;
+    border: 0.1px solid var(--ink-black);
+    border-radius: 1rem;
+    margin-bottom: 1px;
+    padding-left: 1rem;
+}
+
+.addLot-container input:focus, .addLot-container textarea:focus, .updateLot-container input:focus, .updateLot-container textarea:focus{
+    border: 0.25px solid var(--primary-color);
+    outline: none;
+}
+
+
+.form-btn{
+    background-color: var(--neon-magenta);
+    color: #FFFFFF;
+    height: 3rem;
+    width: 12rem;
+    border: none;
+    font-size: 1rem;
+    font-weight: 300;
+    font-family: 'Space Grotesk', sans-serif;
+    border-radius: 0.5rem;
+    transition: border-radius 0.3s ease;
+    margin-left: 0.25rem;
+}
+
+
+.form-btn:hover{
+    cursor: pointer;
+    border-radius: 2rem;
+}
+
+
+#lot_name_errorDiv, #description_errorDiv, #price_errorDiv, #timing_errorDiv, #capacity_errorDiv, #location_errorDiv, #state_errorDiv, #country_errorDiv{
+    color: var(--air-bnb-red);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    height: 10px;
+    margin-left: 2.25rem;
+}

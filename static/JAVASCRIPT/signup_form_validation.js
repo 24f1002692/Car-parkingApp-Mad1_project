@@ -245,7 +245,7 @@ verifyBtn.addEventListener('click', async (event) => {
         address_error_div.innerHTML = 'More precise address is required'
         address_input.style.border = '0.6px solid red';
         return false;
-    }else if(address.length > 300){
+    }else if(address.length > 200){
         address_error_div.innerHTML = 'Address is very long';
         address_input.style.border = '0.6px solid red';
         return false;

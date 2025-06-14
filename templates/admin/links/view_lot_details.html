@@ -5,16 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIEW LOT DETAILS</title>
     <link rel="stylesheet" href="{{ url_for('static', filename= '/CSS/admin_css/links/view_lot_details.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='/images/form_images/form.webp') }}" type="image/x-icon">
     <style>
-        .page-body {
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-        }
-
-        .page-body.visible {
-            opacity: 1;
-        }
-        
         body::-webkit-scrollbar {
             width: 0px;
             background: transparent;
@@ -22,8 +15,9 @@
     </style>
 </head>
 <body id="page-body" class="page-body">
-    <div class="lot-details">
+    <div class="lot-details" id="main-content">
         <div class="spots-cardboard">
+            <div class="cross"><a href="/TruLotParking/role/adminDashboard"><i class="fa-solid fa-house fa-xl" style="margin-left: 1rem; color: #333333"></i></a></div>
             <div class="heading">
                 <h2>CHOOSE A PARKING SPOT AND VIEW ITS DETAILS . . . .</h2>
                 <div class="color-symbols">
@@ -43,7 +37,7 @@
             </div>
             <div class="spots-wrapper">
                 {% for spot in spots %}
-                    <div class="spot {% if spot.under_maintenance %} maintenance {% elif spot.occupied %} occupied{% else %} available {% endif %}">
+                    <div class="spot {% if spot.under_maintenance %} maintenance {% elif spot.occupied %} occupied{% else %} available {% endif %}" onclick="openSpotDetails('{{ spot.spot_id }}')">
                         {{ spot.spot_id }}
                     </div>
                 {% endfor %}
@@ -64,19 +58,25 @@
             </div>
             <button><a href="/TruLotParking/role/adminDashboard/update-parkingLot-form?lot_id={{ lot.lot_id }}">UPDATE PARKING LOT</a></button>
         </div>
-    </div>    
-
-    <script>
-        const body = document.getElementById('page-body');
-        function fadeInBody() {
-            body.classList.remove('visible');
-            void body.offsetWidth;                // force reflow to reset animation
-            body.classList.add('visible');
-        }
-
-        document.addEventListener('DOMContentLoaded', fadeInBody);
-        window.addEventListener('pageshow', fadeInBody); 
-    </script>
+    </div>
+    <div id="overlay-blur"></div>
+    <div id="spot-detail-panel" class="detail-panel">
+        <div class="panel-content">
+            <h2>Spot Details</h2>
+            <div id="spot-content">
+                <p id="spot-id"></p>
+                <p id="spot-status"></p>
+                <p id="reserved-by"></p>
+                <p id="reserved-email"></p>
+                <p id="parking-time"></p>
+                <p id="leaving-time"></p>
+                <p id="lot-name"></p>
+                <p id="lot-location"></p>
+            </div>
+            <button onclick="closeSpotDetails()" id="spot-detail-btn">Close</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='JAVASCRIPT/admin/view_spot.js')}}"></script>
     {% include 'components/loader.html' %}
 </body>
 </html>

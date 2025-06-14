@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTERED USERS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename= '/CSS/admin_css/adminNavbar.css')}}">
+    <link rel="icon" href="{{ url_for('static', filename='/images/admin_page_images/registered-user.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/admin_css/links/registeredUsers.css')}}">
+    <style>
+        body::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+</head>
+<body id="page-body">
+    {% include "/admin/adminNavbar.html" %}
+
+    <div class="user-container">
+        <div class="user-card-container">
+            <div class="lots-card">
+                {% for user in registered_users %}
+                    <div class="card user-card" data-name="{{ (user.name ~ ' ' ~ user.email) | lower }}">
+                        <img class="card-img-top" src="{{ user.image }}" alt="{{ user.user_id }}">
+                        <div class="card-body">
+                            <p class="card-text-name">{{ user.name }}</p>
+                            <p class="card-text-email"><a href="#">{{ user.email }}</a></p>
+                            <p class="card-text-address">{{ user.address }}</p>
+                        </div>
+
+                        <div class="links">
+                            <a class='view-user' href="/TruLotParking/role/adminDashboard/registered-users/view-user?user_id={{ user.user_id }}">View User Details</a>
+                            
+                            <div class="user-action-wrapper">
+                                {% if user.restrictUser %}
+                                    <i class="fas fa-user-check" data-user-id="{{ user.user_id }}"></i>
+                                    <div class="hover-box">Want to unrestrict this user&nbsp;?</div>
+                                {% else %}
+                                    <i class="fas fa-user-lock" data-user-id="{{ user.user_id }}"></i>
+                                    <div class="hover-box">Want to restrict this user&nbsp;?</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <p id="no-results" class="result-container" style="display: none;">No Users Found.</p>
+        </div>
+        <div class="pagination-container">
+            <ul class="pagination">
+                {% if pagination.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('user-details.registered_users', page=pagination.prev_num) }}">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                    </li>
+                {% endif %}
+
+                {% if pagination.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('user-details.registered_users', page=pagination.next_num) }}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Next</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+<script src="{{ url_for('static', filename='JAVASCRIPT/admin/search.js')}}"></script>
+</body>
+</html>

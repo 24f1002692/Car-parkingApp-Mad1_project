@@ -45,8 +45,13 @@ def adminDashboard():
     try:
         user = User.query.filter_by(email=email).first()
         if user and user.role == 'admin':
-            lots = Lot.query.filter_by(deleteLot=False).all()
-            return render_template('/admin/adminPage.html', username=username, lots=lots)
+
+            PER_PAGE = 30
+            page = request.args.get("page", 1, type=int)
+
+            pagination = Lot.query.filter_by(deleteLot=False).paginate(page=page, per_page=PER_PAGE, error_out=False)
+
+            return render_template('/admin/adminPage.html', username=username, lots=pagination.items, pagination=pagination)
         else:
             return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
     except Exception as error:

@@ -85,10 +85,25 @@ def signup_form_submit():
     if not res.get('success'):
         return jsonify({'success': False, 'error':'Location seems invalid'}), 400
     
-    if res.get('confidence') < 7:
-        return jsonify({'success': False, 'error':'More precise location needed'}), 400
+    if res.get('confidence', 0) < 7:
+        return jsonify({'success': False, 'error':'More precised address is required'}), 400
     
     components = res.get('components', {})
+    if res.get('confidence', 0) == 7:
+        missing_fields = []
+        if 'house_number' not in components:
+            missing_fields.append('house number')
+        if 'postcode' not in components:
+            missing_fields.append('PIN code')
+        if not any(k in components for k in ['suburb', 'neighbourhood', 'village', 'town']):
+            missing_fields.append('locality or area name')
+
+        if missing_fields:
+            return jsonify({
+                'success': False,
+                'error': f"{', '.join(missing_fields)} is required"
+            }), 400
+    
     image = generate_random_user_image_url(gender)
     
     try:
@@ -170,7 +185,6 @@ def check_user_exists():
 #     return jsonify({'success':True}), 200
 
 
-
 @signup_bp.route('/signup/validate-address', methods=['POST'])
 def check_address():
     data = request.get_json()
@@ -184,14 +198,32 @@ def check_address():
         return jsonify({'success': False, 'error': 'Address is too long'}), 400
     
     res = geocode_opencage(address)
+    print(res)
     if not res:
         return jsonify({'success':False, 'error':'More precised address needed'}), 400
+    
 
     if not res.get('success'):
         return jsonify({'success':False, 'error':'Location seems invalid'}), 400
+        
+    if res.get('confidence', 0) < 7:
+        return jsonify({'success': False, 'error':'More precised address is required'}), 400
     
-    if res.get('confidence') < 7:
-        return jsonify({'success': False, 'error':'More precised address needed'}), 400
+    components = res.get('components', {})
+    if res.get('confidence', 0) == 7:
+        missing_fields = []
+        if 'house_number' not in components:
+            missing_fields.append('house number')
+        if 'postcode' not in components:
+            missing_fields.append('PIN code')
+        if not any(k in components for k in ['suburb', 'neighbourhood', 'village', 'town']):
+            missing_fields.append('locality or area name')
+
+        if missing_fields:
+            return jsonify({
+                'success': False,
+                'error': f"{', '.join(missing_fields)} is required"
+            }), 400
     
     return jsonify({'success':True}), 200
 

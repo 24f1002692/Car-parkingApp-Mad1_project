@@ -1,6 +1,5 @@
 import random
 from flask import Blueprint, render_template, request, jsonify, make_response
-import requests
 from db import db
 
 from models.user_model.user import User
@@ -231,15 +230,34 @@ def update_parkingLot():
             lot = Lot.query.filter_by(lot_id=lot_id).first()
             if not lot:
                 return jsonify({'success': False, 'error' : "Lot not found"}), 404
-
+            
             validated_data = request.validated_data
+
+            fields_to_check = ['lot_name', 'description', 'price_per_hr', 'timing', 'capacity']
+            no_changes = all(getattr(lot, field) == getattr(validated_data, field) for field in fields_to_check)
+
+            other = lot.geographical_detail
+
+            if no_changes and other.location == validated_data.location and other.state == validated_data.state and other.country == validated_data.country:
+                alert_message = "No changes found in updating Lot. Redirecting to admin Dashboard... !"
+                redirect_url = f"/TruLotParking/role/adminDashboard"
+
+                html = f"""
+                <script>
+                    alert("{alert_message}");
+                    window.location.href = "{redirect_url}";
+                </script>
+                """
+                return make_response(html)
+
             lot.lot_name = validated_data.lot_name if validated_data.lot_name is not None else lot.lot_name
             lot.description = validated_data.description if validated_data.description is not None else lot.description
             lot.price_per_hr = validated_data.price_per_hr if validated_data.price_per_hr is not None else lot.price_per_hr
+            lot.timing = validated_data.timing if validated_data.timing is not None else lot.timing
             lot.capacity = validated_data.capacity if validated_data.capacity is not None else lot.capacity
-            lot.location = validated_data.location if validated_data.location is not None else lot.location
-            lot.state = validated_data.state if validated_data.state is not None else lot.state
-            lot.country = validated_data.country if validated_data.country is not None else lot.country
+            lot.geographical_detail.location = validated_data.location if validated_data.location is not None else lot.geographical_detail.location
+            lot.geographical_detail.state = validated_data.state if validated_data.state is not None else lot.geographical_detail.state
+            lot.geographical_detail.country = validated_data.country if validated_data.country is not None else lot.geographical_detail.country
 
             all_spots = ParkingSpot.query.filter_by(lot_id=lot.lot_id).all()
             unoccupied_spots = [spot for spot in all_spots if not spot.occupied]

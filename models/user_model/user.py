@@ -12,6 +12,8 @@ class User(db.Model):
     image = db.Column(db.String(255), nullable=False)
     gender = db.Column(db.String(6), nullable=False)
     role = db.Column(db.String(20), default='user')
+    deleteUser = db.Column((db.Boolean), default=False)
+    restrictUser = db.Column((db.Boolean), default=False) 
     address_detail = db.relationship('Address', back_populates='user_detail')
     reserved_spot_detail = db.relationship('ReservedSpot', back_populates='user_detail')   # one user can reserve many spots
 

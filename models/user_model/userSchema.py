@@ -42,7 +42,7 @@ class SignupModel(BaseModel):
     def validate_address(cls, v):
         if not v.strip():
             raise ValueError("Address cannot be empty")
-        if len(v) > 300:
+        if len(v) > 200:
             raise ValueError("Address is too long")
         return v
     

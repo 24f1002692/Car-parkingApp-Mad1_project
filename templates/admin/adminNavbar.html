@@ -1,21 +1,44 @@
 <div class="navbar">
     <div class="links">
-        <ul>
-            <li><a href="">Registered Users</a></li>
-            <li><a href="">Reserved Lot Details</a></li>
-            <li><a href="">Summary Charts</a></li>
+            <!-- <li><a href="/TruLotParking/role/adminDashboard/registered-users">Registered Users</a></li> -->
+            {% if request.path == '/TruLotParking/role/adminDashboard/registered-users' %}
+                <ul style="margin-top: 0rem;">
+                    <li style="display: none;"><a href="/TruLotParking/role/adminDashboard/registered-users">Registered Users</a></li>
+                    <li><a href="#" style="margin-left: 2rem; letter-spacing: 0.5px;">Read Users Queries</a></li>
+                    <li><a href="" style="margin-top: 0rem; letter-spacing: 0.5px;">Restricted Users</a></li>
+                </ul>
+            {% else %}
+                <ul>
+                    <li><a href="/TruLotParking/role/adminDashboard/registered-users">Registered Users</a></li>
+                    <li><a href="">Reserved Lot Details</a></li>
+                    <li><a href="">Summary Charts</a></li>
+                </ul>
+            {% endif %}
         </ul>
     </div>
 
     <div class="search-bar">
-        <div class="search-input-btn">
-            <input type="text" placeholder="Search for a parking lot....">
-            <button class="btn btn-outline-success">Search</button>
-        </div>
+        {% if request.path == '/TruLotParking/role/adminDashboard/registered-users' %}
+            <div class="search-input-btn" style="margin-left: -10rem;">
+                <input type="text" id='search-box' placeholder="Search Users here...." data-target-class="user-card" data-name-key="name">
+                <!-- <button class="btn btn-outline-success" style="cursor: pointer; margin-right: 1rem;">Search</button> -->
+            </div>
+        {% else %}
+            <div class="search-input-btn" style="margin-left: -4rem;">
+                <input type="text" id='search-box' placeholder="Search Parking Lots here...." data-target-class="lot-card" data-name-key="lotName">
+                <!-- <button class="btn btn-outline-success" style="cursor: pointer;">Search</button> -->
+            </div>
+        {% endif %}
     </div>
     <div class="links links-div">
-        <ul>
-            <li><a href="/TruLotParking/logout">Logout</a></li>
-        </ul>
+            {% if request.path == '/TruLotParking/role/adminDashboard/registered-users' %}
+                <ul style="margin-top: 0rem; margin-right: 0rem;">
+                    <li><a href="/TruLotParking/logout" style="letter-spacing: 1px;">Logout</a></li>
+                </ul>
+            {% else %}
+                <ul>
+                    <li><a href="/TruLotParking/logout">Logout</a></li>
+                </ul>
+            {% endif %}
     </div>
 </div>

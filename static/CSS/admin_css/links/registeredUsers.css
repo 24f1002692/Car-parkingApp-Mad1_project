@@ -1,0 +1,218 @@
+:root{
+    --ink-black: #1E1B2E;
+    --neon-magenta: #F72585;
+    --coral : #FF7E67;
+    --primary-color: #4a90e2;
+}
+
+body{
+    margin: auto;
+    padding:auto;
+}
+
+
+.user-card-container{
+    padding-top: 3rem;
+    padding-left: 7rem;
+}
+
+.lots-card{
+    display: flex;
+    flex: wrap;
+    padding: 1rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
+.card{
+    width: 300px;
+    margin-right: 2.1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.card:hover{
+    transform: translateY(-2px);
+}
+
+.card .card-img-top{
+    height: 210px;
+    width: 300px;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+.card .card-body, .card .links{
+    padding: 1rem;
+    padding-top: 0.5rem;
+}
+
+.card-body p{
+    margin-bottom: 0.5rem;
+}
+
+.card .card-body .card-text-name, .card .card-body .card-text-address{
+    font-size: 1.1rem;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--ink-black);
+    letter-spacing: 0.5px;
+}
+
+.card .card-body .card-text-email{
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    height: 22px;
+    color: var(--ink-black);
+    font-size: 1.025rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.card .card-body .card-text-email a{
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.card .card-body .card-text-address{
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    height: 60px;
+}
+
+.card .card-body .card-text-name{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.card .card-body .name-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card .card-body .name-box .flag{
+    margin-right: 0.5rem;
+}
+
+.user-action-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.hover-box {
+    visibility: hidden;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    opacity: 0;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+}
+
+.hover-box::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 51%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent; 
+}
+
+.user-action-wrapper:hover .hover-box {
+    visibility: visible;
+    opacity: 1;
+}
+
+.card .links{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    padding-left: 1.1rem;
+    padding-right: 1.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.card .links .view-user{
+    text-decoration: none;
+    font-size: 0.95rem;
+    letter-spacing: 0.75px;
+    color: var(--ink-black);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 500;
+}
+
+.card .links .user-action-wrapper i{
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: #00B300;
+}
+
+.card .links .view-user:hover, .card .links .user-action-wrapper i:hover{
+    color: var(--neon-magenta);
+}
+
+
+.pagination-container {
+    width: 100% !important;
+    margin: 2rem 0;
+    margin-top: 0rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    margin-top: 4rem;
+}
+
+.pagination {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    gap: 0.5rem;
+}
+
+.page-item {
+    margin: 0 0.3rem;
+}
+
+.page-link {
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.page-item.disabled .page-link {
+    background: #e9ecef;
+    color: #6c757d;
+    pointer-events: none;
+}
+
+.lot-card {
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lot-card.hide {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.result-container{
+    color: red;
+    text-align: center;
+    font-size: 2rem;
+    margin-right: 6rem;
+}
