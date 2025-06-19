@@ -237,7 +237,7 @@ button a{
     top: 50%;
     left: 50%;
     width: 60%;
-    height: 70%;
+    height: 71%;
     background-color: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     transform: translate(-50%, 100%);
@@ -257,23 +257,25 @@ button a{
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    padding: 20px;
+    padding: 15px;
     height: 100%;
     overflow-y: auto;
 }
 
 .panel-content h2{
-    letter-spacing: 1.5px;
-    color: var(--neon-magenta);
+    margin-top: 0.75rem;
+    letter-spacing: 2px;
+    color: black;
     font-size: 1.1rem;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .panel-content #spot-detail-btn{
-    padding: 0.7rem;
+    padding: 0.6rem;
     width: 9rem;
     margin-left: 0.5rem;
-    background-color: var(--neon-magenta);
+    background-color: black;
+    color: #FFF;
 }
 
 .panel-content #spot-content{
@@ -283,15 +285,105 @@ button a{
     align-items: center;
     margin-top: 0rem;
     margin-bottom: 0rem;
+    height: 71%;
 }
 
 .panel-content #spot-content p{
-    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    font-size: 0.85rem;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.4rem;
+}
+
+.panel-content #spot-content p a{
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.panel-content #spot-content p a:hover{
+    color: black;
+}
+
+#lot-location, #lot-name{
+    letter-spacing: 0.1px;
+}
+
+#panel-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: #FFF;
+    padding: 0.25rem;
+    border-radius: 10px;
+    width: 100%;
+    height: 90px;
+    margin-top: 1.5rem;
 }
 
 
+#spot-content-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 110%;
+    border-radius: 10px;
+    background-color: black;
+    color: #FFF;
+    margin-top: 1rem;
+}
+
+#spot-detail-btn{
+    margin-top: 0rem;
+    font-size: 0.95rem;
+    padding: 1rem;
+}
+
+.heading-div{
+    width: 72%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 13.5rem;
+}
+
+.heading-div a{
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: blue;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    margin-bottom: 0.5rem;
+}
+#head{
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 47.5px;
+}
+
+#spot-status{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#spot-id{
+    background-color: black;
+    color: #FFF;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+}
 
 @media (min-width: 768px) {
     .lot-details {

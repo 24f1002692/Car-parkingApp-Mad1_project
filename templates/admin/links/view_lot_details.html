@@ -17,7 +17,7 @@
 <body id="page-body" class="page-body">
     <div class="lot-details" id="main-content">
         <div class="spots-cardboard">
-            <div class="cross"><a href="/TruLotParking/role/adminDashboard"><i class="fa-solid fa-house fa-xl" style="margin-left: 1rem; color: #333333"></i></a></div>
+            <div class="cross"><a href="/TruLotParking/role/adminDashboard"><i class="fa-solid fa-arrow-left fa-xl" style="margin-left: 1rem; color: #333333"></i></a></div>
             <div class="heading">
                 <h2>CHOOSE A PARKING SPOT AND VIEW ITS DETAILS . . . .</h2>
                 <div class="color-symbols">
@@ -62,16 +62,23 @@
     <div id="overlay-blur"></div>
     <div id="spot-detail-panel" class="detail-panel">
         <div class="panel-content">
-            <h2>Spot Details</h2>
+            <div class="heading-div">
+                <h2 id="head">Spot Details &nbsp; <p id="spot-id"></p></h2>
+                <a href="#" id="view-parked-vehicle-details">Parked Vehicle Details</a>
+            </div>
             <div id="spot-content">
-                <p id="spot-id"></p>
                 <p id="spot-status"></p>
-                <p id="reserved-by"></p>
-                <p id="reserved-email"></p>
-                <p id="parking-time"></p>
-                <p id="leaving-time"></p>
-                <p id="lot-name"></p>
-                <p id="lot-location"></p>
+                <div id="spot-content-div">
+                    <p id="reserved-by"></p>
+                    <p id="reserved-email"></p>
+                    <p id="parking-time"></p>
+                    <p id="leaving-time"></p>
+                </div>
+                <div id="panel-div">
+                    <p id="lot-name"></p>
+                    <p id="lot-location"></p>
+                </div>
+                <p><a href="#" id="check-parked-vehicle-details">Check Parked Vehicle Details</a></p>
             </div>
             <button onclick="closeSpotDetails()" id="spot-detail-btn">Close</button>
         </div>

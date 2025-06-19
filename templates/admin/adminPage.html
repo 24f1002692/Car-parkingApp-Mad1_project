@@ -7,6 +7,7 @@
         <div class="left-container">
             <div class="sidebar">
                 <a href="/TruLotParking/role/adminDashboard/addLot">Add New Parking Lot</a>
+                <a href="#">Summary</a>
             </div>
         </div>
 
@@ -17,14 +18,15 @@
             <div class="parking-lots-container">
                 <div class="lots-card">
                     {% for lot in lots %}
-                    <div class="card lot-card" style="width: 21rem;" data-name="{{ lot.lot_name | lower }}">
+                    <div class="card lot-card" style="width: 21rem;" data-name="{{ (lot.lot_name ~ ' ' ~ lot.geographical_detail.location ~ ' ' ~ lot.geographical_detail.state ~ ' ' ~ lot.geographical_detail.country) | lower }}">
                         <img class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.lot_name }}">
                         <div class="card-body">
                             <div class="heading-delete-icon">
                                 <h5 class="card-title">{{ lot.lot_name }}</h5>
                                 <div class="icon"><i class="bi bi-trash" id="delete-icon" data-lot-id="{{ lot.lot_id }}"></i></div>
                             </div>
-                            <p class="card-text" id="description">{{ lot.description }}</p>
+                            <!-- <p class="card-text" id="description">{{ lot.description }}</p> -->
+                            <p id="location">{{ lot.geographical_detail.location }}, {{ lot.geographical_detail.country }}</p>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item status">
@@ -36,7 +38,7 @@
                             </li>
                         </ul>
                         <div class="card-body card-body-link">
-                            <a href="/TruLotParking/role/adminDashboard/parking-lot-details?lot_id={{ lot.lot_id }}" class="card-link">View Parking Details</a>
+                            <a href="/TruLotParking/role/adminDashboard/parking-lot-details?lot_id={{ lot.lot_id }}" class="card-link">View & Edit Parking Details</a>
                             <div class="rating">
                                 <p>{{ lot.rating }}/5</p>
                             </div>
@@ -44,7 +46,7 @@
                     </div>
                     {% endfor %}
                 </div>
-                <p id="no-results" class="result-container" style="display: none;">Sorry, No Parking Lots Found with this Query.</p>
+                <p id="no-results" class="result-container" style="display: none;">No Parkings Found, Press Next.</p>
             </div>
 
             <div class="pagination-container">

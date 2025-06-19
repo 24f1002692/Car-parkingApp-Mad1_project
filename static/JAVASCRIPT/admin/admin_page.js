@@ -9,7 +9,7 @@ deleteIcons.forEach(deleteIcon => {
         const confirmation = prompt('Type "delete lot" to confirm deletion of this parking lot:');
 
         if (confirmation !== 'delete lot') {
-            await new Promise(resolve => setTimeout(resolve, 300));
+            await new Promise(resolve => setTimeout(resolve, 200));
             alert('Deletion cancelled. You must type "delete lot" to confirm.');
             return;
         }

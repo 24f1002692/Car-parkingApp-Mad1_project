@@ -103,7 +103,8 @@ def create_parkingLot():
                 new_lot = Lot(**lot_data)
                 db.session.add(new_lot)
                 db.session.flush()
-
+                
+                # adding all spots
                 num_spots = new_lot.capacity if new_lot.capacity else 30
                 spots = [
                     ParkingSpot(lot_id=new_lot.lot_id)
@@ -111,9 +112,9 @@ def create_parkingLot():
                 ]
                 db.session.add_all(spots)
                 db.session.commit()
-
             except Exception as err:
                 print(err)
+                db.session.rollback()
                 return jsonify({"success": False, "msg":"Error in creating parking lot"}), 400
             
             alert_message = "Parking lot created successfully!"
@@ -161,7 +162,7 @@ def parking_lot_details():
             
             spots = ParkingSpot.query.filter_by(lot_id=lot_id, deleteSpot=False).all()
             if not spots:
-                return jsonify({'success' : False, 'msg' : 'No spots exists in this lot'}), 404
+                return jsonify({'success' : False, 'msg' : 'No spots exists in this lot'}), 404   # never hits.
 
             return render_template('admin/links/view_lot_details.html', lot=lot, spots=spots)
         else:
@@ -227,7 +228,7 @@ def update_parkingLot():
             if not lot_id:
                 return jsonify({'success': False, "error" : "Lot ID missing"}), 400
 
-            lot = Lot.query.filter_by(lot_id=lot_id).first()
+            lot = Lot.query.filter_by(lot_id=lot_id, deleteLot=False).first()
             if not lot:
                 return jsonify({'success': False, 'error' : "Lot not found"}), 404
             
@@ -249,27 +250,53 @@ def update_parkingLot():
                 </script>
                 """
                 return make_response(html)
+            
+            try:
+                lot.lot_name = validated_data.lot_name if validated_data.lot_name is not None else lot.lot_name
+                lot.description = validated_data.description if validated_data.description is not None else lot.description
+                lot.price_per_hr = validated_data.price_per_hr if validated_data.price_per_hr is not None else lot.price_per_hr
+                lot.timing = validated_data.timing if validated_data.timing is not None else lot.timing
+                lot.capacity = validated_data.capacity if validated_data.capacity is not None else lot.capacity
+                lot.geographical_detail.location = validated_data.location if validated_data.location is not None else lot.geographical_detail.location
+                lot.geographical_detail.state = validated_data.state if validated_data.state is not None else lot.geographical_detail.state
+                lot.geographical_detail.country = validated_data.country if validated_data.country is not None else lot.geographical_detail.country
 
-            lot.lot_name = validated_data.lot_name if validated_data.lot_name is not None else lot.lot_name
-            lot.description = validated_data.description if validated_data.description is not None else lot.description
-            lot.price_per_hr = validated_data.price_per_hr if validated_data.price_per_hr is not None else lot.price_per_hr
-            lot.timing = validated_data.timing if validated_data.timing is not None else lot.timing
-            lot.capacity = validated_data.capacity if validated_data.capacity is not None else lot.capacity
-            lot.geographical_detail.location = validated_data.location if validated_data.location is not None else lot.geographical_detail.location
-            lot.geographical_detail.state = validated_data.state if validated_data.state is not None else lot.geographical_detail.state
-            lot.geographical_detail.country = validated_data.country if validated_data.country is not None else lot.geographical_detail.country
+                all_spots = ParkingSpot.query.filter_by(lot_id=lot.lot_id, deleteSpot=False).all()
+                unoccupied_spots = [spot for spot in all_spots if not spot.occupied and not spot.under_maintenance]
 
-            all_spots = ParkingSpot.query.filter_by(lot_id=lot.lot_id).all()
-            unoccupied_spots = [spot for spot in all_spots if not spot.occupied]
+                if len(all_spots) > validated_data.capacity:                   # reducing spots if admin wants to reduce the capacity of the lot.
+                    spots_to_delete = len(all_spots) - validated_data.capacity
+                    if len(unoccupied_spots) >= spots_to_delete:
+                        for spot in unoccupied_spots[:spots_to_delete]:
+                            if not spot.deleteSpot:
+                                spot.deleteSpot = True
+                    else:
+                        alert_message = "Too many occupied spots. Cannot reduce capacity right now !"
+                        redirect_url = "/TruLotParking/role/adminDashboard"
 
-            if len(all_spots) > lot.capacity:                   # reducing spots if admin wants to reduce the capacity of the lot.
-                spots_to_delete = len(all_spots) - lot.capacity
-                if len(unoccupied_spots) >= spots_to_delete:
-                    for spot in unoccupied_spots[:spots_to_delete]:
-                        if not spot.deleteSpot:
-                            spot.deleteSpot = True
-                else:
-                    alert_message = "Too many occupied spots. Cannot reduce capacity right now !"
+                        html = f"""
+                        <script>
+                            alert("{alert_message}");
+                            window.location.href = "{redirect_url}";
+                        </script>
+                        """
+                        return make_response(html)
+                    
+                elif len(all_spots) < validated_data.capacity:
+                    new_spots_needed = validated_data.capacity - len(all_spots)
+                    for _ in range(new_spots_needed):
+                        new_spot = ParkingSpot(lot_id=lot.lot_id)
+                        db.session.add(new_spot)
+
+                db.session.flush()
+
+                lot.available_spots = len([s for s in ParkingSpot.query.filter_by(lot_id=lot.lot_id, deleteSpot=False).all() if not s.occupied and not s.under_maintenance])
+                try:
+                    db.session.commit()
+                except Exception as e:
+                    db.session.rollback()
+                    print("COMMIT FAILED:", e)
+                    alert_message = "Database commit Failed. Redirecting to your admin dashboard... !"
                     redirect_url = "/TruLotParking/role/adminDashboard"
 
                     html = f"""
@@ -279,38 +306,34 @@ def update_parkingLot():
                     </script>
                     """
                     return make_response(html)
-                
-            elif len(all_spots) < lot.capacity:
-                new_spots_needed = lot.capacity - len(all_spots)
-                for _ in range(new_spots_needed):
-                    new_spot = ParkingSpot(lot_id=lot.lot_id)
-                    db.session.add(new_spot)
 
-            db.session.flush()
+                alert_message = "Parking lot updated successfully. Redirecting to your admin dashboard... !"
+                redirect_url = "/TruLotParking/role/adminDashboard"
 
-            lot.available_spots = len([s for s in ParkingSpot.query.filter_by(lot_id=lot.lot_id, deleteSpot=False).all() if not s.occupied and not s.under_maintenance])
-            try:
-                db.session.commit()
-            except Exception as e:
+                html = f"""
+                <script>
+                    alert("{alert_message}");
+                    window.location.href = "{redirect_url}";
+                </script>
+                """
+                return make_response(html)  
+            except Exception as error:
+                print(error)
                 db.session.rollback()
-                print("COMMIT FAILED:", e)
-                return jsonify({'success': False, 'msg': 'Database commit failed'}), 500
+                alert_message = "Database failure occurred, parking lot updation failed. Redirecting to your admin dashboard... !"
+                redirect_url = "/TruLotParking/role/adminDashboard"
 
-            alert_message = "Parking lot updated successfully. Redirecting to your admin dashboard... !"
-            redirect_url = "/TruLotParking/role/adminDashboard"
-
-            html = f"""
-            <script>
-                alert("{alert_message}");
-                window.location.href = "{redirect_url}";
-            </script>
-            """
-            return make_response(html)        
+                html = f"""
+                <script>
+                    alert("{alert_message}");
+                    window.location.href = "{redirect_url}";
+                </script>
+                """
+                return make_response(html)
         else:
             return render_template('/components/error_page.html', error='UnAuthorised Access, You are not an Admin...'), 400
     except Exception as error:
-        print(error)
-        return render_template('/components/error_page.html', error='Database Error, while verifying user or finding Parking Lot'), 400
+        return render_template('/components/error_page.html', error='User not found'), 404
 
 
 # ---------------------------------------------------------------- Delete a Parking Lot -----------------------------------
@@ -342,9 +365,9 @@ def delete_parkingLot():
                 lotName = lot.lot_name
                 
                 all_spots = ParkingSpot.query.filter_by(lot_id=lot.lot_id, deleteSpot=False).all()
-                unoccupied_spots = [spot for spot in all_spots if not spot.occupied]
+                unoccupied_spots = [spot for spot in all_spots if not spot.occupied or not spot.under_maintenance]
 
-                if lot.capacity == len(unoccupied_spots):
+                if lot.capacity == len(unoccupied_spots):   # delete lot only if all spots are free.
                     for spot in unoccupied_spots:
                         if not spot.deleteSpot:
                             spot.deleteSpot = True

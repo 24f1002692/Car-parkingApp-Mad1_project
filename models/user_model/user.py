@@ -38,6 +38,7 @@ class EmailVerification(db.Model):
 
 
 class PasswordResetToken(db.Model):
+    __tablename__ = 'passwordResetToken'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), nullable=False)
     token = db.Column(db.Text, nullable=False, unique=True)

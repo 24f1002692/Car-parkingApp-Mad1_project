@@ -109,7 +109,7 @@ def signup_form_submit():
     try:
         user = User.query.filter_by(email=email).first()
         if user:
-            return jsonify({'success':False, 'message':'User with this email already have an account, you can move to log in to your account'}), 409
+            return jsonify({'success':False, 'message':'User with this email already have an account.'}), 409
         
         row = EmailVerification.query.filter_by(email=email).first()
         if not row or not row.isVerified:
@@ -119,16 +119,13 @@ def signup_form_submit():
             address_obj = Address(address=address, pincode=components.get('postcode'), latitude=res.get('latitude'), longitude=res.get('longitude'))
             db.session.add(address_obj)
             db.session.flush()
-        except Exception as error:
-            print(error)
-            return render_template('/components/error_page.html', error='Internal Server Error (Database error)'), 401
 
-        try:
             user = User(name = username, address_id = address_obj.address_id, password = password, email=email, image=image, gender=gender)
             db.session.add(user)
             db.session.commit()
         except Exception as error:
             print(error)
+            db.session.rollback()
             return render_template('/components/error_page.html', error='Internal Server Error (Database error)'), 401
         
         session.pop('form_data', None)

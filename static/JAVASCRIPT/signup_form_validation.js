@@ -189,15 +189,18 @@ verifyBtn.addEventListener('click', async (event) => {
         address_input.style.border = '';
         address_error_div.innerHTML = '';
     });
-
-
+    
+    loader.style.display = 'flex';
+    await new Promise(resolve => setTimeout(resolve, 300));
     if(username == ''){
         username_error_div.innerHTML = 'Username field is required';
         username_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else if(username.length < 3 || username.length > 25){
         username_error_div.innerHTML = 'Username must be of 3-25 letters';
         username_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else{
         username_error_div.innerHTML = '';
@@ -207,14 +210,17 @@ verifyBtn.addEventListener('click', async (event) => {
     if (password == ''){
         password_error_div.innerHTML = 'password field is required';
         password_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else if(password.length < 5 || password.length > 15){
         password_error_div.innerHTML = 'Password must be of length 5-15';
         password_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else if(!(/[!@#$%^&*(),.?":{}|<>]/.test(password) && /[A-Z]/.test(password))){
         password_error_div.innerHTML = 'Format of password is invalid';
         password_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else{
         password_error_div.innerHTML = '';
@@ -224,14 +230,17 @@ verifyBtn.addEventListener('click', async (event) => {
     if(email == ''){
         email_error_div.innerHTML = 'Email field is required';
         email_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else if(email.length > 50 || email.length < 11){
         email_error_div.innerHTML = 'Email format is incorrect';
         email_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else if((!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ds\.study\.iitm\.ac\.in)$/.test(email))){
         email_error_div.innerHTML = 'Format of email is invalid, check it.';
         email_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else{
         email_error_div.innerHTML = '';
@@ -240,20 +249,22 @@ verifyBtn.addEventListener('click', async (event) => {
     if(address == ''){
         address_error_div.innerHTML = 'Address field is required';
         address_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else if(address.length < 30){
         address_error_div.innerHTML = 'More precise address is required'
         address_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else if(address.length > 200){
         address_error_div.innerHTML = 'Address is very long';
         address_input.style.border = '0.6px solid red';
+        loader.style.display = 'none';
         return false;
     }else{
         address_error_div.innerHTML = '';
     }
 
-    loader.style.display = 'flex';
     const gender = validateGenderSelection();
     if(!gender){
         loader.style.display = 'none';

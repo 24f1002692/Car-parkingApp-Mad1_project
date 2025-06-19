@@ -6,7 +6,7 @@ from datetime import datetime
 class GeographicalDetail(db.Model):
     __tablename__ = 'geographical_details'
     location_id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String(160), nullable=False, unique=True)        # location, state and country given by admin
+    location = db.Column(db.String(120), nullable=False, unique=True)        # location, state and country given by admin
     state = db.Column(db.String(40), nullable=False)
     country = db.Column(db.String(40), nullable=False)
 

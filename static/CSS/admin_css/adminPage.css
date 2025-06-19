@@ -80,7 +80,7 @@ body{
 .right-container {
     display: flex;
     flex-direction: column;
-    margin-left: 385px; 
+    margin-left: 388px; 
     padding: 1rem;
     height: 100vh;
     overflow-y: scroll;
@@ -120,7 +120,7 @@ body{
     border-radius: 1rem;
     margin-right: 1.75rem;
     margin-bottom: 1.25rem;
-    height: 430px;
+    height: 392px;
 }
 
 .card:hover {
@@ -129,7 +129,7 @@ body{
 }
 
 .card .card-img-top{
-    height: 190px;
+    height: 178px;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
 }
@@ -167,15 +167,24 @@ body{
     color: #0b0c10;
 }
 
-
-.card-body p{
-    font-size: 0.75rem;
+.card-body p, #location{
+    font-size: 0.7rem;
     font-weight: 200;
     color: #343a40;
 }
 
 #description{
     height: 70px;
+    margin-bottom: 0.1rem;
+}
+
+#location{
+    height: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+    color: #000;
+    margin-bottom: -0.5rem;
 }
 
 .list-group .list-group-item{
@@ -196,7 +205,8 @@ body{
     text-decoration: none;
     color: #1e3a8a;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.1rem;
 }
 
 .rating p{
@@ -210,12 +220,12 @@ body{
 }
 
 .pagination-container {
-    width: 110% !important;
+    width: 98% !important;
     margin: 2rem 0;
     margin-top: 0rem;
     text-align: center;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: start;
 }
 
@@ -224,7 +234,8 @@ body{
     list-style-type: none;
     padding: 0;
     gap: 0.5rem;
-    margin-left: 10rem;
+    margin-left: 0rem;
+    margin-right: 8rem !important;
 }
 
 .page-item {
@@ -261,6 +272,6 @@ body{
     color: red;
     text-align: center;
     font-size: 1.5rem;
-    margin-left: 16rem;
-    margin-top: 8rem;
+    margin-left: 20rem;
+    margin-top: 10rem;
 }
