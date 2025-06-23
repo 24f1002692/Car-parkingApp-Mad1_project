@@ -13,7 +13,6 @@ spot_bp = Blueprint('parkingSpot', __name__, url_prefix='/TruLotParking/role/adm
 
 @spot_bp.route('/spot')
 def spot_details():
-    print('here bete')
     token = request.cookies.get('token')
     if not token:
         return render_template('/components/error_page.html', error='Unauthorized User / Admin (token missing)'), 401
@@ -44,16 +43,16 @@ def spot_details():
                 .order_by(ReservedSpot.parking_time.desc())
                 .first()
             )
-            
+
             spot_data = {
                 'spot_id': spot.spot_id,
                 'status': 'Under Maintenance' if spot.under_maintenance else 'Occupied' if spot.occupied else 'Available',
-                'Reserved_by': latest_reservation.user_detail.name if latest_reservation else None,
-                'Reserved_user_email': latest_reservation.user_detail.email if latest_reservation else None,
-                'Parking_time': latest_reservation.parking_time.isoformat() if latest_reservation else None,
-                'leaving_time': latest_reservation.leaving_time.isoformat() if latest_reservation else None,            # if there is no latest reservation, that means spot has zero reservation since it is created.
-                'lot_name' : spot.lot_detail.lot_name,
-                'lot_location': spot.lot_detail.geographical_detail.location,
+                'Reserved_by': latest_reservation.user_detail.name if latest_reservation and latest_reservation.user_detail else None,
+                'Reserved_user_email': latest_reservation.user_detail.email if latest_reservation and latest_reservation.user_detail else None,
+                'Parking_time': latest_reservation.parking_time.isoformat() if latest_reservation and latest_reservation.parking_time else None,
+                'leaving_time': latest_reservation.leaving_time.isoformat() if latest_reservation and latest_reservation.leaving_time else None,
+                'lot_name': spot.lot_detail.lot_name if spot.lot_detail else None,
+                'lot_location': spot.lot_detail.geographical_detail.location if spot.lot_detail and spot.lot_detail.geographical_detail else None,
             }
             return jsonify({'success': True, 'spot':spot_data}), 200
         else:

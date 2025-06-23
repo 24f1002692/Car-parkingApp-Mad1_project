@@ -36,10 +36,10 @@
                             
                             <div class="user-action-wrapper">
                                 {% if user.restrictUser %}
-                                    <i class="fas fa-user-check" data-user-id="{{ user.user_id }}"></i>
+                                    <i class="fas fa-user-check toggle-user-status" data-user-id="{{ user.user_id }}" data-restricted="true" style="color:red;"></i>
                                     <div class="hover-box">Want to unrestrict this user&nbsp;?</div>
                                 {% else %}
-                                    <i class="fas fa-user-lock" data-user-id="{{ user.user_id }}"></i>
+                                    <i class="fas fa-user-lock toggle-user-status" data-user-id="{{ user.user_id }}" data-restricted="false"></i>
                                     <div class="hover-box">Want to restrict this user&nbsp;?</div>
                                 {% endif %}
                             </div>
@@ -74,5 +74,6 @@
         </div>
     </div>
 <script src="{{ url_for('static', filename='JAVASCRIPT/admin/search.js')}}"></script>
+<script src="{{ url_for('static', filename='JAVASCRIPT/admin/restrict_unrestrict_user.js')}}"></script>
 </body>
 </html>

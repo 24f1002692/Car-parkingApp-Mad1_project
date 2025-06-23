@@ -1,8 +1,21 @@
+function formatDateTime(isoString) {
+    if (!isoString) return 'N/A';
+    const date = new Date(isoString);
+    return date.toLocaleString('en-IN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true            // a.m or p.m
+    });
+}
+
+
 async function openSpotDetails(spotId) {
     const panel = document.getElementById("spot-detail-panel");
     const overlay = document.getElementById("overlay-blur");
     const loader = document.getElementById('loader');
-    const anchor = document.getElementById('check-parked-vehicle-details');
     const link = document.getElementById('view-parked-vehicle-details');
     loader.style.display = 'flex';
     
@@ -42,21 +55,15 @@ async function openSpotDetails(spotId) {
         spotStatusEl.style.padding = '0.6rem 2rem'; 
         spotStatusEl.style.borderRadius = '0.375rem';
 
-        if(spot.status.toLowerCase() == 'occupied'){
-            anchor.style.visibility = 'visible';
-        }else{
-            anchor.style.visibility = 'hidden';
-        }
-
-        document.getElementById('spot-status').textContent = `Status : Spot is ${spot.status} at the moment`;
         document.getElementById('reserved-by').textContent = spot.Reserved_by ? `Reserved By : Recent Reservation for this spot is made by ${spot.Reserved_by}` : `Reserved By : No Reservation Made for this spot`;
         document.getElementById('reserved-email').textContent = spot.Reserved_user_email ? `Reserved User Email : Email Id of the user is ${spot.Reserved_user_email}` : `Reserved User Email : N/A`;
-        document.getElementById('parking-time').textContent = spot.Parking_time ? `Vehicle Parking Time : Vehicle Parked on this spot at : ${spot.Parking_time}` : `Vehicle Parking Time : N/A`;
-        document.getElementById('leaving-time').textContent = spot.leaving_time ? `Vehicle Departed Time : Vehicle Departed from this Spot at : ${spot.leaving_time}` : `Vehicle Departed Time : N/A`;
+        document.getElementById('parking-time').textContent = spot.Parking_time ? `Vehicle Parking Time : Vehicle Parked on this spot at : ${formatDateTime(spot.Parking_time)}` : `Vehicle Parking Time : N/A`;
         document.getElementById('lot-name').textContent = `Parking Lot Name : ${spot.lot_name}`;
         document.getElementById('lot-location').textContent = `Location of the parking Lot : ${spot.lot_location}`;
 
         panel.style.display = "block";
+        document.body.classList.add("no-scroll");
+
         setTimeout(() => {
             panel.classList.add("active");
             overlay.classList.add("blurred");
@@ -72,7 +79,45 @@ function closeSpotDetails() {
 
     panel.classList.remove("active");
     overlay.classList.remove("blurred");
+    document.body.classList.remove("no-scroll");
+
     setTimeout(() => {
         panel.style.display = "none";   // delay to see transition
     }, 400);
 }
+
+
+
+//------------------------------------------------------------------------ --------------------------
+
+document.getElementById('view-icon').addEventListener('click', async() => {
+    const lotPanel = document.getElementById('lot-detail-panel');
+    const overlay = document.getElementById("overlay-blur");
+    const loader = document.getElementById('loader');
+    
+    loader.style.display = 'flex';
+    await new Promise(resolve => setTimeout(resolve, 400));
+    loader.style.display = 'none';
+
+    lotPanel.style.display = "block";
+    document.body.classList.add("no-scroll");
+
+    setTimeout(() => {
+        lotPanel.classList.add("active");
+        overlay.classList.add("blurred");
+    }, 10);
+});
+
+
+document.getElementById('lot-close-btn').addEventListener('click', () => {
+    const lotPanel = document.getElementById('lot-detail-panel');
+    const overlay = document.getElementById("overlay-blur");    
+
+    lotPanel.classList.remove("active");
+    overlay.classList.remove("blurred");
+    document.body.classList.remove("no-scroll");
+
+    setTimeout(() => {
+        lotPanel.style.display = "none";
+    }, 300);
+});

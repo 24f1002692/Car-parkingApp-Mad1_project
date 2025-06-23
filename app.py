@@ -21,6 +21,8 @@ from controllers.landingPage.landing_route import landing_bp
 from controllers.admin.createLot import lot_bp
 from controllers.admin.registered_users import registered_user_bp
 from controllers.admin.spotDetails import spot_bp
+from controllers.user.ratings import rating_bp
+from controllers.user.view_book_spot import spot_booking_bp
 
 
 app = Flask(__name__)
@@ -51,6 +53,8 @@ app.register_blueprint(role_bp)
 app.register_blueprint(lot_bp)
 app.register_blueprint(registered_user_bp)
 app.register_blueprint(spot_bp)
+app.register_blueprint(rating_bp)
+app.register_blueprint(spot_booking_bp)
 
 
 # --------------------------------------------------------------------------------

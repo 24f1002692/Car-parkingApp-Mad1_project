@@ -1,0 +1,265 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+#form-container{
+    background-color: #FFFFFF;
+    height : 480px;
+    width: 800px;
+    padding: 1rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4.25rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.head{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    letter-spacing: 1px;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+.content p{
+    font-size: 1.1rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.booking-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-between;
+}
+
+.booking-info label{
+    display: block;             
+    font-weight: 600;               
+    margin-bottom: 0.25rem;
+    color: #333;                    
+    font-size: 0.95rem;             
+    letter-spacing: 0.5px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.booking-info input{
+    padding: 0.5rem;
+    font-size: 0.95rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    display: block;
+    outline: none;
+    border-color: #000;
+    border-radius: 10px;
+}
+
+.booking-info input::placeholder{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+}
+
+.booking-info input:focus{
+    border-color: aqua ;
+}
+
+
+#booking-btn{
+    padding: 0.75rem;
+    border: none;
+    width: 10rem;
+    background-color: #000;
+    color: #FFF;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: border-radius 0.3s ease;
+}
+
+#booking-btn:hover{
+    border-radius: 1rem;
+}
+
+
+#phone-error-div{
+    margin-top: 0.2rem;
+    border-radius: 8px;
+    padding-left: 0.25rem;
+    height: 16px;
+    color: red;
+    font-size: 0.9rem;
+}
+
+.alert{
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 300px;
+    width: 700px;
+    background-color: #FFFFFF;
+    padding: 1.5rem;
+    padding-bottom: 2rem;
+    border-radius: 1rem;
+    margin-top: 5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.alert .anchor-tag{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.head .h2-head{
+    margin-bottom: 2rem;
+}
+.steps-content ol{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.steps-content ol li{
+    letter-spacing: 2px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+code{
+    color: red;
+    font-size: 1.1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.alert a{
+    text-decoration: none;
+    color: #000;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    font-size: 0.95rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.alert a span{
+    display: inline-block;
+    color: blue;
+    cursor: pointer;
+    pointer-events: all;
+    font-size: 1.1rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+
+/* ------------------------------------------------- */
+.otp-section-container{
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 200px;
+    width: 700px;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin: 8rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+#otp-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0rem;
+}
+
+#otp-section .otp-label{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+#otp-section label{
+    margin-bottom: 1.25rem; 
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--label-notice-color);
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+.otp-box input::placeholder,
+textarea::placeholder {
+  color: #999;
+  font-size: 0.95rem;
+  font-style: italic;
+  opacity: 1; 
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#otp-box{
+    margin-bottom: 2rem;
+    margin-left: 1.5rem;
+}
+
+#otp-box input{
+    height : 50px;
+    width: 50px;
+    margin-right: 1.25rem;
+    font-size: 1.1rem;
+    border-radius: 0.75rem;
+    text-align: center;
+}
+
+.btn-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+#submitOtp_btn{
+    padding: 0.65rem;
+    width: 10rem;
+    background-color: #000;
+    color: #FFF;
+    border: 10px;
+    font-size: 0.9rem;
+    transition: border-radius 0.5s ease;
+}
+
+#submitOtp_btn:hover{
+    border-radius: 1rem;
+}

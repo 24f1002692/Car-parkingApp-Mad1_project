@@ -1,0 +1,367 @@
+:root{
+    --navbar-primary-color: #EFEEEA;
+    --navbar-secondary-color: #000000;
+    --navbar-secondary-color-2 : #FFFFFF;
+    --navbar-tertiary-color: #FE7743;
+    --navbar-tertiary-color-2: #273F4F;
+    --charcoal : #212121;
+    --bright: #fb7185;
+}
+
+body{
+    background-color: var(--navbar-secondary-color-2);
+}
+
+.navbar{
+    background-color: #0B0B0B;
+}
+
+.container{
+    padding: 0rem;
+    padding-top: 1rem;
+}
+
+.greet-container{
+    margin-top: 0.25rem;
+    padding-top: 0.25rem;
+}
+
+.greet-container h1{
+    font-size: 1.75rem;
+    color: #0B0B0B;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.lots-card{
+    padding-top: 2rem;
+    display: flex;
+    flex: wrap;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.card{
+    margin-right: 1.75rem;
+    padding-bottom: 0.25rem;
+    transition: transform 0.3s ease;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+}
+
+.card-img-top{
+    width: 100%;
+    height: 170px;
+}
+
+.card-body .heading-rating-icon h5{
+    font-size: 1.1rem;
+    color: #0B0B0B;
+    margin-right: 0.1rem;
+}
+
+.heading-rating-icon{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap:0.5rem;
+}
+
+#rating-icon{
+    color: #FFD700;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.rating-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.hover-box {
+    visibility: hidden;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    opacity: 0;
+    position: absolute;
+    bottom: 120%;
+    left: -40%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+    z-index: 100;
+}
+
+/* This creates a small triangle below the tooltip, visually pointing at the icon */
+.hover-box::after {     
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 61%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent; 
+}
+
+.rating-wrapper:hover .hover-box {
+    visibility: visible;
+    opacity: 1;
+}
+
+.card-body p{
+    font-size: 0.65rem;
+    color: darkgray;
+}
+
+#description{
+    margin-bottom: 0.75rem;
+    font-size: 0.7rem;
+}
+
+#location{
+    font-size: 0.8rem;
+    color: #0B0B0B;
+    margin-bottom: 0rem;
+}
+
+.status{
+    font-size: 0.85rem;
+    color: #28a745;
+    font-weight: 400;
+}
+
+.status-red {
+    color: #dc3545; 
+}
+
+.status-orange {
+    color: #fd7e14; 
+}
+
+.status-green {
+    color: #28a745; 
+}
+
+.card-body-link{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0rem;
+    padding-bottom: 0rem;
+}
+
+#view-prices-btn{
+    border: none;
+    padding: 0.45rem 1.6rem;
+    font-size: 0.7rem;
+    background-color: #000;
+    border-radius: 2px;
+    transition: border-radius 0.3s ease;
+}
+
+#view-prices-btn:hover{
+    border-radius: 10px;
+}
+
+#view-prices-btn a{
+    color: #FFF;
+}
+
+.rating p{
+    font-size: 0.9rem;
+    color: #0B0B0B;
+}
+
+.pagination-container{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+
+.page-link {
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+}
+
+.page-item.disabled .page-link {
+    background: #e9ecef;
+    color: #6c757d;
+    pointer-events: none;
+}
+
+.lot-card {
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lot-card.hide {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.result-container{
+    color: red;
+    text-align: center;
+    font-size: 1.25rem;
+    margin-left: 1rem;
+    margin-top: 10rem;
+}
+
+
+/* ----------------------------------------- */
+#overlay-blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.3); 
+    opacity: 0;
+    pointer-events: none;
+    z-index: 900;                  /* just below rating panel */
+    transition: opacity 0.3s ease;
+}
+
+#overlay-blur.blurred {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.rating-panel-class {
+    position: fixed;
+    top: 42%;
+    left: 50.5%;
+    width: 50%;
+    height: 44%;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    transform: translate(-50%, -40%);
+    transition: opacity 0.6s ease-in;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    border-radius: 12px;
+}
+
+.rating-panel-class.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.rating-panel-class.closing {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.panel-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 15px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.back-btn{
+    width: 97%;
+    display: flex;
+    justify-content: end;
+    align-items: start;
+}
+
+.back-btn i{
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.panel-content .heading-div h2{
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    letter-spacing: 1px;
+    color: black;
+    font-size: 1.1rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    white-space: normal;         /* allow text to wrap */
+    word-wrap: break-word; 
+}
+
+.rating-box{
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.75rem;
+}
+
+.rating-box i{
+    font-size: 1.75rem;
+    cursor: pointer;
+    color: #FFD700;
+}
+
+.panel-content textarea {
+    width: 80%;
+    min-height: 60px;
+    padding: 0.25rem;
+    padding-left: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: #fdfdfd;
+    color: #333;
+    resize: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.panel-content textarea::placeholder{
+    padding-left: 0.5rem;
+}
+
+.panel-content textarea:focus {
+    outline: none;
+    border-color: #FFD700;  
+    background-color: #fff;
+}
+
+.panel-content #rating-submit-btn{
+    padding: 0.4rem;
+    width: 9rem;
+    margin-left: 0.5rem;
+    background-color: black;
+    color: #FFF;
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease, border-radius 0.3s ease;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.panel-content #rating-submit-btn:hover{
+    transform: scale(0.975);
+    border-radius: 1rem;
+}

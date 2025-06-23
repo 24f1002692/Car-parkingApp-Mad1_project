@@ -77,7 +77,11 @@ def userDashboard():
     try:
         user = User.query.filter_by(email=email).first()
         if user and user.role=='user':
-            return render_template('/user/user_page.html', username=username)
+            PER_PAGE = 100
+            page = request.args.get("page", 1, type=int)
+            pagination = Lot.query.filter_by(deleteLot=False).paginate(page=page, per_page=PER_PAGE, error_out=False)
+
+            return render_template('/user/user_page.html', username=username, lots=pagination.items, pagination=pagination, userId=user.user_id)
         else:
             return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
     except Exception as error:
@@ -98,15 +102,16 @@ def login_form_submit():
         
     try:
         user = User.query.filter_by(email=email, password=password).first()
-
         if user :
             token = generate_jwt(email, user.name)
             if user.role == 'admin':
-                response = make_response(redirect(url_for('role.adminDashboard')))    # /role/adminDashboard
+                dashboard_url = url_for('role.adminDashboard')
             elif user.role == 'user':
-                response = make_response(redirect(url_for('role.userDashboard')))
+                dashboard_url = url_for('role.userDashboard')
             else:
-                response = make_response('Invalid role', 403)
+                return jsonify({'success': False, 'message': 'Username or password is incorrect'}), 403
+
+            response = jsonify({'success': True, 'message': 'You are Logged in successfully, Press Ok', 'dashboard': dashboard_url})
 
             response.set_cookie(
                 'token',
@@ -115,13 +120,12 @@ def login_form_submit():
                 secure=True,     
                 samesite='Strict'
             )
-            return response
+            return response, 200
         else:
-            flash('Username or Password is incorrect, Try again with correct credentials...')
-            return render_template('/form/login_form.html', email = email, password = password)
+            return jsonify({'success': False, 'message': 'Username or Password is incorrect, Try again with correct credentials...', 'email': email, 'password': password}), 403
     except Exception as error:
         print(error)
-        return render_template('/components/error_page.html', error='Internal server error (Database error)'), 500
+        return jsonify({'success': False, 'message':'Internal Server Error, Try again later'}), 500
     
 
 @login_bp.route('/logout')

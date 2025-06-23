@@ -3,7 +3,7 @@ import os
 def init_user_db():
     from app import app
     from db import db
-    from models.user_model.user import User, EmailVerification, Address, PasswordResetToken
+    from models.user_model.user import User, EmailVerification, Address, PasswordResetToken, Phone
     from models.adminDashboard_model.parkingLots import Lot, GeographicalDetail, ParkingSpot, ReservedSpot
     
     with app.app_context():

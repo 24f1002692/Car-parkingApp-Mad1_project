@@ -22,10 +22,9 @@ function setupTogglePassword() {
 
 //------------------------------------------------------------------------------------------
 
-async function validateForm(event) {
+document.getElementById('login-button').addEventListener('click', async(event) => {
     event.preventDefault();       
     const loader = document.getElementById('loader');
-    loader.style.display = 'flex';
     const emailInput = document.getElementById('login-input-email');
     const passwordInput = document.getElementById('login-input-password');
 
@@ -50,17 +49,14 @@ async function validateForm(event) {
     if(email == ''){
         email_error_div.innerHTML = 'Email field is required';
         emailInput.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else if(email.length > 40 || email.length < 11){
         email_error_div.innerHTML = 'Email must be 11-40 characters long';
         emailInput.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else if((!/^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ds\.study\.iitm\.ac\.in)$/.test(email))){
         email_error_div.innerHTML = 'Format of Email is invalid, check it.';
         emailInput.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else{
         email_error_div.innerHTML = '';
@@ -70,21 +66,41 @@ async function validateForm(event) {
     if (password == ''){
         password_error_div.innerHTML = 'Password field is required';
         passwordInput.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else if(password.length < 5 || password.length > 15){
         password_error_div.innerHTML = 'Password should be of 5-15 character';
         passwordInput.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else if(!(/[!@#$%^&*(),.?":{}|<>]/.test(password) && /[A-Z]/.test(password))){
         password_error_div.innerHTML = 'Password must have an Uppercase and a special character';
         passwordInput.style.border = '0.6px solid red';
-        loader.style.display = 'none';
         return false;
     }else{
         password_error_div.innerHTML = '';
     }
+
+    loader.style.display = 'flex';
+    await new Promise(resolve => setTimeout(resolve, 400)); 
+    const resp = await fetch('/TruLotParking/yourDashboard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            email: email, 
+            password: password
+        })
+    });
     
-    document.getElementById('login-form').submit();  // Manually submit the form
-}
+    loader.style.display = 'none';
+    const res = await resp.json();
+    
+    if(res.success){
+        await customAlert(res.message);
+        loader.style.display = 'flex';
+        document.getElementById('login-content').style.display = 'none';
+        await new Promise(resolve => setTimeout(resolve, 400));
+        window.location.href = res.dashboard;
+    }else{
+        await customAlert(res.message);
+        return;
+    }
+});

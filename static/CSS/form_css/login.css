@@ -23,25 +23,18 @@ body{
     overflow: hidden;
 }
 
+
 #login-form {
-    height: 620px;
-    width: 590px;
+    height: 580px;
+    width: 580px;
     margin-top: 2rem;
     padding: 1rem 2rem;
-    padding-top: 0rem;
+    padding-top: 2.25rem;
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 1rem; 
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
     transition: all 0.3s ease-in-out;
     z-index: 2;
-}
-
-.flash-messages{
-    height: 40px;
-    margin-left: 0.2rem;
-    padding: 0.2rem;
-    color: red;
-    text-align:center;
 }
 
 .login-heading{
@@ -51,6 +44,7 @@ body{
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     font-size: 1.2rem;
     font-weight: 800;
+    margin-bottom: 1.25rem;
 }
 
 .cross{
@@ -59,7 +53,7 @@ body{
     align-items: center;
     padding: 0.25rem 0.25rem 0 0;
     margin-left: 0.6rem;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 }
 
 .cross a i{
@@ -99,12 +93,12 @@ h2{
 .subform-container{
     display: flex;
     justify-content: start;
-    align-items: center;
+    align-items: start;
     margin-left: 1.5rem;
 }
 
 .subform{
-    margin-top: 2rem;
+    margin-top: 1rem;
     margin-left: 4.5rem;
     width: 100%;
 }
@@ -202,7 +196,8 @@ textarea::placeholder {
     align-items: center;
     justify-content: center;
     width: 9rem;
-    margin-top: 0.25rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
     padding: 0.6rem 1.75rem;
     background-color: var(--primary-color-2);
     color: var(--tertiary-color);
@@ -223,8 +218,10 @@ textarea::placeholder {
 }
 
 .forget-password{
-    margin: 2rem 0 0 1rem;
+    margin: 1rem 0 0 1rem;
     font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .forget-password a{
@@ -236,65 +233,27 @@ textarea::placeholder {
   color: var(--primary-color-2);
 }
 
-.bubble-container {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    z-index: 0;
+.forget-password p{
+  font-size: 0.95rem;
 }
 
-.bubble {
-    position: absolute;
-    bottom: -90px;
-    width: 180px;
-    height: 120px;
-    animation: rise 5s linear infinite;
-    left: 50%;                               
-    animation-delay: calc(-1s * var(--i));
+
+#click-here{
+  display: inline-block;
+  animation: pulse 2s infinite ease-in-out;
 }
 
-.bubble p {
-    font-size: 4.5rem;
-    letter-spacing: 2px;
-    font-weight: 400;
-    -webkit-text-stroke: 5px var(--primary-color-2);
-    color: transparent;
-}
-
-@keyframes rise {
+@keyframes pulse {
     0% {
-        transform:  translateY(0) scale(1);
-        opacity: 0;
+        transform: scale(1);
     }
-    
-    30% {
-        opacity: 0.7;
+    50% {
+        transform: scale(1.075);
     }
-
-    60%{
-        opacity: 0.5;
-    }
-
-    90%{
-        opacity: 0.4;
-    }
-
     100% {
-        transform:  translateY(-700px) scale(0.5);
-        opacity: 0;
+        transform: scale(1);
     }
 }
-
-/* Randomize bubbles */
-.bubble:nth-child(1) { --i: 0; left: 18%; width: 50px; height: 50px; animation-duration: 5s; }
-.bubble:nth-child(2) { --i: 1; left: 37%; width: 70px; height: 70px; animation-duration: 7s; }
-.bubble:nth-child(3) { --i: 2; left: 55%; width: 60px; height: 60px; animation-duration: 6s; }
-.bubble:nth-child(4) { --i: 5; left: 2%; width: 40px; height: 40px; animation-duration: 7s; }
-.bubble:nth-child(6) { --i: 5; left: 72%; width: 40px; height: 40px; animation-duration: 8s; }
-.bubble:nth-child(5) { --i: 6; left: 86%; width: 70px; height: 70px; animation-duration: 5s; }
-
-
 
 /* ------------------------------------------------------- MEDIA QUERIES ---------------------------------------------- */
 
@@ -403,8 +362,8 @@ textarea::placeholder {
   }
 
   #login-form button {
-    padding: 0.73rem 1.75rem;
-    font-size: 1.1rem;
+    padding: 0.73rem 1.25rem;
+    font-size: 1rem;
   }
 
   .forget-password{
@@ -552,10 +511,6 @@ textarea::placeholder {
 }
 
 @media (max-width: 580px){
-  .bubble{
-    display: none;
-  }
-
   #login-form {
     height: 640px;
     width: 440px;
@@ -740,15 +695,6 @@ textarea::placeholder {
     margin-top: 1rem;
   }
 
-  .bubble {
-    width: 140px;
-    height: 100px;
-  }
-
-  .bubble p{
-    font-size: 2.5rem;
-  }
-
   #password-error-div, #email-error-div {
     font-size: 0.75rem;
     margin-bottom: 0.1rem;
@@ -775,10 +721,6 @@ textarea::placeholder {
 
   .subform-container{
     margin-left: 1rem;
-  }
-
-  .bubble-container{
-    display: none;
   }
 
   #login-form button{

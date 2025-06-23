@@ -17,9 +17,27 @@
 <body id="page-body" class="page-body">
     <div class="lot-details" id="main-content">
         <div class="spots-cardboard">
-            <div class="cross"><a href="/TruLotParking/role/adminDashboard"><i class="fa-solid fa-arrow-left fa-xl" style="margin-left: 1rem; color: #333333"></i></a></div>
+            <div class="cross">
+                <div class="icons-div">
+                     <span class="tooltip-wrapper">
+                        <i class="fa-solid fa-circle-info fa-xl" style="margin-top: 0.5rem;" id="view-icon"></i>
+                        <span class="tooltip-text">View Parking lot information</span>
+                    </span>
+
+                    <span class="tooltip-wrapper">
+                        <a href="/TruLotParking/role/adminDashboard/update-parkingLot-form?lot_id={{lot.lot_id}}"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
+                        <span class="tooltip-text">Edit this Parking lot</span>
+                    </span>
+                </div>
+            </div>
+            <div class="search-input">
+                <input type="text" id='search-box' placeholder="Search Spot id here...." data-target-class="spot" data-name-key="name">
+            </div>
             <div class="heading">
-                <h2>CHOOSE A PARKING SPOT AND VIEW ITS DETAILS . . . .</h2>
+                <div class="head">
+                    <h2>{{lot.lot_name | upper}}</h2>
+                    <p>CHOOSE A PARKING SPOT AND VIEW ITS DETAILS . . . .</p>
+                </div>
                 <div class="color-symbols">
                     <div class="green">
                         <div></div>
@@ -37,26 +55,11 @@
             </div>
             <div class="spots-wrapper">
                 {% for spot in spots %}
-                    <div class="spot {% if spot.under_maintenance %} maintenance {% elif spot.occupied %} occupied{% else %} available {% endif %}" onclick="openSpotDetails('{{ spot.spot_id }}')">
+                    <div class="spot spot-box {% if spot.under_maintenance %} maintenance {% elif spot.occupied %} occupied{% else %} available {% endif %}" onclick="openSpotDetails('{{ spot.spot_id }}')" data-name="{{ spot.spot_id }}">
                         {{ spot.spot_id }}
                     </div>
                 {% endfor %}
             </div>
-        </div>
-        <div class="details">
-            <h1>{{ lot.lot_name }}</h1>
-            <div class="top-details">
-                Charges, Availability & Location
-            </div>
-            <div class="available-slots">
-                Available Parking Spots are {{ lot.available_spots }}
-            </div>
-            <div class="charges">Parking charges {{ lot.price_per_hr }}/hr</div>
-            <div class="charges">Timings - {{ lot.timing }}</div>
-            <div class="location">
-                Near by Location is {{ lot.geographical_detail.location }}, {{ lot.geographical_detail.state }}, {{ lot.geographical_detail.country }}
-            </div>
-            <button><a href="/TruLotParking/role/adminDashboard/update-parkingLot-form?lot_id={{ lot.lot_id }}">UPDATE PARKING LOT</a></button>
         </div>
     </div>
     <div id="overlay-blur"></div>
@@ -72,18 +75,39 @@
                     <p id="reserved-by"></p>
                     <p id="reserved-email"></p>
                     <p id="parking-time"></p>
-                    <p id="leaving-time"></p>
                 </div>
                 <div id="panel-div">
                     <p id="lot-name"></p>
                     <p id="lot-location"></p>
                 </div>
-                <p><a href="#" id="check-parked-vehicle-details">Check Parked Vehicle Details</a></p>
             </div>
             <button onclick="closeSpotDetails()" id="spot-detail-btn">Close</button>
         </div>
     </div>
+
+    <div class="lot-detail-panel" id="lot-detail-panel">
+        <div class="detail">
+            <h1>{{lot.lot_name}}</h1>
+            <div class="lot-content">
+                <p>Capacity : {{lot.capacity}}</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <p>Spots Available : {{lot.available_spots}}</p>
+            </div>
+            <p>Price : 
+                {% if lot.geographical_detail.country | lower == 'india' %}
+                    &#8377;{{ lot.price_per_hr }}/hr
+                {% else %}
+                    ${{ lot.price_per_hr }}/hr
+                {% endif %}
+            </p>
+            <p>Timing : {{lot.timing}}</p>
+            <div class="lot-content" style="margin-top: 0.25rem;">
+                <p>{{lot.geographical_detail.location}}, {{lot.geographical_detail.country}}</p>
+            </div>
+            <button id="lot-close-btn">Close</button>
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='JAVASCRIPT/admin/view_spot.js')}}"></script>
+    <script src="{{ url_for('static', filename='JAVASCRIPT/admin/searchSpot.js')}}"></script>
     {% include 'components/loader.html' %}
 </body>
 </html>

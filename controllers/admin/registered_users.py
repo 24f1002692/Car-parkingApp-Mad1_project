@@ -1,4 +1,3 @@
-import random
 from flask import Blueprint, render_template, request, jsonify, make_response
 from db import db
 
@@ -9,8 +8,6 @@ from models.user_model.user import User
 
 
 registered_user_bp = Blueprint('user-details', __name__, url_prefix='/TruLotParking/role/adminDashboard')
-
-
 
 @registered_user_bp.route('/registered-users')
 def registered_users():
@@ -53,3 +50,41 @@ def registered_users():
     except Exception as error:
         print(error)
         return render_template('/components/error_page.html', error='Internal Server Error'), 401
+
+
+@registered_user_bp.route('/restrict-user/<int:user_id>', methods=['POST'])
+def restrict_user(user_id):
+    if not user_id:
+        return jsonify({'success': False, 'message': 'User Id is missing'}), 400
+    try:
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({'success': False, 'message': 'User not found'}), 404
+
+        user.restrictUser = True
+        db.session.commit()
+        return jsonify({'success': True}), 200
+    except Exception as error:
+        print(error)
+        return jsonify({'success': False, 'message': 'Internal Server Error'}), 500
+
+
+@registered_user_bp.route('/unrestrict-user/<int:user_id>', methods=['POST'])
+def unrestrict_user(user_id):
+    if not user_id:
+        return jsonify({'success': False, 'message': 'User Id is missing'}), 400
+    
+    try:
+        user = User.query.get(user_id)
+
+        if not user:
+            return jsonify({'success': False, 'message': 'User not found'}), 404
+        
+        user.restrictUser=False
+        db.session.commit()
+        return jsonify({'success': True}), 200
+    except Exception as error:
+        print(error)
+        return jsonify({'success': False, 'message': 'Internal Server Error'}), 500
+
+

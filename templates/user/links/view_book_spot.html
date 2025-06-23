@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book One Spot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/user_css/links/view_book_spot.css')}}">
+</head>
+<body>
+    <div id="form-container" data-user-id="{{ user_id }}" data-lot-id="{{lot.lot_id}}">
+        <div class="head">
+            <h1>VIEW BOOKING PRICES & DETAILS</h1>
+            <h2>{{ lot.lot_name }}</h2>
+        </div>
+        <div class="content">
+            <p>
+                Parking Per hour cost is&nbsp;
+                {% if lot.geographical_detail.country.lower() == 'india' %}
+                    ₹{{ lot.price_per_hr }}
+                {% else %}
+                    &#36;{{ lot.price_per_hr }}
+                {% endif %}
+            </p>
+            <p>{{ lot.geographical_detail.location }}, {{ lot.geographical_detail.country }}</p>
+        </div>
+        <div class="booking-info">
+            <label for="phone-input">Type your phone number with the country code for verification</label>
+            <input type="text" name="phone-input" placeholder="Enter your phone number" id="phone-input">
+            <div id="phone-error-div"></div>
+        </div>
+        <button id="booking-btn" onclick="check_phone_verification()">BOOK A SPOT</button>
+    </div>
+
+    <div class="alert alert-info text-center" id="alert-box">
+        <div class="head">
+            <h2 class="h2-head">One-Time WhatsApp OTP To Verify your Phone Number</h2>
+            <p>To receive OTP for your Spot Booking via WhatsApp, please follow this step once:</p>
+            <div class="steps-content">
+                <ol>
+                    <li>Click the link below and open it on your Whatsapp</li>
+                    <li>Type <code>join bush-gradually</code> and press send and connect with us</li>
+                    <li>Type <code>what is my otp</code> and press send again to get your verification OTP</li>
+                </ol>
+            </div>
+        </div>
+        <div class="anchor-tag">
+            <a href="https://wa.me/14155238886" target="_blank"><span>Click here</span>&nbsp;&nbsp;&nbsp;to verify and book your first Spot</a>
+        </div>
+    </div>
+    
+    <div class="otp-section-container" id="otp-section-container">
+        <div id="otp-section">
+            <div class="otp-label">
+                <label for="otp-box">Enter your OTP</label>
+            </div>
+            <div id="otp-box">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+            </div>
+        </div>
+
+        <div class="btn-div">
+            <button id="submitOtp_btn" type='button'>Submit OTP</button>
+        </div>
+    </div>
+
+    {% include 'components/loader.html' %}
+    {% include 'components/alert.html' %}
+    <script type="module" src="{{ url_for('static', filename='JAVASCRIPT/user/check_phone_verification.js')}}"></script>
+    <script src="{{ url_for('static', filename='/JAVASCRIPT/alert.js')}}"></script>
+</body>
+</html>

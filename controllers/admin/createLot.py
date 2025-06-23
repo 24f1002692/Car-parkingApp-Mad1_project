@@ -67,7 +67,6 @@ def create_parkingLot():
                     return jsonify({"success": False, "msg":"Lot is already exist on this location."}), 400
                 
                 image_url = generate_random_parking_image_url()
-                print(image_url)
             
                 geo_detail = GeographicalDetail(           # create geo-location object
                     location=validated_data.location,
@@ -122,11 +121,14 @@ def create_parkingLot():
 
             html = f"""
             <script>
-                alert("{alert_message}");
-                window.location.href = "{redirect_url}";
+                window.addEventListener("DOMContentLoaded", function () {{
+                    customAlert("{alert_message}", function() {{
+                        window.location.href = "{redirect_url}";
+                    }});
+                }});
             </script>
             """
-            return make_response(html)        
+            return make_response(html), 200
         else:
             return render_template('/components/error_page.html', error='UnAuthorised Access, You are not an Admin...'), 400
     except Exception as error:

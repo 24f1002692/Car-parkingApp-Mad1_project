@@ -11,138 +11,122 @@
     <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/form_css/requestOtp.css')}}">
 </head>
 <body>
-    <!-- id to form and input box are used in styling -->
-
-    <!-- id to input boxes is used, so that as a post request is sent to the url, req.form.get can get the value user enters -->
-    <!-- value = {{ variable }} is used to preserve the old values user puts -->
-
-    <form action="/TruLotParking/role/userDashboard" method="POST" id="signup-form" onsubmit="return validateForm(event)">
-      <div class="part-1">
-          <div class="cross"><a href="/TruLotParking"><i class="fa-solid fa-house fa-xl"></i></a></div>
-
-        <div id="success-toast">
-            ✅ Email verified! You can now signup and create your account.
+  <form id="signup-form">
+    <div class="part-1">
+        <div class="cross">
+          <a href="/TruLotParking"><i class="fa-solid fa-house fa-xl"></i></a>
+          <a href="/TruLotParking/loginUser">Login ?</a>
         </div>
 
-        <div class="signup-heading comic-neue-regular">
-          <h1>Create Your Account on TruLot</h1>
-        </div>
-
-        <div>
-          <h2>Important</h2>
-          <ul class="Notice-list">
-            <!-- <li><p class="comic-neue-regular">Username: max 15 characters and Password: 8 to 15 characters.</p></li> -->
-            <li><p class="comic-neue-regular">password must contain a Uppercase and a special character and address should be precised.</p></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="subform-container">
-        <div class="subform">
-          <div class="username-container">
-            <div class="label-container">
-              <label for="signup-input-username" class="label">Type Your Full Name as Per your Aadhar</label>
-            </div>
-            <div class="input-box">
-              <input type="text" placeholder="please enter your username...." id='signup-input-username' name="username" value="{{form_data.get('username', '')}}">
-            </div>
-          </div>
-          <div id="username-error-div"></div>
-
-          <div class="password-container">
-            <div class="label-container password-label-container">
-              <label for="signup-input-password" class="label">Set Your Password</label>
-            </div>
-            <div class="password-wrapper">
-              <input type="password" placeholder="please set your password....." id='signup-input-password' name="password">
-              <div id="toggle-password-div"><i id='eye-icon' class="fa-solid fa-eye-slash fa-md"></i></div>
-            </div>
-          </div>
-          <div id="password-error-div" class="label"></div>
-
-          <div class="email-container">
-            <div class="label-container email-label-container">
-              <label for="signup-input-email" class="label">Type Your Email</label>
-            </div>
-            <div class="input-box">
-              <input type="email" placeholder="please enter your email...." id='signup-input-email' name="email" value="{{form_data.get('email','')}}">
-            </div>
-          </div>
-          <div id="email-error-div"></div>
-        </div>
+      <div class="signup-heading comic-neue-regular">
+        <h1>Create Your Account on TruLot</h1>
       </div>
 
-      <div class="address-textarea-container">
-        <div class="address-label-container">
-          <label for="signup-textarea-address" class="label">Type Your Address as per your Aaadhar</label>
-        </div>
-        <div class="textarea-container">
-            <textarea
-            id="signup-textarea-address"
-            name="address"
-            placeholder="Please type your complete address...."
-            maxlength="300"
-            rows="4"
-            cols="50"
-          >{{ form_data.get('address', '') }}</textarea>
-        </div>
-        <div id="address-error-div"></div><br>
-      </div>
-
-    <div class="gender-container">
-      <div class="label-container">Select Your Gender</div>
-      <div class="radio-btn">
-        <label>
-          <input type="radio" name="gender" value="Male" class="gender">
-          Male
-        </label>
-        <label>
-          <input type="radio" name="gender" value="Female" class="gender">
-          Female
-        </label>
+      <div>
+        <h2>Important</h2>
+        <ul class="Notice-list">
+          <li><p class="comic-neue-regular">password must contain a Uppercase and a special character and address should be precised.</p></li>
+        </ul>
       </div>
     </div>
     
-    <div class="signup-div">
-      <button type='button' id="verify-email-btn" class="comic-neue-regular signup-btn">Verify Email</button>
+    <div class="subform-container">
+      <div class="subform">
+        <div class="username-container">
+          <div class="label-container">
+            <label for="signup-input-username" class="label">Type Your Full Name as Per your Aadhar</label>
+          </div>
+          <div class="input-box">
+            <input type="text" placeholder="please enter your username...." id='signup-input-username' name="username" value="{{form_data.get('username', '')}}">
+          </div>
+        </div>
+        <div id="username-error-div"></div>
+
+        <div class="password-container">
+          <div class="label-container password-label-container">
+            <label for="signup-input-password" class="label">Set Your Password</label>
+          </div>
+          <div class="password-wrapper">
+            <input type="password" placeholder="please set your password....." id='signup-input-password' name="password">
+            <div id="toggle-password-div"><i id='eye-icon' class="fa-solid fa-eye-slash fa-md"></i></div>
+          </div>
+        </div>
+        <div id="password-error-div" class="label"></div>
+
+        <div class="email-container">
+          <div class="label-container email-label-container">
+            <label for="signup-input-email" class="label">Type Your Email</label>
+          </div>
+          <div class="input-box">
+            <input type="email" placeholder="please enter your email...." id='signup-input-email' name="email" value="{{form_data.get('email','')}}">
+          </div>
+        </div>
+        <div id="email-error-div"></div>
+      </div>
     </div>
-    </form>
 
-    <form id="requestOtp_form" style="display: none;">
-        <div id="error-toast">
-          Please do not refresh the page.
-        </div>
+    <div class="address-textarea-container">
+      <div class="address-label-container">
+        <label for="signup-textarea-address" class="label">Type Your Address as per your Aaadhar</label>
+      </div>
+      <div class="textarea-container">
+          <textarea
+          id="signup-textarea-address"
+          name="address"
+          placeholder="Please type your complete address...."
+          maxlength="300"
+          rows="4"
+          cols="50"
+        >{{ form_data.get('address', '') }}</textarea>
+      </div>
+      <div id="address-error-div"></div><br>
+    </div>
 
-        <div class="request-otp-heading">
-            <h1 class="comic-neue-regular">Email Verification</h1>
-        </div>
-        <div id="otp-section">
-            <div class="otp-label">
-                <label for="otp-box">Enter your OTP :</label>
-            </div>
-            <div id="otp-box">
-                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
-                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
-                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
-                <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
-            </div>
-        </div>
+  <div class="gender-container">
+    <div class="label-container">Select Your Gender</div>
+    <div class="radio-btn">
+      <label>
+        <input type="radio" name="gender" value="Male" class="gender">
+        Male
+      </label>
+      <label>
+        <input type="radio" name="gender" value="Female" class="gender">
+        Female
+      </label>
+    </div>
+  </div>
+  
+  <div class="signup-div">
+    <button type='button' id="verify-email-btn" class="comic-neue-regular signup-btn">Verify Email</button>
+  </div>
+  </form>
 
-        <div class="btn-div">
-            <button id="requestOtp_btn" type='button' class="comic-neue-regular">Submit OTP</button>
-        </div>
-    </form>
+  <form id="requestOtp_form" style="display: none;">
+      <div id="error-toast">
+        Please do not refresh the page.
+      </div>
 
-    <div class="bubble-container">
-        <div class="bubble"><p class="comic-neue-regular">TruLot</p></div>
-        <div class="bubble"><p class="comic-neue-regular">Signup</p></div>
-        <div class="bubble"><p class="comic-neue-regular">Park</p></div>
-        <div class="bubble"><p class="comic-neue-regular">Slot</p></div>
-        <div class="bubble"><p class="comic-neue-regular">TruLot</p></div>
-        <div class="bubble"><p class="comic-neue-regular">Slot</p></div>
-    </div>    
-    {% include 'components/loader.html' %}
-    {% include 'components/alert.html' %}
+      <div class="request-otp-heading">
+          <h1 class="comic-neue-regular">Email Verification</h1>
+      </div>
+      <div id="otp-section">
+          <div class="otp-label">
+              <label for="otp-box">Enter your OTP :</label>
+          </div>
+          <div id="otp-box">
+              <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+              <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+              <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+              <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+          </div>
+      </div>
+
+      <div class="btn-div">
+          <button id="requestOtp_btn" type='button' class="comic-neue-regular">Submit OTP</button>
+      </div>
+  </form>
+  {% include 'components/loader.html' %}
+  {% include 'components/alert.html' %}
 
 
   <script src="{{ url_for('static', filename='/JAVASCRIPT/alert.js')}}"></script>

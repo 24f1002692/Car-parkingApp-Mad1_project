@@ -1,11 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parking-App</title>
-</head>
-<body>
-    <h1>Hello {{ username }} Welcome to user dashboard</h1>
-</body>
-</html>
+{% extends "/user/userBase.html" %}
+
+{% block title %}User Dashboard{% endblock %}
+
+
+{% block userPage %}
+    <div class="container">
+        <div class="greet-container">
+            <h1 class="comic-neue-regular">Hello {{ username }}, Welcome to the User Dashboard. . . .</h1>
+        </div>
+        <div class="parking-lots-container">
+            <div class="lots-card">
+                {% for lot in lots %}
+                <div class="card lot-card" style="width: 21rem;" data-name="{{ (lot.lot_name ~ ' ' ~ lot.geographical_detail.location ~ ' ' ~ lot.geographical_detail.state ~ ' ' ~ lot.geographical_detail.country) | lower }}">
+                    <img class="card-img-top" src="{{ lot.image_url }}" alt="{{ lot.lot_name }}">
+                    <div class="card-body">
+                        <div class="heading-rating-icon">
+                            <h5 class="card-title">{{ lot.lot_name }}</h5>
+                            <div class="icon rating-wrapper">
+                                <i class="bi bi-star-fill rating-icon" id="rating-icon" data-lot-id="{{ lot.lot_id }}" data-lot-name="{{ lot.lot_name }}" data-user-id="{{ userId }}"></i>
+                                <div class="hover-box">Leave a rating&nbsp;?</div>
+                            </div>
+                        </div>
+                        <p class="card-text" id="description">{{ lot.description }}</p>
+                        <p id="location">{{ lot.geographical_detail.location }}, {{ lot.geographical_detail.country }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item status  {% if lot.available_spots == 0 %} status-red {% elif lot.available_spots <= 50 %} status-orange {% else %} status-green {% endif %}">
+                            {% if lot.available_spots > 0 %}
+                                Available parking spots - {{ lot.available_spots }}
+                            {% else %}
+                                All parking spots are occupied right now.
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <div class="card-body card-body-link">
+                        <button id="view-prices-btn"><a href="/TruLotParking/role/userDashboard/bookOneSpot?lot_id={{ lot.lot_id }}" class="card-link" style="text-decoration: none;">View Prices</a></button>
+                        <div class="rating">
+                            <p>{{ lot.rating }}/5</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <p id="no-results" class="result-container" style="display: none;">No Parkings Found, Press Next.</p>
+        </div>
+
+        <div class="pagination-container">
+            <ul class="pagination">
+                {% if pagination.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('role.userDashboard', page=pagination.prev_num) }}">Previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                    </li>
+                {% endif %}
+
+                {% if pagination.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('role.userDashboard', page=pagination.next_num) }}">Next</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Next</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div id="overlay-blur"></div>
+    <div id="rating-panel-id" class="rating-panel-class">
+        <div class="panel-content">
+            <span class="back-btn"><i class="fa-solid fa-times" id="back-btn"></i></span>
+            <div class="heading-div">
+                <h2 id="head"></h2>
+            </div>
+            <div class="rating-box">
+                <i class="bi bi-star star" data-value="1"></i>
+                <i class="bi bi-star star" data-value="2"></i>
+                <i class="bi bi-star star" data-value="3"></i>
+                <i class="bi bi-star star" data-value="4"></i>
+                <i class="bi bi-star star" data-value="5"></i>
+            </div>
+            <textarea id="rating-description" rows="3"  cols="40" maxlength="150" placeholder="Write a short comment (max 100 characters)"></textarea>
+            <button id="rating-submit-btn">Submit</button>
+        </div>
+    </div>
+
+{% include 'components/loader.html' %}
+<script src="{{ url_for('static', filename='JAVASCRIPT/user/rating.js')}}"></script>
+
+{% endblock %}
+

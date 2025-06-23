@@ -18,7 +18,7 @@ body{
 
 .lots-card{
     display: flex;
-    flex: wrap;
+    flex-wrap: wrap;
     padding: 1rem;
     padding-left: 0rem;
     padding-right: 0rem;
@@ -27,9 +27,10 @@ body{
 .card{
     width: 280px;
     margin-right: 1.975rem;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
+    margin-bottom: 3rem;
 }
 
 .card:hover{
@@ -37,10 +38,10 @@ body{
 }
 
 .card .card-img-top{
-    height: 195px;
+    height: 185px;
     width: 100%;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
 }
 
 .card .card-body, .card .links{
@@ -112,7 +113,8 @@ body{
     z-index: 10;
 }
 
-.hover-box::after {
+/* This creates a small triangle below the tooltip, visually pointing at the icon */
+.hover-box::after {     
     content: "";
     position: absolute;
     top: 100%;

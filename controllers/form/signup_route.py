@@ -6,6 +6,8 @@ import sib_api_v3_sdk
 from db import db
 from redisClient import redis_client
 from models.user_model.user import User, EmailVerification, Address
+from models.adminDashboard_model.parkingLots import Lot
+
 from models.user_model.userSchema import SignupModel
 
 from controllers.form.generators import generate_jwt, decode_jwt
@@ -36,7 +38,7 @@ def signup_form():
     return render_template('/form/signup_form.html', form_data=form_data)
 
 
-@signup_bp.route('/role/newUserDashboard')
+@signup_bp.route('/role/userDashboard')
 def userDashboard():
     token = request.cookies.get('token')
     if not token:
@@ -54,7 +56,11 @@ def userDashboard():
     try:
         user = User.query.filter_by(email=email).first()
         if user and user.role=='user':
-            return render_template('/user/user_page.html', username=username)
+            PER_PAGE= 100
+            page = request.args.get("page", 1, type=int)
+            pagination = Lot.query.filter_by(deleteLot=False).paginate(page=page, per_page=PER_PAGE, error_out=False)
+
+            return render_template('/user/user_page.html', username=username, lots=pagination.items, pagination=pagination, userId=user.user_id)
         else:
             return render_template('/components/error_page.html', error='Unauthorized User / Admin'), 401
     except Exception as error:
@@ -62,7 +68,7 @@ def userDashboard():
         return render_template('/components/error_page.html', error='Internal Server Error'), 401
         
 
-@signup_bp.route('/role/userDashboard', methods=['POST'])
+@signup_bp.route('/signup/role/userDashboard', methods=['POST'])
 @validate_form(SignupModel)
 def signup_form_submit():
     validated_data = request.validated_data
@@ -75,7 +81,8 @@ def signup_form_submit():
     session['form_data'] = {
         'username': username,
         'email': email,
-        'address': address
+        'address': address,
+        'gender': gender
     }
     
     res = geocode_opencage(address)
@@ -86,23 +93,9 @@ def signup_form_submit():
         return jsonify({'success': False, 'error':'Location seems invalid'}), 400
     
     if res.get('confidence', 0) < 7:
-        return jsonify({'success': False, 'error':'More precised address is required'}), 400
+        return jsonify({'success': False, 'error':'House Number & nearby location with address is required'}), 400
     
     components = res.get('components', {})
-    if res.get('confidence', 0) == 7:
-        missing_fields = []
-        if 'house_number' not in components:
-            missing_fields.append('house number')
-        if 'postcode' not in components:
-            missing_fields.append('PIN code')
-        if not any(k in components for k in ['suburb', 'neighbourhood', 'village', 'town']):
-            missing_fields.append('locality or area name')
-
-        if missing_fields:
-            return jsonify({
-                'success': False,
-                'error': f"{', '.join(missing_fields)} is required"
-            }), 400
     
     image = generate_random_user_image_url(gender)
     
@@ -126,13 +119,13 @@ def signup_form_submit():
         except Exception as error:
             print(error)
             db.session.rollback()
-            return render_template('/components/error_page.html', error='Internal Server Error (Database error)'), 401
+            return jsonify({'success':False, 'message': 'Internal Server Error (Database error)'}), 401
         
         session.pop('form_data', None)
 
         #sign a jwt token as cookie for user
         token = generate_jwt(email, username)
-        response = make_response(redirect(url_for('signup.userDashboard')))
+        response = make_response(jsonify({'success': True, 'message': 'Signup successful, redirecting to user dashboard...', 'path': url_for('signup.userDashboard')}))
         response.set_cookie(
             'token', 
             token,
@@ -144,7 +137,7 @@ def signup_form_submit():
         return response
     except Exception as error:
         print(error)
-        return render_template('/components/error_page.html', error='Internal Server Error (Database error)'), 401
+        return jsonify({'success': False, 'message': 'Internal Server Error (Database error)'}), 401
 
 
 @signup_bp.route('/signup/check_user_exists', methods=['POST'])
@@ -166,22 +159,6 @@ def check_user_exists():
         return jsonify({'error':'Internal Server Error (Database error)'}), 401
     
 
-# @signup_bp.route('/signup/validate-phone', methods=['POST'])
-# def check_phoneNumber():
-#     data = request.get_json()
-#     phone = data.get('phone')
-    
-#     if not phone or not re.search(r'\d{10}', phone):
-#         return jsonify({'error' : 'Invalid phone number'}), 400
-    
-#     phone = '+91'+phone
-#     res = validate_phoneNumber(phone)
-#     if not res:
-#         return jsonify({'success':False, 'error':'invalid phone number'}), 400
-    
-#     return jsonify({'success':True}), 200
-
-
 @signup_bp.route('/signup/validate-address', methods=['POST'])
 def check_address():
     data = request.get_json()
@@ -201,26 +178,10 @@ def check_address():
     
 
     if not res.get('success'):
-        return jsonify({'success':False, 'error':'Location seems invalid'}), 400
+        return jsonify({'success':False, 'error':'Location is invalid'}), 400
         
     if res.get('confidence', 0) < 7:
-        return jsonify({'success': False, 'error':'More precised address is required'}), 400
-    
-    components = res.get('components', {})
-    if res.get('confidence', 0) == 7:
-        missing_fields = []
-        if 'house_number' not in components:
-            missing_fields.append('house number')
-        if 'postcode' not in components:
-            missing_fields.append('PIN code')
-        if not any(k in components for k in ['suburb', 'neighbourhood', 'village', 'town']):
-            missing_fields.append('locality or area name')
-
-        if missing_fields:
-            return jsonify({
-                'success': False,
-                'error': f"{', '.join(missing_fields)} is required"
-            }), 400
+        return jsonify({'success': False, 'error':'House number, building name & your nearby location with address is required'}), 400
     
     return jsonify({'success':True}), 200
 
@@ -238,7 +199,7 @@ def otpPage():
         try:
             record = EmailVerification.query.filter_by(email=email).first()
             if record and record.isVerified:
-                return jsonify({'success':False, 'message':'Your Email is already Verified'}), 200
+                return jsonify({'success':False, 'message':'Your Email is already Verified, Creating your account on TruLot.....'}), 200
             
             otp_limit_key = email
             otp_max_requests = 3
@@ -275,7 +236,7 @@ def otpPage():
             )
 
             email_sender.send_transac_email(emailToSend)
-            return jsonify({'success' : True, 'message' : 'OTP sent successFully...'})
+            return jsonify({'success' : True, 'message' : 'OTP sent successFully....'})
         except Exception as e:
             print(e)
             return jsonify({'success': False, 'message':'Failed to send OTP, check your internet connection....'})
@@ -313,6 +274,6 @@ def verifyOtp():
         db.session.commit()
 
         session.pop(email, None)
-        return jsonify({'success': True, 'message': 'OTP verified successfully'}), 200
+        return jsonify({'success': True, 'message': 'OTP verified successfully, Creating your account on TruLot.....'}), 200
     else:
         return jsonify({'success': False, 'error': 'Incorrect OTP, Authentication Failed...'}), 400

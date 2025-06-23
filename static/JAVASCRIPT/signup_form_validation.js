@@ -58,7 +58,6 @@ async function unique_user_check(email) {
             return true;
         }
     }catch(e){
-        console.log('unique check failed - ',e);
         email_error_div.innerHTML = 'Server error !';
         return false;
     }
@@ -147,12 +146,10 @@ function validateGenderSelection() {
     return null;  
 }
 
+const signupBody = document.getElementById('signup-form');
 
 const verifyBtn = document.getElementById('verify-email-btn');
-verifyBtn.addEventListener('click', async (event) => {
-    if(event.target.type == 'submit'){
-        return true;
-    }
+verifyBtn.addEventListener('click', async () => {
     const username_input = document.getElementById('signup-input-username');
     const email_input = document.getElementById('signup-input-email');
     const password_input = document.getElementById('signup-input-password');
@@ -293,22 +290,44 @@ verifyBtn.addEventListener('click', async (event) => {
     });
     
     const data = await res.json();
-    if (data.success) {
-        sessionStorage.setItem('otpFailCount', '0');
-        sessionStorage.setItem('formData', JSON.stringify(payload));
-        loader.style.display = 'none';
-        customAlert(data.message);
+    loader.style.display = 'none';
 
+    if (data.success) {
+        sessionStorage.setItem('formData', JSON.stringify(payload));   // user information is stored in sessionStorage
+        
+        await customAlert(data.message);
         document.getElementById('signup-form').style.display = 'none';
-        document.getElementById('requestOtp_form').style.display = 'block';
+        document.getElementById('requestOtp_form').style.display = 'block';      // form where user will put otp, will be displayed.
         enableOtpSectionFeatures();
     } else {
-        loader.style.display = 'none';
-        customAlert(data.message);
-        if(data.message == 'Your Email is already Verified'){
-            verifyBtn.innerText = "Create Account";
-            verifyBtn.type = "submit";
-            document.getElementById('success-toast').style.visibility = 'visible';
+        await customAlert(data.message);
+        if(data.message == 'Your Email is already Verified, Creating your account on TruLot.....'){
+
+            loader.style.display = 'flex';
+            const res = await fetch('/TruLotParking/signup/role/userDashboard', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: username, 
+                    email: email, 
+                    password: password, 
+                    address: address,
+                    gender: gender
+                })
+            });
+
+            const resp = await res.json();
+            
+            if(resp.success){
+                sessionStorage.removeItem('formData');
+                signupBody.style.display = 'none';      // form where user will put otp, will be displayed.
+                await new Promise(resolve => setTimeout(resolve, 400)); 
+                window.location.href = resp.path;
+            }else{
+                await customAlert(resp.message);
+                signupBody.style.display = 'block';
+                return;
+            }
         }
     }
 });
@@ -324,13 +343,18 @@ requestOtp_btn.addEventListener('click', async () => {
     const otp = Array.from(otpInputs).map(i => i.value).join('');
 
     if (!/^\d{4}$/.test(otp)) {
-        customAlert('Enter a valid 4-digit OTP....');
+        await customAlert('Enter a valid 4-digit OTP....');
         requestOtp_btn.disabled = false;
         loader.style.display = 'none';
         return false;
     }
 
     const formData = JSON.parse(sessionStorage.getItem('formData'));
+    if (!formData) {
+        await customAlert("Please fill the signup form again.");
+        window.location.reload();
+        return;
+    }
     const email = formData.email;
     const loader = document.getElementById('loader');
     loader.style.display = 'flex';
@@ -340,49 +364,39 @@ requestOtp_btn.addEventListener('click', async () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp })
     });
-    await new Promise(resolve => setTimeout(resolve, 500));     // sleep the code, setTimeout stops itself for a while, but sleep stops everything..
 
     const data = await res.json();
     if (data.success) {
+        await customAlert(data.message);
+        const res = await fetch('/TruLotParking/signup/role/userDashboard', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: formData.username, 
+                email: formData.email, 
+                password: formData.password, 
+                address: formData.address,
+                gender: formData.gender
+            })
+        });
+
+        const resp = await res.json();
         loader.style.display = 'none';
-        customAlert(data.message);
-        document.getElementById('signup-input-username').value = formData.username;
-        document.getElementById('signup-input-email').value = formData.email;
-        document.getElementById('signup-input-password').value = formData.password;
-        document.getElementById('signup-textarea-address').value = formData.address;
 
-        verifyBtn.innerText = "Create Account";
-        verifyBtn.type = "submit";
-
-        sessionStorage.removeItem('formData');
-        document.getElementById('signup-form').style.display = 'block';
-        document.getElementById('requestOtp_form').style.display = 'none';
-
-        document.getElementById('success-toast').style.visibility = 'visible';
+        if(resp.success){
+            sessionStorage.removeItem('formData');
+            signupBody.style.display = 'none';      // form where user will put otp, will be displayed.
+            await new Promise(resolve => setTimeout(resolve, 400)); 
+            window.location.href = resp.path;
+        }else{
+            signupBody.style.display = 'block';
+            await customAlert(resp.message);
+        }
     } else {
         loader.style.display = 'none';
         requestOtp_btn.disabled = false;
-        let failedAttempts = Number(sessionStorage.getItem('otpFailCount') || '0');   // get curr count from localstorage and if it is first attempt then initialise to 0
-        failedAttempts += 1;
+        await customAlert(data.error);
 
-        if(failedAttempts <= 2){
-            customAlert(data.error);
-        }
-        sessionStorage.setItem('otpFailCount', failedAttempts);
-
-        if (failedAttempts > 2) {
-            customAlert('Email Validation Failed, try again later...');
-            document.getElementById('signup-input-username').value = formData.username;
-            document.getElementById('signup-input-email').value = formData.email;
-            document.getElementById('signup-input-password').value = formData.password;
-            document.getElementById('signup-textarea-address').value = formData.address;
-            otpInputs.forEach(input => input.value = '');
-
-            sessionStorage.removeItem('formData');
-            sessionStorage.removeItem('otpFailCount');
-            document.getElementById('signup-form').style.display = 'block';
-            document.getElementById('requestOtp_form').style.display = 'none';
-        }
     }
 });
 

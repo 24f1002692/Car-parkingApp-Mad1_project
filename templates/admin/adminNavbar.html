@@ -1,11 +1,15 @@
 <div class="navbar">
     <div class="links">
-            <!-- <li><a href="/TruLotParking/role/adminDashboard/registered-users">Registered Users</a></li> -->
             {% if request.path == '/TruLotParking/role/adminDashboard/registered-users' %}
                 <ul style="margin-top: 0rem;">
                     <li style="display: none;"><a href="/TruLotParking/role/adminDashboard/registered-users">Registered Users</a></li>
                     <li><a href="/TruLotParking/role/adminDashboard" style="margin-left: 2.5rem; letter-spacing: 0.5px;">Explore Parking Lots</a></li>
                     <li><a href="#">Read Users Queries</a></li>
+                </ul>
+            {% elif request.path == '/TruLotParking/role/userDashboard' %}
+                <ul>
+                    <li><a href="">My Active Reservations</a></li>
+                    <li><a href="">My Past Reservations</a></li>
                 </ul>
             {% else %}
                 <ul>
@@ -21,20 +25,23 @@
         {% if request.path == '/TruLotParking/role/adminDashboard/registered-users' %}
             <div class="search-input-btn" style="margin-left: -5rem;">
                 <input type="text" id='search-box' placeholder="Search Users here...." data-target-class="user-card" data-name-key="name">
-                <!-- <button class="btn btn-outline-success" style="cursor: pointer; margin-right: 1rem;">Search</button> -->
             </div>
         {% else %}
-            <div class="search-input-btn" style="margin-left: -5rem;">
+            <div class="search-input-btn" style="margin-left: -6rem;">
                 <input type="text" id='search-box' placeholder="Search Parking Lots here...." data-target-class="lot-card" data-name-key="lotName">
-                <!-- <button class="btn btn-outline-success" style="cursor: pointer;">Search</button> -->
             </div>
         {% endif %}
     </div>
+
     <div class="links links-div">
             {% if request.path == '/TruLotParking/role/adminDashboard/registered-users' %}
                 <ul style="margin-top: 0rem; margin-right: 0rem;">
                     <li><a href="" style="margin-top: 0rem; letter-spacing: 0.5px;">Restricted Users</a></li>
-                    <!-- <li><a href="/TruLotParking/logout" style="letter-spacing: 1px;">Logout</a></li> -->
+                </ul>
+            {% elif request.path == '/TruLotParking/role/userDashboard' %}
+                 <ul style="margin-top: 1rem; margin-right: 0rem;">
+                    <li><a href="#">Post a Query</a></li>
+                    <li><a href="/TruLotParking/logout" style="letter-spacing: 1px;">Logout</a></li>
                 </ul>
             {% else %}
                 <ul>

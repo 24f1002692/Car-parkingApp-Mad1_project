@@ -6,19 +6,22 @@
 
     if (!alertBox || !alertMsg || !okBtn) {
       console.error("Custom alert elements not found in DOM");
-      return;
+      return Promise.resolve();
     }
 
     alertMsg.textContent = message;
     alertBox.classList.remove('hidden');
 
-    const handleClose = () => {
-      alertBox.classList.add('hidden');
-      okBtn.removeEventListener('click', handleClose);
-      callback();
-    };
+    return new Promise((resolve) => {
+      const handleClose = () => {
+        alertBox.classList.add('hidden');
+        okBtn.removeEventListener('click', handleClose);
+        resolve();
+        callback();
+      };
 
-    okBtn.addEventListener('click', handleClose);
+      okBtn.addEventListener('click', handleClose);
+    });
   };
 })();
 
