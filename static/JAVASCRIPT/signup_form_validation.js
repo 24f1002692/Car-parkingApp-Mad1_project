@@ -146,8 +146,6 @@ function validateGenderSelection() {
     return null;  
 }
 
-const signupBody = document.getElementById('signup-form');
-
 const verifyBtn = document.getElementById('verify-email-btn');
 verifyBtn.addEventListener('click', async () => {
     const username_input = document.getElementById('signup-input-username');
@@ -294,10 +292,9 @@ verifyBtn.addEventListener('click', async () => {
 
     if (data.success) {
         sessionStorage.setItem('formData', JSON.stringify(payload));   // user information is stored in sessionStorage
-        
-        await customAlert(data.message);
         document.getElementById('signup-form').style.display = 'none';
         document.getElementById('requestOtp_form').style.display = 'block';      // form where user will put otp, will be displayed.
+        await customAlert(data.message);
         enableOtpSectionFeatures();
     } else {
         await customAlert(data.message);
@@ -320,12 +317,10 @@ verifyBtn.addEventListener('click', async () => {
             
             if(resp.success){
                 sessionStorage.removeItem('formData');
-                signupBody.style.display = 'none';      // form where user will put otp, will be displayed.
-                await new Promise(resolve => setTimeout(resolve, 400)); 
+                await new Promise(resolve => setTimeout(resolve, 200)); 
                 window.location.href = resp.path;
             }else{
                 await customAlert(resp.message);
-                signupBody.style.display = 'block';
                 return;
             }
         }
@@ -384,19 +379,19 @@ requestOtp_btn.addEventListener('click', async () => {
         loader.style.display = 'none';
 
         if(resp.success){
+            loader.style.display = 'flex';
             sessionStorage.removeItem('formData');
-            signupBody.style.display = 'none';      // form where user will put otp, will be displayed.
-            await new Promise(resolve => setTimeout(resolve, 400)); 
+            await new Promise(resolve => setTimeout(resolve, 200)); 
             window.location.href = resp.path;
         }else{
-            signupBody.style.display = 'block';
             await customAlert(resp.message);
+            return;
         }
     } else {
         loader.style.display = 'none';
         requestOtp_btn.disabled = false;
         await customAlert(data.error);
-
+        return;
     }
 });
 

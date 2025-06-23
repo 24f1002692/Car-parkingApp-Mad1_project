@@ -82,48 +82,48 @@
       <div id="address-error-div"></div><br>
     </div>
 
-  <div class="gender-container">
-    <div class="label-container">Select Your Gender</div>
-    <div class="radio-btn">
-      <label>
-        <input type="radio" name="gender" value="Male" class="gender">
-        Male
-      </label>
-      <label>
-        <input type="radio" name="gender" value="Female" class="gender">
-        Female
-      </label>
+    <div class="gender-container">
+      <div class="label-container">Select Your Gender</div>
+      <div class="radio-btn">
+        <label>
+          <input type="radio" name="gender" value="Male" class="gender">
+          Male
+        </label>
+        <label>
+          <input type="radio" name="gender" value="Female" class="gender">
+          Female
+        </label>
+      </div>
     </div>
-  </div>
   
-  <div class="signup-div">
-    <button type='button' id="verify-email-btn" class="comic-neue-regular signup-btn">Verify Email</button>
-  </div>
+    <div class="signup-div">
+      <button type='button' id="verify-email-btn" class="comic-neue-regular signup-btn">Verify Email</button>
+    </div>
   </form>
 
   <form id="requestOtp_form" style="display: none;">
-      <div id="error-toast">
-        Please do not refresh the page.
-      </div>
+    <div id="error-toast">
+      Please do not refresh the page.
+    </div>
 
-      <div class="request-otp-heading">
-          <h1 class="comic-neue-regular">Email Verification</h1>
-      </div>
-      <div id="otp-section">
-          <div class="otp-label">
-              <label for="otp-box">Enter your OTP :</label>
-          </div>
-          <div id="otp-box">
-              <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
-              <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
-              <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
-              <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
-          </div>
-      </div>
+    <div class="request-otp-heading">
+        <h1 class="comic-neue-regular">Email Verification</h1>
+    </div>
+    <div id="otp-section">
+        <div class="otp-label">
+            <label for="otp-box">Enter your OTP :</label>
+        </div>
+        <div id="otp-box">
+            <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+            <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+            <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+            <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
+        </div>
+    </div>
 
-      <div class="btn-div">
-          <button id="requestOtp_btn" type='button' class="comic-neue-regular">Submit OTP</button>
-      </div>
+    <div class="btn-div">
+        <button id="requestOtp_btn" type='button' class="comic-neue-regular">Submit OTP</button>
+    </div>
   </form>
   {% include 'components/loader.html' %}
   {% include 'components/alert.html' %}

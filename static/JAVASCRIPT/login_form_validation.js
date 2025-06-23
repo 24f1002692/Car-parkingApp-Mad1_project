@@ -96,7 +96,6 @@ document.getElementById('login-button').addEventListener('click', async(event) =
     if(res.success){
         await customAlert(res.message);
         loader.style.display = 'flex';
-        document.getElementById('login-content').style.display = 'none';
         await new Promise(resolve => setTimeout(resolve, 400));
         window.location.href = res.dashboard;
     }else{
