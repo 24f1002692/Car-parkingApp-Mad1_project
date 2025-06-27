@@ -4,7 +4,6 @@ let userId = null
 
 const stars = document.querySelectorAll('.star');
 const submitBtn = document.getElementById('rating-submit-btn');
-console.log(submitBtn)
 const overlay = document.getElementById('overlay-blur');
 const ratingPanel = document.getElementById('rating-panel-id');
 const crossBtn = document.getElementById('back-btn');
@@ -81,12 +80,26 @@ submitBtn.addEventListener('click', async() => {
 });
 
 
+const searchBox = document.getElementById('search-box');
+
 document.querySelectorAll('.rating-icon').forEach(icon => {         // Each card has rating icon, so get all of them and add click event listener to each of them.
     icon.addEventListener('click', (event) => {
         selectedLotId = icon.getAttribute('data-lot-id');
         userId = icon.getAttribute('data-user-id');
         const lotName = icon.getAttribute('data-lot-name');
         const head = document.getElementById('head');
+
+        // Disable search box
+        if (searchBox) {
+            searchBox.readOnly = true;
+            searchBox.style.pointerEvents = 'none';
+            searchBox.setAttribute('tabindex', '-1');
+        }
+
+        document.querySelectorAll('.navbar a').forEach(link => {
+            link.style.pointerEvents = 'none';
+        });
+
 
         selectedRating = 0;
         stars.forEach(s => {
@@ -98,6 +111,7 @@ document.querySelectorAll('.rating-icon').forEach(icon => {         // Each card
         head.innerText = `Want to Rate ${lotName} parking Lot`;
         overlay.classList.add("blurred");
         ratingPanel.classList.add("active");
+        document.body.classList.add('rating-active');
     });
 });
 
@@ -109,5 +123,16 @@ crossBtn.addEventListener('click', () => {
         overlay.classList.remove("blurred");
         ratingPanel.classList.remove("active");
         ratingPanel.classList.remove("closing");
+        document.body.classList.remove('rating-active');     // searchbox also inactive when rating box is displayed
+
+        if (searchBox) {
+            searchBox.readOnly = false;
+            searchBox.style.pointerEvents = '';
+            searchBox.removeAttribute('tabindex');
+        }
+
+        document.querySelectorAll('.navbar a').forEach(link => {
+            link.style.pointerEvents = '';
+        });
     }, 300);
 });

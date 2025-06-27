@@ -19,7 +19,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--secondary-color);
+    background-color: #e6f7f720;
     overflow: hidden;
 }
 
@@ -30,9 +30,10 @@ body{
     margin-top: 2rem;
     padding: 1rem 2rem;
     padding-top: 2.25rem;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: transparent;
     border-radius: 1rem; 
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
+    border: 0.0999rem solid teal;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
     transition: all 0.3s ease-in-out;
     z-index: 2;
 }
@@ -73,7 +74,7 @@ h2{
 }
 
 .Notice-list li {
-  background-color: var(--secondary-color);
+  background-color: transparent;
   border-left: 2.5px solid var(--primary-color-2);
   padding: 0.8rem 1rem; 
   margin-bottom: 0.55rem;
@@ -110,7 +111,7 @@ h2{
 .username-container label, .password-container label {
   display: block;
   margin-bottom: 0.2rem; 
-  margin-left: 1rem;
+  margin-left: 0.5rem;
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--label-notice-color);
@@ -124,9 +125,9 @@ h2{
   margin-right: 1rem;
   margin-bottom: 0.1rem;
   font-size: 0.8rem;
-  border: 1.3px solid var(--input-field-box);
-  border-radius:2rem;
-  background-color: var(--tertiary-color);
+  border: 0.0999rem solid teal;
+  border-radius:5px;
+  background-color: transparent;
   transition: border-color 0.3s ease;
 }
 
@@ -139,8 +140,7 @@ h2{
 input::placeholder,
 textarea::placeholder {
   color: #999;
-  font-size: 0.95rem;
-  font-style: italic;
+  font-size: 0.9rem;
   opacity: 1; 
 }
 
@@ -198,14 +198,14 @@ textarea::placeholder {
     width: 9rem;
     margin-top: 0rem;
     margin-bottom: 0rem;
-    padding: 0.6rem 1.75rem;
+    padding: 0.45rem 1.25rem;
     background-color: var(--primary-color-2);
     color: var(--tertiary-color);
     border: none;
-    border-radius: 999px;      /* pill-shaped-btns */
+    border-radius: 8px;
     cursor: pointer;
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     letter-spacing: 1px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -248,7 +248,7 @@ textarea::placeholder {
         transform: scale(1);
     }
     50% {
-        transform: scale(1.075);
+        transform: scale(1.09);
     }
     100% {
         transform: scale(1);
@@ -265,11 +265,11 @@ textarea::placeholder {
 
 @media (max-width: 1040px){
   #login-form {
-    height: 880px;
+    height: 790px;
     width: 740px;
     margin-top: 8rem;
     padding: 2rem 2rem;
-    padding-top: 0rem;
+    padding-top: 3rem;
   }
 
   .flash-messages{
@@ -278,7 +278,7 @@ textarea::placeholder {
   }
 
   .login-heading{
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 800;
     margin-bottom: 2rem;
   }
@@ -289,15 +289,16 @@ textarea::placeholder {
   }
 
   .cross a i{
-    font-size: 2rem;
+    font-size: 1.9rem !important;
   }
 
   h2{
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .Notice-list {    
-    margin-left: 0.9rem; 
+    margin-left: 0.9rem;
+    margin-bottom: 0.5rem;
   }
 
   .Notice-list li {
@@ -306,7 +307,7 @@ textarea::placeholder {
 
   .Notice-list li p {
     padding: 0.3rem 0.5rem 0.15rem 0.5rem;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     line-height: 1.75;
   }
 
@@ -321,7 +322,7 @@ textarea::placeholder {
   .username-container label, .password-container label {
     margin-bottom: 0.1rem; 
     font-size: 1.1rem;
-    margin-left: 1.5rem;
+    margin-left: 1rem;
   }
 
   .username-container input, .password-container input {
@@ -370,14 +371,19 @@ textarea::placeholder {
       margin: 4rem 0 0 0rem;
       font-size: 1.2rem;
   }
+
+  .forget-password p{
+    font-size: 1.1rem !important;
+    margin-bottom: 1.5rem;
+  }
 }
 
 @media (max-width: 940px){
   #login-form {
-    height: 800px;
+    height: 750px;
     width: 610px;
     margin-top: 10rem;
-    padding-top:0rem;
+    padding-top:4rem;
   }
 
   .flash-messages{
@@ -394,7 +400,7 @@ textarea::placeholder {
   }
 
   .cross a i{
-    font-size: 1.75rem;
+    font-size: 2rem !important;
   }
 
   h2{
@@ -415,6 +421,7 @@ textarea::placeholder {
 
   .subform-container{
     margin-left: 2.8rem;
+    margin-top: 1rem;
   }
 
   .username-container, .password-container {
@@ -422,8 +429,9 @@ textarea::placeholder {
   }
 
   .username-container label, .password-container label {
-    margin-bottom: 0.6rem; 
+    margin-bottom: 0.3rem; 
     font-size: 0.9rem;
+    margin-left: 0.5rem;
   }
 
   .username-container input, .password-container input {
@@ -465,12 +473,17 @@ textarea::placeholder {
     font-size: 1.45rem;
   }
 
+  .forget-password p{
+    font-size: 1.2rem !important;
+    margin-bottom: 1.5rem;
+  }
+
 }
 
 @media (max-width: 860px){
   #login-form{
-    padding-top: 0rem;
-    height: 790px;
+    padding-top: 3rem;
+    height: 740px;
     width:620px;
   }
   .subform-container{
@@ -501,6 +514,10 @@ textarea::placeholder {
   #login-form button{
     margin-top: 0rem;
   }
+
+  .forget-password p{
+    font-size: 1.1rem !important;
+  }
 }
 
 @media (max-width: 770px){
@@ -514,9 +531,9 @@ textarea::placeholder {
   #login-form {
     height: 640px;
     width: 440px;
-    margin-top: 2.25rem;
+    margin-top: 1.5rem;
     padding: 0.5rem 2rem;
-    padding-top: 0rem;
+    padding-top: 2rem;
   }
 
   .flash-messages{
@@ -535,6 +552,11 @@ textarea::placeholder {
 
   .cross a i{
     font-size: 1.5rem !important;
+  }
+
+  .forget-password p{
+    font-size: 0.8rem !important;
+    font-weight: 500;
   }
 
   h2{
@@ -611,11 +633,15 @@ textarea::placeholder {
   }
 
   #login-form {
-    height: 660px;
-    width: 340px;
-    margin-top: 6rem;
+    height: 680px;
+    width: 360px;
+    margin-top: 3rem;
     padding: 0.5rem 1rem;
-    padding-top: 0rem;
+    padding-top: 1rem;
+  }
+  
+  #hidden-span{
+    display: none;
   }
 
   .flash-messages{
@@ -654,7 +680,7 @@ textarea::placeholder {
   }
 
   .subform-container{
-    margin-left: 1rem;
+    margin-left: 1.25rem;
   }
 
   .container-row{
@@ -701,14 +727,22 @@ textarea::placeholder {
   }
 }
 
+@media (max-width: 391px){
+  #login-form{
+    width:340px;
+    padding-top: 2rem;
+  }
+}
+
 @media (max-width: 376px){
   #login-form{
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     padding: 0.5rem;
-    padding-top: 0rem;
+    padding-top: 1.5rem;
     padding-bottom: 0rem;
-    height:630px;
-    width:320px;
+    padding-left: 0rem;
+    height:620px;
+    width:355px;
   }
 
   .cross i{
@@ -716,14 +750,45 @@ textarea::placeholder {
   }
 
   #login-form button{
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
 
   .subform-container{
-    margin-left: 1rem;
+    margin-left: 1.5rem;
   }
 
   #login-form button{
     margin-top: 0rem;
+    margin-bottom: 0rem;
+  }
+
+  .forget-password{
+    margin: 0;
+  }
+
+  .forget-password a{
+    font-size: 1.05rem !important;
+  }
+
+  .forget-password p{
+    font-size: 0.85rem !important;
+    margin-bottom: 0.5rem;
+  }
+
+  #login-form button{
+    padding: 0.4rem;
+    width : 8rem;
+  }
+}
+
+@media (max-width: 345px){
+  #login-form{
+    margin-top: 2rem;
+    padding: 0.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 0rem;
+    padding-left: 0rem;
+    height:640px;
+    width:325px;
   }
 }

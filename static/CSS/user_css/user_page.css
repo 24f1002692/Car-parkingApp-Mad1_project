@@ -12,6 +12,10 @@ body{
     background-color: var(--navbar-secondary-color-2);
 }
 
+body.rating-active {
+    overflow: hidden;
+}
+
 .navbar{
     background-color: #0B0B0B;
 }
@@ -133,8 +137,8 @@ body{
 
 .status{
     font-size: 0.85rem;
-    color: #28a745;
-    font-weight: 400;
+    color: green;
+    font-weight: 600;
 }
 
 .status-red {
@@ -248,7 +252,7 @@ body{
     pointer-events: auto;
 }
 
-.rating-panel-class {
+.rating-panel-class, .user-panel {
     position: fixed;
     top: 42%;
     left: 50.5%;
@@ -264,12 +268,20 @@ body{
     border-radius: 12px;
 }
 
-.rating-panel-class.active {
+.user-panel{
+    width: 58%;
+    height: 51%;
+    padding: 1rem;
+    border-radius: 10px;
+    left: 52%;
+}
+
+.rating-panel-class.active, .user-panel.active {
     visibility: visible;
     opacity: 1;
 }
 
-.rating-panel-class.closing {
+.rating-panel-class.closing, .user-panel.closing {
     opacity: 0;
     pointer-events: none;
 }
@@ -284,16 +296,24 @@ body{
     overflow-y: auto;
 }
 
-.back-btn{
+.back-btn, .back-button{
     width: 97%;
     display: flex;
     justify-content: end;
     align-items: start;
 }
 
-.back-btn i{
+.back-btn i, .back-button i{
     font-size: 1.1rem;
     cursor: pointer;
+}
+
+.back-button{
+    width : 99%;
+}
+
+.back-button i{
+    font-size: 1.1rem;
 }
 
 .panel-content .heading-div h2{
@@ -364,4 +384,65 @@ body{
 .panel-content #rating-submit-btn:hover{
     transform: scale(0.975);
     border-radius: 1rem;
+}
+
+
+.info-box{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+    padding-top: 0rem;
+}
+
+.info{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 3rem;
+}
+
+.info h2{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.info p{
+    font-size: 1.1rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.image-border {
+    width: 280px;
+    height: 280px;
+    padding: 5px;
+    border-radius: 50%;
+    padding-top: 0px;
+    margin-bottom: 1rem;
+}
+
+#user-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: block;
+    object-fit: cover;
+}
+
+
+.gender-badge {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* gradient example */
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }

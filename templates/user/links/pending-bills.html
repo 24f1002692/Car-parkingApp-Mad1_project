@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Pending Bills</title>
+</head>
+<body>
+    <h1>Your Pending Bills</h1>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% else %}
+        <ul>
+            {% for bill in pending_bills_list %}
+                <li>
+                    <strong>Reserved Spot ID:</strong> {{ bill.bill.reserved_spot_id }} <br>
+                    <strong>Parking Time:</strong> {{ bill.parking_time }} <br>
+                    <strong>Leaving Time:</strong> {{ bill.leaving_time }} <br>
+                    <strong>Phone:</strong> {{ bill.bill.phone }} <br>
+                    <strong>Spot ID:</strong> {{ bill.bill.spot_detail.spot_id }} <br>
+                    <strong>Lot Name:</strong> {{ bill.bill.spot_detail.lot_detail.lot_name }} <br>
+                    <strong>Price/Hour:</strong> ₹{{ bill.bill.spot_detail.lot_detail.price_per_hr }} <br>
+                    
+                    <button class="pay-btn" data-reserved-id="{{ bill.bill.reserved_spot_id }}">Go to Billing Desk</button>
+                    <hr>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <script>
+        Array.from(document.getElementsByClassName('pay-btn')).forEach(btn => {
+            btn.addEventListener('click', () => {
+                const reserved_spot_id = btn.getAttribute('data-reserved-id');
+                window.location.href = `/TruLotParking/role/userDashboard/my-active-reservations/billing-desk?reserved_spot_id=${reserved_spot_id}`;
+            })
+        })
+    </script>
+</body>
+</html>

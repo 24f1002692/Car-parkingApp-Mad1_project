@@ -111,7 +111,7 @@ def login_form_submit():
             else:
                 return jsonify({'success': False, 'message': 'Username or password is incorrect'}), 403
 
-            response = jsonify({'success': True, 'message': 'You are Logged in successfully, Press Ok', 'dashboard': dashboard_url})
+            response = jsonify({'success': True, 'message': 'You are Logged in successfully, ', 'dashboard': dashboard_url})
 
             response.set_cookie(
                 'token',

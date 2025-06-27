@@ -2,12 +2,17 @@ body{
     display: flex;
     justify-content: center;
     align-items: start;
+    background-color: #f5fafab6;
+}
+
+body.otp-mode {
+  background-color: #fdfbf8;
 }
 
 #form-container{
-    background-color: #FFFFFF;
-    height : 480px;
-    width: 800px;
+    background-color: transparent;
+    height : 460px;
+    width: 820px;
     padding: 1rem;
     padding-bottom: 2rem;
     display: flex;
@@ -16,7 +21,8 @@ body{
     align-items: center;
     margin-top: 4.25rem;
     border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border: 0.1rem solid teal;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .head{
@@ -28,6 +34,14 @@ body{
     letter-spacing: 1px;
 }
 
+
+.head h2, .head h1{
+    padding-bottom: 2px;
+    border-bottom: 2px solid #333;
+    color: #ED3500;
+    color: teal;
+}
+
 .content{
     display: flex;
     flex-direction: column;
@@ -35,8 +49,15 @@ body{
     align-items: center;
 }
 .content p{
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #000;
+    letter-spacing: 1px;
+    font-weight: 600;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .booking-info{
@@ -44,16 +65,18 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: space-between;
+    margin-top: 1rem;
 }
 
 .booking-info label{
     display: block;             
     font-weight: 600;               
     margin-bottom: 0.25rem;
-    color: #333;                    
-    font-size: 0.95rem;             
+    font-size: 0.925rem;             
     letter-spacing: 0.5px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #000;
+    letter-spacing: 0.5px;
 }
 
 .booking-info input{
@@ -62,8 +85,9 @@ body{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     display: block;
     outline: none;
-    border-color: #000;
-    border-radius: 10px;
+    border-radius: 6px;
+    border-color: #093FB4;
+    transition: border-radius 0.3s ease;
 }
 
 .booking-info input::placeholder{
@@ -73,7 +97,9 @@ body{
 }
 
 .booking-info input:focus{
-    border-color: aqua ;
+    border-radius: 12px;
+    border-color: #ED3500;
+    border-color: teal;
 }
 
 
@@ -81,8 +107,8 @@ body{
     padding: 0.75rem;
     border: none;
     width: 10rem;
-    background-color: #000;
-    color: #FFF;
+    background-color: teal;
+    color: #FFFFFF;
     border-radius: 8px;
     font-size: 0.9rem;
     letter-spacing: 1px;
@@ -112,8 +138,9 @@ body{
     height: 300px;
     width: 700px;
     background-color: #FFFFFF;
-    padding: 1.5rem;
-    padding-bottom: 2rem;
+    padding: 4rem 8rem;
+    padding-bottom: 5rem;
+    border: 0.1rem solid teal;
     border-radius: 1rem;
     margin-top: 5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
@@ -129,17 +156,27 @@ body{
 .head .h2-head{
     margin-bottom: 2rem;
 }
+
+.head p{
+    font-size: 1.04rem;
+    font-weight: 600;
+    width: 105%;
+    color: rgb(63, 62, 62);
+}
 .steps-content ol{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.775rem;
+    margin-bottom: 1.5rem;
 }
 
 .steps-content ol li{
     letter-spacing: 2px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.03rem;
+    color: rgb(63, 62, 62);
 }
 
 code{
@@ -151,16 +188,17 @@ code{
 
 .alert a{
     text-decoration: none;
-    color: #000;
+    color: rgb(63, 62, 62);
     letter-spacing: 0.5px;
     pointer-events: none;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
+    font-weight: 600;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .alert a span{
     display: inline-block;
-    color: blue;
+    color: red;
     cursor: pointer;
     pointer-events: all;
     font-size: 1.1rem;
@@ -184,16 +222,20 @@ code{
 
 /* ------------------------------------------------- */
 .otp-section-container{
+    background-color: #ffffffac;
+    background-color: transparent;
     display: none;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     height: 200px;
     width: 700px;
-    padding: 2rem;
+    padding: 5rem 6rem;
+    padding-top: 2rem;
+    border: 0.1rem solid brown;
     border-radius: 1rem;
     margin: 8rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 #otp-section{
@@ -211,11 +253,12 @@ code{
 }
 
 #otp-section label{
-    margin-bottom: 1.25rem; 
+    letter-spacing: 1px;
+    margin-bottom: 2.25rem; 
     margin-left: 0.5rem;
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 600;
-    color: var(--label-notice-color);
+    color: brown;
     font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
@@ -239,24 +282,31 @@ textarea::placeholder {
     width: 50px;
     margin-right: 1.25rem;
     font-size: 1.1rem;
-    border-radius: 0.75rem;
+    border-radius: 0.25rem;
     text-align: center;
+    border: 0.1rem solid brown;
+    transition: border-radius 0.3s ease;
+}
+
+#otp-box input:focus{
+    outline: none;
+    border-radius: 0.75rem;
 }
 
 .btn-div{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
 }
 
 #submitOtp_btn{
-    padding: 0.65rem;
+    padding: 0.75rem;
     width: 10rem;
-    background-color: #000;
-    color: #FFF;
+    background-color: brown;
+    color: #FFFFFF;
     border: 10px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     transition: border-radius 0.5s ease;
 }
 

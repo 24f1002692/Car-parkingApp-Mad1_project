@@ -15,7 +15,7 @@
     <div class="part-1">
         <div class="cross">
           <a href="/TruLotParking"><i class="fa-solid fa-house fa-xl"></i></a>
-          <a href="/TruLotParking/loginUser">Login ?</a>
+          <a href="/TruLotParking/loginUser" id="login-label">Login ?</a>
         </div>
 
       <div class="signup-heading comic-neue-regular">
@@ -83,7 +83,7 @@
     </div>
 
     <div class="gender-container">
-      <div class="label-container">Select Your Gender</div>
+      <div class="label-container" id="gender-label">Select Your Gender</div>
       <div class="radio-btn">
         <label>
           <input type="radio" name="gender" value="Male" class="gender">
@@ -107,11 +107,12 @@
     </div>
 
     <div class="request-otp-heading">
-        <h1 class="comic-neue-regular">Email Verification</h1>
+        <h1>Email Verification</h1>
+        <p id="email-msg"></p>
     </div>
     <div id="otp-section">
         <div class="otp-label">
-            <label for="otp-box">Enter your OTP :</label>
+            <label for="otp-box">Enter your OTP Here</label>
         </div>
         <div id="otp-box">
             <input type="text" name="otp-input" maxlength="1" class="otp-value" inputmode="numeric" pattern="\d*">
@@ -122,7 +123,7 @@
     </div>
 
     <div class="btn-div">
-        <button id="requestOtp_btn" type='button' class="comic-neue-regular">Submit OTP</button>
+        <button id="requestOtp_btn" type='button'>Submit OTP</button>
     </div>
   </form>
   {% include 'components/loader.html' %}

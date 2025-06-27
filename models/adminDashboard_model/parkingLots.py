@@ -57,8 +57,10 @@ class ReservedSpot(db.Model):
     reserved_spot_id = db.Column(db.Integer, primary_key=True)
     spot_id = db.Column(db.Integer, db.ForeignKey('parking_spots.spot_id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
     parking_time = db.Column(db.DateTime , nullable=False)
     leaving_time = db.Column(db.DateTime, nullable=True)
+    bill_pay = db.Column(db.Boolean, default=False)
     
     spot_detail = db.relationship('ParkingSpot', back_populates='reserved_spot_detail')    # many-one (many reservation of a spot can be done over the time)
     user_detail = db.relationship('User', back_populates='reserved_spot_detail')       # many-one (many reservations can be done by one user)

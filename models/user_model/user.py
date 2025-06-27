@@ -14,19 +14,9 @@ class User(db.Model):
     role = db.Column(db.String(20), default='user')
     deleteUser = db.Column((db.Boolean), default=False)
     restrictUser = db.Column((db.Boolean), default=False)
-    phone_detail = db.relationship('Phone', back_populates='user_detail')
     address_detail = db.relationship('Address', back_populates='user_detail')
     reserved_spot_detail = db.relationship('ReservedSpot', back_populates='user_detail')   # one user can reserve many spots
     ratings_detail = db.relationship('Rating', back_populates='user_detail')  # one user can give many ratings
-
-
-class Phone(db.Model):
-    __tablename__ = 'phone_table'
-    phone_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    phone = db.Column(db.String(20), nullable=False)
-    
-    user_detail = db.relationship('User', back_populates='phone_detail')
 
 
 class Address(db.Model):

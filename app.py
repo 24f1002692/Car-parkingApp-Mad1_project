@@ -23,6 +23,9 @@ from controllers.admin.registered_users import registered_user_bp
 from controllers.admin.spotDetails import spot_bp
 from controllers.user.ratings import rating_bp
 from controllers.user.view_book_spot import spot_booking_bp
+from controllers.user.reservedSpots import reserved_spot_bp
+from controllers.user.reservedSpots import admin_view_reservation_bp
+from controllers.user.myProfile import profile_bp
 
 
 app = Flask(__name__)
@@ -36,7 +39,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False   # imporves performance of
 
 # IMPORTANT : Bind db to Flask app
 db.init_app(app)
-
 
 
 #--------------------------------------------------------------------------------------------------------------------
@@ -55,6 +57,9 @@ app.register_blueprint(registered_user_bp)
 app.register_blueprint(spot_bp)
 app.register_blueprint(rating_bp)
 app.register_blueprint(spot_booking_bp)
+app.register_blueprint(reserved_spot_bp)
+app.register_blueprint(admin_view_reservation_bp)
+app.register_blueprint(profile_bp)
 
 
 # --------------------------------------------------------------------------------

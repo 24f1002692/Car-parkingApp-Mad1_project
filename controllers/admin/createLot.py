@@ -4,7 +4,7 @@ from db import db
 
 from models.user_model.user import User
 from models.adminDashboard_model.lotSchema import lotModel
-from models.adminDashboard_model.parkingLots import Lot, GeographicalDetail, ParkingSpot
+from models.adminDashboard_model.parkingLots import Lot, GeographicalDetail, ParkingSpot, ReservedSpot
 from controllers.middlewares.validate_form import validate_form
 from controllers.admin.generateImages import generate_random_parking_image_url
 
@@ -64,7 +64,16 @@ def create_parkingLot():
 
                 location = GeographicalDetail.query.filter_by(location=validated_data.location).first()
                 if location:
-                    return jsonify({"success": False, "msg":"Lot is already exist on this location."}), 400
+                    alert_message = "Parking lot is already located on this location !"
+                    redirect_url = "/TruLotParking/role/adminDashboard"
+
+                    html = f"""
+                    <script>
+                        alert("{alert_message}");
+                        window.location.href = "{redirect_url}";
+                    </script>
+                    """
+                    return make_response(html), 200
                 
                 image_url = generate_random_parking_image_url()
             
@@ -121,11 +130,8 @@ def create_parkingLot():
 
             html = f"""
             <script>
-                window.addEventListener("DOMContentLoaded", function () {{
-                    customAlert("{alert_message}", function() {{
-                        window.location.href = "{redirect_url}";
-                    }});
-                }});
+                alert("{alert_message}");
+                window.location.href = "{redirect_url}";
             </script>
             """
             return make_response(html), 200
@@ -367,7 +373,7 @@ def delete_parkingLot():
                 lotName = lot.lot_name
                 
                 all_spots = ParkingSpot.query.filter_by(lot_id=lot.lot_id, deleteSpot=False).all()
-                unoccupied_spots = [spot for spot in all_spots if not spot.occupied or not spot.under_maintenance]
+                unoccupied_spots = [spot for spot in all_spots if not spot.occupied and not spot.under_maintenance]
 
                 if lot.capacity == len(unoccupied_spots):   # delete lot only if all spots are free.
                     for spot in unoccupied_spots:

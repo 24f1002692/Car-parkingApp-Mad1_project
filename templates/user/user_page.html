@@ -6,7 +6,7 @@
 {% block userPage %}
     <div class="container">
         <div class="greet-container">
-            <h1 class="comic-neue-regular">Hello {{ username }}, Welcome to the User Dashboard. . . .</h1>
+            <h1 class="comic-neue-regular">Hello {{ username }}, Welcome to the Your Dashboard. . . .</h1>
         </div>
         <div class="parking-lots-container">
             <div class="lots-card">
@@ -86,6 +86,18 @@
             </div>
             <textarea id="rating-description" rows="3"  cols="40" maxlength="150" placeholder="Write a short comment (max 100 characters)"></textarea>
             <button id="rating-submit-btn">Submit</button>
+        </div>
+    </div>
+
+    <div class="user-panel" id="user-panel">
+        <div class="user-content">
+            <span class="back-button"><i class="fa-solid fa-times" id="back-button"></i></span>
+            <div class="info-box">
+                <div class="image-border">
+                    <img src="" alt="" id="user-image">
+                </div>
+                <div class="info"></div>
+            </div>
         </div>
     </div>
 

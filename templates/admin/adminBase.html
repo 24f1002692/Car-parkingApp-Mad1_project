@@ -64,22 +64,10 @@
         window.addEventListener('pageshow', fadeInBody);   // on page navigation, it triggers.
     </script>
 
+
     {% include 'components/alert.html' %}
 
     <script src="{{ url_for('static', filename='JAVASCRIPT/admin/admin_page.js')}}"></script>
     <script src="{{ url_for('static', filename='JAVASCRIPT/alert.js')}}"></script>
-    <script>
-        window.addEventListener("load", function () {
-            if (window.alertData) {
-                const { message, redirect } = window.alertData;
-                if (typeof customAlert === 'function') {
-                    customAlert(message, () => window.location.href = redirect);
-                } else {
-                    alert(message);
-                    window.location.href = redirect;
-                }
-            }
-        });
-    </script>
 </body>
 </html>

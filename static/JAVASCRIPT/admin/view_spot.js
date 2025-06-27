@@ -88,7 +88,7 @@ function closeSpotDetails() {
 
 
 
-//------------------------------------------------------------------------ --------------------------
+//--------------------------------------------------------------------------------------------------
 
 document.getElementById('view-icon').addEventListener('click', async() => {
     const lotPanel = document.getElementById('lot-detail-panel');
@@ -120,4 +120,57 @@ document.getElementById('lot-close-btn').addEventListener('click', () => {
     setTimeout(() => {
         lotPanel.style.display = "none";
     }, 300);
+});
+
+
+Array.from(document.getElementsByClassName('spot')).forEach(spot => {
+    spot.addEventListener('contextmenu', async(e) => {
+        e.preventDefault();      // prevent browser menu
+        const spotId = spot.dataset.name;
+
+        if (spot.classList.contains('maintenance')) {
+            const confirmRemoval = prompt('This spot is already under maintenance.\nType "REMOVE" to remove it from maintenance status.');
+            if (confirmRemoval && confirmRemoval.toUpperCase() === 'REMOVE') {
+                const loader = document.getElementById('loader');
+                loader.style.display = 'flex';
+                await new Promise(r => setTimeout(r, 400)); 
+                const res = await fetch(`/TruLotParking/role/adminDashboard/parking-lot-details/remove-spot-under-maintenance?spot_id=${spotId}`);
+                const json_res = await res.json();
+                if(json_res.success){
+                    spot.style.backgroundColor = 'rgb(100, 205, 100)';
+                    spot.classList.remove('maintenance');
+                    spot.classList.add('available');
+                    await customAlert(json_res.message);
+                }else{
+                    await customAlert(json_res.message);
+                }
+                loader.style.display = 'none';
+            } else {
+                await customAlert('Action cancelled or denied');
+            }
+
+        } else if (spot.classList.contains('available')) {
+            const confirmAdd = prompt('Mark this spot as under maintenance ? Type "YES" to confirm.');
+            if (confirmAdd && confirmAdd.toUpperCase() === 'YES') {
+                const loader = document.getElementById('loader');
+                loader.style.display = 'flex';
+                await new Promise(r => setTimeout(r, 400)); 
+                const res = await fetch(`/TruLotParking/role/adminDashboard/parking-lot-details/put-spot-under-maintenance?spot_id=${spotId}`);
+                const json_res = await res.json();
+                if(json_res.success){
+                    spot.style.backgroundColor = '#FFB347';
+                    spot.classList.remove('available');
+                    spot.classList.add('maintenance');
+                    await customAlert(json_res.message);
+                }else{
+                    await customAlert(json_res.message);
+                }
+                loader.style.display = 'none';
+            } else {
+                await customAlert('Action cancelled or denied');
+            }
+        } else {
+            return;
+        }
+    })
 });

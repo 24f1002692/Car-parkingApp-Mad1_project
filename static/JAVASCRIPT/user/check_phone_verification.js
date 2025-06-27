@@ -15,12 +15,42 @@ localStorage.setItem('lotId', lotId);
 localStorage.setItem('userId', userId);
 
 async function check_phone_already_verified(phone){
-    const res = await fetch(`/TruLotParking/role/userDashboard/bookOneSpot/check-phone-verification?phone=${encodeURIComponent(phone)}`);
+    try{
+        const res = await fetch(`/TruLotParking/role/userDashboard/bookOneSpot/check-phone-verification?phone=${encodeURIComponent(phone)}`);
 
-    const data = await res.json();
-    return data.success;
+        const data = await res.json();
+        if(!data.success){
+            await customAlert(data.message);
+            if(data.message == 'user is not verified'){
+                return data.success;
+            }
+            return null;
+        }
+        return data.success;
+    }catch(err){
+        console.log(err);
+        await customAlert('Internal Server Error, Try again Later');
+        return null;
+    }
 }
 
+
+async function check_pending_bills(){
+    try{
+        const res = await fetch('/TruLotParking/role/userDashboard/bookOneSpot/check-pending-bills');
+        const data = await res.json();
+
+        if(!data.success){
+            await customAlert(data.message);
+            return data.success;
+        }
+        return data.success;
+    }catch(err){
+        console.log(err);
+        await customAlert('Internal Server Error');
+        return null;
+    }
+}
 
 async function check_phone_verification(){
     const phone = phone_input.value.trim();
@@ -44,30 +74,35 @@ async function check_phone_verification(){
         phone_error_div.innerHTML = '';
     }
 
-    localStorage.setItem('user_phone', phone);
-    
+    localStorage.setItem("user_phone", phone);
     loader.style.display = 'flex';
+
+    const pendingBills = await check_pending_bills();
+    if(!pendingBills){
+        window.location.href = '/TruLotParking/role/userDashboard/my-pending-bills';
+    }
+    
     const res = await check_phone_already_verified(phone);
-    loader.style.display = 'none';
+    if(res == null){
+        window.location.href = '/TruLotParking/role/userDashboard';
+    }
 
     if(res){
-        await new Promise(r => setTimeout(r, 400)); 
+        await new Promise(r => setTimeout(r, 500)); 
         await customAlert('Your phone number is verified, Booking a parking spot for you, please wait...');
-        loader.style.display = 'flex';
         if (!userId_val || !lotId_val) {
             loader.style.display = 'none';
             await customAlert("Missing user or lot information. Please try again.");
             return;
         }
         
-        await new Promise(r => setTimeout(r, 400)); 
+        await new Promise(r => setTimeout(r, 100)); 
         const bookingRes = await fetch('/TruLotParking/role/userDashboard/bookOneSpot', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId_val, lotId_val })
+            body: JSON.stringify({ userId_val, lotId_val, phone_num: localStorage.getItem("user_phone") })
         });
         
-        loader.style.display = 'none';
         const json_booking_res = await bookingRes.json();
         if(json_booking_res.success){
             await customAlert(`Your Parking is Booked, your Spot id is ${json_booking_res.message}, Redirecting to your dashboard`);
@@ -78,7 +113,8 @@ async function check_phone_verification(){
             await customAlert(json_booking_res.message);
         }
     }else{
-        await new Promise(r => setTimeout(r, 400)); 
+        await new Promise(r => setTimeout(r, 500));
+        loader.style.display = 'none';
         form_container.style.display = 'none';
         alert_box.style.display = 'block';
 
@@ -95,6 +131,7 @@ async function check_phone_verification(){
                     
                     alert_box.style.display = 'none';
                     otp_section.style.display = 'block';  // show OTP input section
+                    document.body.classList.add('otp-mode');
                     enableOtpSectionFeatures();
                     await customAlert('📩 OTP sent to your WhatsApp. Please enter it below.');
                 }
@@ -114,13 +151,11 @@ const submitOtp_btn = document.getElementById('submitOtp_btn');   // submit otp 
 submitOtp_btn.addEventListener('click', async () => {
     const lotId_val = localStorage.getItem('lotId');
     const userId_val = localStorage.getItem('userId');
-    const phone = localStorage.getItem('user_phone');
+    const phone = localStorage.getItem("user_phone")
     loader.style.display = 'flex';
     
     const otpInputs = document.querySelectorAll('.otp-value');
     const otp = Array.from(otpInputs).map(i => i.value).join('');
-
-    console.log(userId_val, otp, phone, lotId_val);
 
     if (!/^\d{6}$/.test(otp)) {
         loader.style.display = 'none';
@@ -144,7 +179,7 @@ submitOtp_btn.addEventListener('click', async () => {
     const res = await fetch('/TruLotParking/role/userDashboard/bookOneSpot/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, otp, userId_val })
+        body: JSON.stringify({ phone_num: localStorage.getItem("user_phone"), otp, userId_val })
     });
     
     loader.style.display = 'none';
@@ -154,6 +189,7 @@ submitOtp_btn.addEventListener('click', async () => {
         loader.style.display = 'flex';
 
         if (!userId_val || !lotId_val) {
+            loader.style.display = 'none';
             await customAlert("Missing user or lot information. Please try again.");
             return;
         }
@@ -162,15 +198,13 @@ submitOtp_btn.addEventListener('click', async () => {
         const bookingRes = await fetch('/TruLotParking/role/userDashboard/bookOneSpot', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId_val, lotId_val })
+            body: JSON.stringify({ userId_val, lotId_val, phone_num: localStorage.getItem("user_phone") })
         });
         
-        loader.style.display = 'none';
         const json_booking_res = await bookingRes.json();
         if(json_booking_res.success){
-            await new Promise(r => setTimeout(r, 400)); 
+            await new Promise(r => setTimeout(r, 200)); 
             await customAlert(`Your Parking is Booked, your Spot id is ${json_booking_res.message}, Redirecting to your dashboard`);
-            loader.style.display = 'flex';
             setTimeout(() => {
                 window.location.href = '/TruLotParking/role/userDashboard';
             }, 1000);

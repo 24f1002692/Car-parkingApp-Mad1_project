@@ -92,7 +92,7 @@ def signup_form_submit():
     if not res.get('success'):
         return jsonify({'success': False, 'error':'Location seems invalid'}), 400
     
-    if res.get('confidence', 0) < 7:
+    if res.get('confidence', 0) < 6:
         return jsonify({'success': False, 'error':'House Number & nearby location with address is required'}), 400
     
     components = res.get('components', {})
@@ -104,7 +104,7 @@ def signup_form_submit():
         if user:
             return jsonify({'success':False, 'message':'User with this email already have an account.'}), 409
         
-        row = EmailVerification.query.filter_by(email=email).first()
+        row = EmailVerification.query.filter_by(email=email).first()          # server side email verification check
         if not row or not row.isVerified:
             return jsonify({'success': False, 'error':'Email id is not Verified'}), 400
         
@@ -180,7 +180,7 @@ def check_address():
     if not res.get('success'):
         return jsonify({'success':False, 'error':'Location is invalid'}), 400
         
-    if res.get('confidence', 0) < 7:
+    if res.get('confidence', 0) < 6:
         return jsonify({'success': False, 'error':'House number, building name & your nearby location with address is required'}), 400
     
     return jsonify({'success':True}), 200

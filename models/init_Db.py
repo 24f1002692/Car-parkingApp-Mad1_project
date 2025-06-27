@@ -3,7 +3,7 @@ import os
 def init_user_db():
     from app import app
     from db import db
-    from models.user_model.user import User, EmailVerification, Address, PasswordResetToken, Phone
+    from models.user_model.user import User, EmailVerification, Address, PasswordResetToken
     from models.adminDashboard_model.parkingLots import Lot, GeographicalDetail, ParkingSpot, ReservedSpot
     
     with app.app_context():
@@ -20,7 +20,7 @@ def init_user_db():
             db.session.add(address)
             db.session.flush()
             
-            admin = User(address_id=address.address_id, name=os.getenv('ADMIN_NAME'), password=os.getenv('PASSWORD'), email =os.getenv('EMAIL'), phone=os.getenv('PHONE'), gender=os.getenv('GENDER'), image='', role=os.getenv('ROLE'))
+            admin = User(address_id=address.address_id, name=os.getenv('ADMIN_NAME'), password=os.getenv('PASSWORD'), email =os.getenv('EMAIL'), gender=os.getenv('GENDER'), image='', role=os.getenv('ROLE'))
             db.session.add(admin)
             db.session.commit()
             print("Database initialized. Admin user created.")

@@ -18,7 +18,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--secondary-color);
+    background-color: #dbebfc;
 }
 
 #signup-form {
@@ -27,11 +27,12 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 0.6rem;
-    padding: 0.2rem 2rem;
-    background-color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.5rem;
+    padding: 0.1rem 2rem;
+    background-color: transparent;
     border-radius: 1rem; 
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
+    border: 0.0999rem solid var(--primary-color);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
     transition: all 0.3s ease-in-out;
     z-index: 2;
 }
@@ -52,7 +53,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.65rem;
+    font-size: 0.55rem;
     font-weight: 200;
     letter-spacing: 1.5px;
     margin-left:rem;
@@ -72,7 +73,7 @@ body{
   font-size: 1.25rem !important;
 }
 
-.cross a{
+#login-label{
   color: red;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -101,14 +102,15 @@ h2{
 
 .Notice-list {
   list-style: none;
-  padding: 0;       
-  margin: 0;       
+  padding: 0.25rem;       
+  margin: 0;     
+  margin-bottom: 0.5rem;  
 }
 
 .Notice-list li {
-  background-color: var(--secondary-color);
-  border-left: 2px solid var(--primary-color);
-  padding: 0.7rem 0.75rem; 
+  background-color: transparent;
+  border-left: 0.1rem solid var(--primary-color);
+  padding: 0.9rem 0.75rem; 
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
@@ -152,7 +154,8 @@ h2{
 .label-container .label{
   color: var(--label-notice-color);
   font-size: 0.9rem;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
+  margin-bottom: 0.1rem;
 }
 
 .input-box{
@@ -165,10 +168,9 @@ h2{
 .username-container input, .email-container input{
   padding: 0.5rem;
   padding-left: 1rem;
-  border: 1px solid var(--label-notice-color);
-  border-radius: 2rem;
+  border: 0.0999rem solid var(--primary-color);
+  border-radius: 5px;
   width: 175%;
-  font-style: italic;
   letter-spacing: 1px;
 }
 
@@ -182,14 +184,13 @@ h2{
   margin-right: 0.5rem;
   padding: 0.5rem;
   padding-left: 1rem;
-  border: 1px solid var(--label-notice-color);
-  border-radius: 2rem;
-  font-style: italic;
+  border: 0.0999rem solid var(--primary-color);
+  border-radius: 5px;
   letter-spacing: 1px;
 }
 
 .username-container input:focus, .password-container input:focus, .email-container input:focus, .phone-container input:focus, .textarea-container textarea:focus{
-  border: 1.5px solid var(--primary-color);
+  border: 0.09rem solid #000;
   outline: none;
 }
 
@@ -225,11 +226,11 @@ h2{
   width: 61%;
   height: 5px;
   margin-bottom: 16px;
-  /* background-color: yellow; */
+  margin-left: -1rem;
 }
 
 #address-error-div{
-  margin-left: 0.5rem;
+  margin-left: 0.25rem;
 }
 
 .signup-div{
@@ -239,22 +240,23 @@ h2{
 }
 
 #verify-email-btn{
-  height: 2.4rem;
-  width: 9rem;
-  margin-top: 0.9rem;
-  padding: 0.55rem;
+  height: 2.2rem;
+  width: 10rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
   border:none;
-  border-radius: 2rem;
+  border-radius: 5px;
   background-color: var(--primary-color);
   color: var(--tertiary-color);
   cursor: pointer;
   font-size: 0.9rem;
+  text-align: center;
+  transition: border-radius 0.3s ease;
 }
 
 #verify-email-btn:hover{
-    background-color: var(--primary-color);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    transform: scale(0.95);
+  border-radius: 0.75rem;
+  background-color: var(--primary-color);
 }
 
 .flash-messages{
@@ -274,19 +276,20 @@ h2{
 .address-label-container label{
   color: var(--label-notice-color);
   font-size: 0.9rem;
-  margin-left: 0.75rem;
+  margin-left: 0.1rem;
 }
 
 .textarea-container textarea{
   height: 70px;
-  width:375px;
-  border: 1px solid #333333;
-  border-radius: 1rem;
+  width:379px;
+  border-radius: 5px;
   padding: 4px;
   padding-left: 1rem;
   vertical-align: top;
   resize: vertical;
   margin-top: 3px;
+  border: 0.0999rem solid var(--primary-color);
+  margin-left: -0.4rem;
 }
 
 
@@ -295,7 +298,7 @@ h2{
   justify-content: center;
   align-items:  center;
   margin-bottom: 0.7rem;
-  margin-top: 0.6rem;
+  margin-top: 0.4rem;
 }
 
 .gender-container .label-container{
@@ -343,11 +346,19 @@ h2{
   #signup-form{
     margin-top: 12rem;
     padding-top: 0.5rem;
-    height: 720px;
+    height: 740px;
   }
   
   #verify-email-btn{
     margin-top: 1.5rem;
+  }
+
+  .cross{
+    margin-bottom: 0.75rem;
+  }
+
+  .cross a, .cross a i{
+    font-size: 1.75rem !important;
   }
 }
 
@@ -358,6 +369,14 @@ h2{
 
   #verify-email-btn{
     margin-top: 1rem;
+  }
+
+  .cross{
+    margin-bottom: 1rem;
+  }
+
+  .cross a, .cross a i{
+    font-size: 1.5rem !important;
   }
 }
 
@@ -476,7 +495,7 @@ h2{
   }
 
   #signup-form{
-    height: 710px;
+    height: 690px;
     width: 335px;
     margin-top: 4rem;
   }
@@ -561,12 +580,15 @@ h2{
   .address-label-container label{
     color: var(--label-notice-color);
     font-size: 0.8rem;
-    margin-left: 1rem;
+    margin-left: 0.75rem;
   }
 
   .textarea-container textarea{
     height: 60px;
     width:260px;
+    border: 0.0999rem solid var(--primary-color);
+    border-radius: 5px;
+    margin-left: 0.1rem;
   }
 
   #verify-email-btn{
@@ -576,33 +598,67 @@ h2{
     padding: 0.4rem;
     font-size: 0.75rem;
   }
+
+  .cross a{
+    font-size: 0.999rem !important;
+    margin-left: 0rem;
+    margin-bottom: 0.75rem;
+  }
+
+  #login-label{
+    font-size: 0.95rem !important;
+  }
 }
 
+@media (max-width: 391px){
+  #signup-form{
+    height: 650px;
+    width: 320px;
+  }
+
+  .subform-container{
+    height : 200px;
+    width: 340px;
+    margin-top: 0.25rem;
+    margin-bottom: 0.6rem;
+    margin-left: -0.5rem;
+  }
+
+  .address-label-container label{
+    color: var(--label-notice-color);
+    font-size: 0.8rem;
+    margin-left: 0.75rem;
+  }
+
+  .textarea-container textarea{
+    margin-left: -0.4rem;
+  }
+
+}
 
 @media (max-width: 376px){
    #signup-form{
     height: 650px;
-    width: 280px;
+    width: 300px;
     margin-top: 0.5rem;
     padding-top: 0rem;
   }
 
   .signup-heading{
-    font-size: 0.5rem;
+    font-size: 0.4rem;
     font-weight: 200;
     letter-spacing: 1px;
   }
 
-   #success-toast{
-    max-width: 340px;
-    margin-top: 0.23rem;
-    margin-left: 0.5rem;
-    font-size: 0.6rem;
-  }
-
 
   .subform-container{
-    width: 260px;
+    width: 240px;
+    margin-left: 0.6rem;
+  }
+
+  .label-container .label{
+    font-size: 0.7rem;
+    margin-left: 0.6rem;
   }
 
   .password-container{
@@ -616,20 +672,67 @@ h2{
     margin-left: 0rem;
     margin-bottom: 0rem;
   }
+
+  .address-label-container label{
+    margin-left: 1rem;
+  }
+
+  .textarea-container textarea{
+    margin-left: 0.5rem;
+  }
+
+  .cross a{
+    font-size: 0.8rem !important;
+    margin-left: 0rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #login-label{
+    font-size: 0.85rem !important;
+  }
 }
 
 
 @media (max-width: 360px){
    #signup-form{
-    height: 690px;
-    width: 280px;
-    margin-top: 1rem;
+    height: 710px;
+    width: 270px;
+    margin-top: 2rem;
     padding-top: 0rem;
   }
 
    .signup-heading{
-    font-size: 0.4rem;
+    font-size: 0.35rem;
     font-weight: 200;
     letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+
+  .subform-container{
+    width: 240px;
+    margin-left: -0.2rem;
+  }
+
+  .textarea-container textarea{
+    margin-left: -0.2rem;
+  }
+
+  .cross{
+    margin-bottom: 0.75rem;
+  }
+
+  .cross a, .cross a i{
+    font-size: 1.5rem !important;
+  }
+  
+  #gender-label{
+    display: none;
+  }
+
+  .gender-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -1.5rem;
   }
 }

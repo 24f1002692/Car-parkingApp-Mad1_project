@@ -9,7 +9,7 @@ def check_authorisation(token):
 
     decoded = decode_jwt(token)
     if not decoded:
-        return jsonify({'success':False, 'message':'Could not decode the token'}), 401
+        return jsonify({'success':False, 'message':'Could not decode the token, invalid token'}), 401
 
     email = decoded.get('email')
     if not email:

@@ -6,30 +6,35 @@
 
 body{
     overflow: hidden;
+    background-color:  #fff7e64e;
 }
 
 #requestOtp_form{
-    height: 360px;
-    width: 410px;
+    height: 400px;
+    width: 560px;
     margin-top: 5rem;
-    padding: 1.25rem 2rem;
-    background-color: rgba(255, 255, 255, 0.7);
+    padding: 1.25rem 1rem;
+    background-color: transparent;
+    border: 0.1rem solid orangered;
     border-radius: 1.5rem; 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
     transition: all 0.3s ease-in-out;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #error-toast{
-    max-width:300px;
-    background-color:#f8d7da; 
-    color:#721c24;
+    width: 400px;
+    background-color: orangered; 
+    color:#FFF;
     text-align: center; 
-    padding: 2px; 
-    margin-top:1rem; 
-    margin-left: 3.75rem; 
-    border: 1px solid #f5c6cb; 
+    padding: 4px; 
+    font-weight: 500;
     border-radius: 5px;
+    letter-spacing: 2px;
 }
 
 .request-otp-heading, .btn-div, .input-div, .error-message, #otp-box, .otp-label, .requestAgainOtpBtn-div{
@@ -39,26 +44,38 @@ body{
 }
 
 .request-otp-heading{
-    margin: 0.75rem 0.5rem 0.5rem 0.5rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+    margin: 0.2rem;
+    padding: 0.25rem 1rem;
+    font-size: 0.8rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: #333333;
+    letter-spacing: 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.request-otp-heading p{
+    font-size: 0.9rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
 }
 
 #otp-section label{
-    margin-bottom: 0.35rem; 
-    margin-left: 0.5rem;
-    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem; 
+    margin-left: 0.25rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--label-notice-color);
-    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .otp-box input::placeholder,
 textarea::placeholder {
-  color: #999;
   font-size: 0.95rem;
-  font-style: italic;
   opacity: 1; 
   text-align: center;
   margin-bottom: 1rem;
@@ -70,22 +87,23 @@ textarea::placeholder {
     align-items: center;
     justify-content: center;
     margin-top: 1rem;
-    padding: 0.6rem 1.5rem;
-    background-color: var(--primary-color);
-    color: var(--tertiary-color);
+    padding: 0.6rem 2.5rem;
+    background-color: orangered;
+    color: #FFF;
     border: none;
-    border-radius: 999px;    
+    border-radius: 8px;    
     cursor: pointer;
-    font-weight: 500;
-    font-size: 0.85rem;
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 1px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     transition: all 0.3s ease;
 }
 
 #requestOtp_btn:hover{
-    background-color: var(--primary-color);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    transform: scale(1.1);
+    background-color: orangered;
+    border-radius: 16px;
 }
 
 .otp-label{
@@ -94,17 +112,25 @@ textarea::placeholder {
 }
 
 #otp-box{
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     margin-left: 1.5rem;
 }
 
 #otp-box input{
-    height : 40px;
-    width: 40px;
+    height : 50px;
+    width: 50px;
     margin-right: 1.25rem;
     font-size: 1.1rem;
-    border-radius: 0.75rem;
+    border-radius: 0.25rem;
     text-align: center;
+    border: 2px solid orangered;
+    transition: border-radius 0.3s ease;
+}
+
+#otp-box input:focus{
+    outline: none;
+    border-radius: 0.75rem;
+    border-color: orangered;
 }
 
 /* -------------------------------------------------------- MEDIA QUERIES ----------------------------------------- */

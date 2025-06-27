@@ -94,9 +94,9 @@ document.getElementById('login-button').addEventListener('click', async(event) =
     const res = await resp.json();
     
     if(res.success){
-        await customAlert(res.message);
         loader.style.display = 'flex';
-        await new Promise(resolve => setTimeout(resolve, 400));
+        await customAlert(res.message + 'Redirecting you to your dashboard. . .')
+        await new Promise(resolve => setTimeout(resolve, 200));
         window.location.href = res.dashboard;
     }else{
         await customAlert(res.message);

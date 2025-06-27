@@ -92,17 +92,16 @@ body {
 
 .search-input-btn input[type="text"] {
     padding: 10px 12px;
-    border-radius: 16px;
+    border-radius: 8px;
     outline: none;
     width: 450px;
-    transition: border 0.3s;
+    transition: border-radius 0.3s ease;
     font-size: 0.95rem;
     padding-left: 1.5rem;;
 }
 
 .search-input-btn input[type="text"]:focus {
-    border: 0.1px;
-    border-color: var(--tertiary-color);
+    border-radius: 1rem;
 }
 
 .search-input-btn .btn {
@@ -122,6 +121,21 @@ body {
 }
 
 
+#logout::after, #profile::after{
+    display: none;
+
+}
+
+#logout i, #profile i{
+    transition: transform 0.4s ease;
+    text-decoration: none;
+    font-size: 1.25rem;
+}
+
+#logout i:hover, #profile i:hover{
+    transform: scale(1.2);
+}
+
 /* since it is a admin dashboard, we can work on its responive later */
 
 
@@ -133,27 +147,3 @@ body {
 
 
 
-
-
-/* Responsive layout */
-/* @media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
-
-    .links ul {
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .search-input-btn input[type="text"] {
-        width: 100%;
-    }
-
-    .search-bar {
-        width: 100%;
-        justify-content: flex-start;
-    }
-} */

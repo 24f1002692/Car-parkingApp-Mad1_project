@@ -25,7 +25,7 @@ body{
 }
 
 .card{
-    width: 280px;
+    width: 290px;
     margin-right: 1.975rem;
     border-radius: 0.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -38,7 +38,7 @@ body{
 }
 
 .card .card-img-top{
-    height: 185px;
+    height: 190px;
     width: 100%;
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;

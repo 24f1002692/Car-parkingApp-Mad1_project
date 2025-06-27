@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruLot Billing desk</title>
+</head>
+<body>
+    {{ reserved_spot.reserved_spot.reserved_spot_id }}<br>
+
+    {{ reserved_spot.reserved_spot.spot_detail.lot_detail.lot_name }}<br>
+    {{ reserved_spot.parking_time }}<br>
+    {{ reserved_spot.leaving_time }}<br>
+
+    {{ bill_amt }} , {{ gst }}
+    <button id="pay-btn" data-reserved-id="{{ reserved_spot.reserved_spot.reserved_spot_id }}">Pay</button>
+    <button id="pay-later">Will Pay Later</button>
+    <script>
+        
+    </script>
+    {% include 'components/alert.html' %}
+    {% include 'components/loader.html' %}
+    <script type="module" src="{{ url_for('static', filename='JAVASCRIPT/user/billing_desk.js')}}"></script>
+    <script src="{{ url_for('static', filename='/JAVASCRIPT/alert.js')}}"></script>
+    <script>
+        document.getElementById('pay-later').addEventListener('click', async () => {
+            const input = prompt("Are you sure to pay Later? Type 'YES' to pay Later");
+            if (input === "YES") {
+                window.location.href = "/TruLotParking/role/userDashboard";
+            }
+            // else do nothing, stay on billing desk
+        });
+        </script>
+</body>
+</html>

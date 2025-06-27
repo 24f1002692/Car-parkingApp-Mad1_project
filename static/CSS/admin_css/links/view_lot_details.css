@@ -236,7 +236,8 @@ body {
 }
 
 .available{
-    background-color: #98FB98;
+    /* background-color: #98FB98; */
+    background-color: rgb(100, 205, 100);
 }
 
 

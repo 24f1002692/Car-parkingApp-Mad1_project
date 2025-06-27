@@ -292,8 +292,12 @@ verifyBtn.addEventListener('click', async () => {
 
     if (data.success) {
         sessionStorage.setItem('formData', JSON.stringify(payload));   // user information is stored in sessionStorage
+        document.getElementById('email-msg').innerHTML = `
+        ✅ We’ve sent a One-Time Password (OTP) to <strong>${email}</strong>.<br><br>
+        📩 Please check your inbox and spam folder<br> to complete your verification.
+        `;
         document.getElementById('signup-form').style.display = 'none';
-        document.getElementById('requestOtp_form').style.display = 'block';      // form where user will put otp, will be displayed.
+        document.getElementById('requestOtp_form').style.display = 'flex';      // form where user will put otp, will be displayed.
         await customAlert(data.message);
         enableOtpSectionFeatures();
     } else {

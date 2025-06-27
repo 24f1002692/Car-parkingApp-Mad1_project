@@ -11,13 +11,21 @@
 
     alertMsg.textContent = message;
     alertBox.classList.remove('hidden');
+    document.body.classList.add('alert-active');
+    void alertBox.offsetWidth;  // forces browser to *recalculate layout*
+    alertBox.classList.add('show');
 
     return new Promise((resolve) => {
       const handleClose = () => {
-        alertBox.classList.add('hidden');
-        okBtn.removeEventListener('click', handleClose);
-        resolve();
-        callback();
+        alertBox.classList.remove('show');
+
+        setTimeout(() => {
+          alertBox.classList.add('hidden');
+          document.body.classList.remove('alert-active');
+          okBtn.removeEventListener('click', handleClose);
+          resolve();
+          callback();
+        }, 400);
       };
 
       okBtn.addEventListener('click', handleClose);

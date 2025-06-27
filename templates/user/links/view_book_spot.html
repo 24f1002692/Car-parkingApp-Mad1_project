@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book One Spot</title>
     <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/user_css/links/view_book_spot.css')}}">
+    <link rel="icon" href="{{ url_for('static', filename='/images/form_images/form.webp') }}" type="image/x-icon">
 </head>
-<body>
+<body id="view-booking-body">
     <div id="form-container" data-user-id="{{ user_id }}" data-lot-id="{{lot.lot_id}}">
         <div class="head">
             <h1>VIEW BOOKING PRICES & DETAILS</h1>
@@ -44,7 +45,7 @@
             </div>
         </div>
         <div class="anchor-tag">
-            <a href="https://wa.me/14155238886" target="_blank"><span>Click here</span>&nbsp;&nbsp;&nbsp;to verify and book your first Spot</a>
+            <a href="https://wa.me/14155238886" target="_blank"><span>Click here</span>&nbsp;&nbsp;to verify and book your first Spot</a>
         </div>
     </div>
     
@@ -64,7 +65,7 @@
         </div>
 
         <div class="btn-div">
-            <button id="submitOtp_btn" type='button'>Submit OTP</button>
+            <button id="submitOtp_btn" type='button'>SUBMIT OTP</button>
         </div>
     </div>
 

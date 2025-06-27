@@ -8,13 +8,13 @@
                 </ul>
             {% elif request.path == '/TruLotParking/role/userDashboard' %}
                 <ul>
-                    <li><a href="">My Active Reservations</a></li>
-                    <li><a href="">My Past Reservations</a></li>
+                    <li><a href="/TruLotParking/role/userDashboard/my-active-reservations">My Active Reservations</a></li>
+                    <li><a href="/TruLotParking/role/userDashboard/my-past-reservations">My Past Reservations</a></li>
                 </ul>
             {% else %}
                 <ul>
                     <li><a href="/TruLotParking/role/adminDashboard/registered-users">Registered Users</a></li>
-                    <li><a href="">Active Reservations</a></li>
+                    <li><a href="/TruLotParking/role/adminDashboard/active-reservations">Active Reservations</a></li>
                     <li><a href="" style="visibility: hidden;">Summary Charts</a></li>
                 </ul>
             {% endif %}
@@ -23,30 +23,35 @@
 
     <div class="search-bar">
         {% if request.path == '/TruLotParking/role/adminDashboard/registered-users' %}
-            <div class="search-input-btn" style="margin-left: -5rem;">
-                <input type="text" id='search-box' placeholder="Search Users here...." data-target-class="user-card" data-name-key="name">
+            <div class="search-input-btn" style="margin: 0.4rem; margin-left: -10rem;">
+                <input type="text" id='search-box' placeholder="Search Users here...." data-target-class="user-card" data-name-key="name" style="padding:0.75rem; padding-left: 1rem;">
+            </div>
+        {% elif request.path == '/TruLotParking/role/userDashboard' %}
+            <div class="search-input-btn" style="margin-left: -1rem;">
+                <input type="text" id='search-box' placeholder="Search Parking Lots here...." data-target-class="lot-card" data-name-key="lotName">
             </div>
         {% else %}
-            <div class="search-input-btn" style="margin-left: -6rem;">
+            <div class="search-input-btn" style="margin-left: -7rem;">
                 <input type="text" id='search-box' placeholder="Search Parking Lots here...." data-target-class="lot-card" data-name-key="lotName">
             </div>
         {% endif %}
     </div>
 
     <div class="links links-div">
-            {% if request.path == '/TruLotParking/role/adminDashboard/registered-users' %}
-                <ul style="margin-top: 0rem; margin-right: 0rem;">
-                    <li><a href="" style="margin-top: 0rem; letter-spacing: 0.5px;">Restricted Users</a></li>
-                </ul>
-            {% elif request.path == '/TruLotParking/role/userDashboard' %}
-                 <ul style="margin-top: 1rem; margin-right: 0rem;">
-                    <li><a href="#">Post a Query</a></li>
-                    <li><a href="/TruLotParking/logout" style="letter-spacing: 1px;">Logout</a></li>
-                </ul>
-            {% else %}
-                <ul>
-                    <li><a href="/TruLotParking/logout">Logout</a></li>
-                </ul>
-            {% endif %}
+        {% if request.path == '/TruLotParking/role/adminDashboard/registered-users' %}
+            <ul style="margin-top: 0rem; margin-right: 0rem;">
+                <li><a href="" style="margin-top: 0rem; letter-spacing: 0.5px;">Restricted Users</a></li>
+            </ul>
+        {% elif request.path == '/TruLotParking/role/userDashboard' %}
+            <ul style="margin-top: 1rem; margin-right: 0rem;">
+                <li><a href="/TruLotParking/role/userDashboard/my-pending-bills" style="margin-right: 1rem;">Pending Bills</a></li>
+                <li><a id='profile' href="/TruLotParking/role/userDashboard/my-profile" style="margin-right: 0.5rem;"><i class="fa-solid fa-user"></i></a></li>
+                <li><a id="logout" href="/TruLotParking/logout" style="letter-spacing: 1px;"><i class="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+            </ul>
+        {% else %}
+            <ul>
+                <li><a id="logout" href="/TruLotParking/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+            </ul>
+        {% endif %}
     </div>
 </div>
