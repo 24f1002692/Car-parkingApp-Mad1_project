@@ -31,10 +31,21 @@ body.rating-active {
 }
 
 .greet-container h1{
-    font-size: 1.75rem;
-    color: #0B0B0B;
-    letter-spacing: 1px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 2.85rem;
     font-weight: 500;
+    letter-spacing: 3px;
+    -webkit-text-stroke: 2.5px #0B0B0B;
+    color: transparent;
+    text-shadow:
+        1px 2px 0 #0B0B0B,
+        2px 2px 0 #999,
+        3px 3px 0 #999,
+        4px 4px 0 #777,
+        5px 5px 0 #666;
+
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 1rem;
 }
 
 .lots-card{

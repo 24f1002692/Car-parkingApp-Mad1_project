@@ -11,6 +11,8 @@ class lotModel(BaseModel):
     location: str
     state: str
     country: str
+    lot_id: Optional[int] = None
+
 
     @validator('lot_name')
     def validate_lot_name(cls, v):

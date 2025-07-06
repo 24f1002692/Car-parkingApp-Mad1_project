@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        .hidden{
+            display: none;
+        }
+        
+        /* top: 0; left: 0; right: 0; bottom: 0;  this is covering entire screen */
+        #customPrompt {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;    
+            background: rgba(0,0,0,0.55);
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 99999;
+        }
+
+        #customPrompt.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+
+        /* it is the actual white box */
+        .prompt-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            padding-left: 1.5rem;
+            padding-top: 1rem;
+            width: 600px;
+            height: 180px;
+            background: white;
+            border-radius: 8px;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        #customPrompt.show .prompt-box {
+            transform: translateY(0);
+        }
+
+        .prompt-box p{
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            letter-spacing: 1px;
+        }
+
+        .prompt-box input{
+            margin-top: 1rem;
+            padding: 0.6rem;
+            border: 0.1rem solid #DD88CF;
+            border-radius: 4px;
+            width: 80%;
+            transition: border-radius 0.3s ease;
+        }
+
+        .prompt-box input:focus{
+            outline: none;
+            border: 0.1rem solid #DD88CF;
+            border-radius: 0.8rem;
+        }
+
+        .prompt-box input::placeholder{
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            letter-spacing: 1px;
+        }
+
+        .prompt-btn{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 60%;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        #promptConfirmBtn, #promptCancelBtn{
+            border: none;
+            border-radius: 4px;
+            background-color: #DD88CF;
+            color: #FFF;
+            padding: 0.5rem;
+            width: 7rem;
+            font-size: 0.85rem;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            transition: border-radius 0.4s ease;
+            cursor: pointer;
+        }
+
+        #promptConfirmBtn:hover, #promptCancelBtn:hover{
+            border-radius: 0.5rem;
+        }
+
+        .prompt-box.user-dashboard {
+            width: 500px;
+            padding-top: 0rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="customPrompt" class="hidden">
+        <div class="prompt-box">
+            <p id="prompt-heading"></p>
+            <input type="text" id="promptInput" placeholder="Type 'RELEASE SPOT">
+            <div class="prompt-btn">
+                <button id="promptConfirmBtn">Submit</button>
+                <button id="promptCancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

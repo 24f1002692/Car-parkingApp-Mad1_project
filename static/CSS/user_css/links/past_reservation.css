@@ -1,0 +1,141 @@
+:root{
+    --primary-test-color: #DD88CF;
+}
+
+body{
+    background: linear-gradient(to right, #FFFDD0, #FFFFFF, #008080d9);
+}
+
+.card-container h1{
+    font-size: 4rem;
+}
+
+.card{
+    height: 285px;
+    padding: 1rem 2rem;
+    background: linear-gradient(to left, #FFFDD0, #FFFFFF, #008080d9);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-image: 
+        linear-gradient(white, white), 
+        linear-gradient(to left, #FFFDD0, #FFFFFF, #008080d9);
+}
+
+
+.card-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    height: 3rem;
+}
+
+
+.card-head .reserved-spot-circle{
+    background-color: #0B0B0B;
+    color: #FFFFFF;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.25rem;
+}
+
+.card-head .parking-info{
+    width: 52.5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.card-head .parking-info p{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.basic-details{
+    display: flex;
+    justify-content: space-around;
+    gap:8rem;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.user-details p, .lot-details p{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 600;
+    color: #0B0B0B;
+    font-size: 0.9rem;
+    text-align: center;
+    width: 90%;
+    padding: 0.4rem 2.5rem;
+    border-radius: 5px;
+    background: linear-gradient(to left, #fffdd091, #FFFFFF, #00808076);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.0.5);
+    margin-bottom: 8px;
+}
+
+.user-details .reservation-holder, .lot-details .parking-info-title{
+    padding: 0.6rem 2.5rem;
+    background: none;
+    font-size: 1.1rem;
+    box-shadow: none;
+}
+
+.lot-details p{
+    width: 80%;
+}
+
+
+.page-item.disabled .page-link {
+    background-color: #fffdd0a4;
+    color: #8b8514;
+    color: #8a4f00;            
+    pointer-events: none;
+}
+
+
+.book-again-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-again{
+    padding: 0.75rem 1rem;
+    margin-top: 2rem;
+    width: 16rem;
+    background-color: #00808090;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 2.5px;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    cursor: pointer;
+    transition: border-radius 0.3s ease;
+}
+
+.book-again:hover{
+    border-radius: 0.75rem;
+}
+
+.past-reservation-message{
+    width: 500px;
+    font-size: 1.2rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-top: 6rem;
+    margin-bottom: 2rem;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #fffdd0a4; 
+    color: #8a4f00;            
+    display: inline-block;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 1px solid #ffd3a3;
+}

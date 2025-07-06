@@ -48,11 +48,11 @@ def addLot():
 def create_parkingLot():
     token = request.cookies.get('token')
     if not token:
-        return render_template('/components/error_page.html', error='Unauthorized User / Admin (token missing)'), 401
+        return jsonify({'success': False, 'msg':'Unauthorized User / Admin (token missing)'}), 400
     
     decoded = decode_jwt(token)
     if not decoded:
-        return render_template('/components/error_page.html', error='Unauthorized: Invalid or expired token'), 401
+        return jsonify({'success': False, 'msg':'Unauthorized: Invalid or expired token'}), 401
     
     email_In_Token = decoded.get('email')
     try:
@@ -64,16 +64,7 @@ def create_parkingLot():
 
                 location = GeographicalDetail.query.filter_by(location=validated_data.location).first()
                 if location:
-                    alert_message = "Parking lot is already located on this location !"
-                    redirect_url = "/TruLotParking/role/adminDashboard"
-
-                    html = f"""
-                    <script>
-                        alert("{alert_message}");
-                        window.location.href = "{redirect_url}";
-                    </script>
-                    """
-                    return make_response(html), 200
+                    return jsonify({'success': False, 'msg':'Parking lot is already located on this location'}), 400
                 
                 image_url = generate_random_parking_image_url()
             
@@ -121,25 +112,17 @@ def create_parkingLot():
                 db.session.add_all(spots)
                 db.session.commit()
             except Exception as err:
-                print(err)
                 db.session.rollback()
                 return jsonify({"success": False, "msg":"Error in creating parking lot"}), 400
             
             alert_message = "Parking lot created successfully!"
             redirect_url = "/TruLotParking/role/adminDashboard"
 
-            html = f"""
-            <script>
-                alert("{alert_message}");
-                window.location.href = "{redirect_url}";
-            </script>
-            """
-            return make_response(html), 200
+            return jsonify({'success': True, 'msg': alert_message, 'redirect_url': redirect_url}), 200
         else:
-            return render_template('/components/error_page.html', error='UnAuthorised Access, You are not an Admin...'), 400
+            return jsonify({'success': False, 'msg': 'UnAuthorised Access, You are not an Admin'}), 403
     except Exception as error:
-        print(error)
-        return render_template('/components/error_page.html', error='Internal Server Error (Database Error)'), 400
+        return jsonify({'success': False, 'msg': 'Internal Server Error'}), 500
         
 
 # ---------------------------------------------------------- view and edit parking details -------------------------------------------
@@ -160,24 +143,24 @@ def parking_lot_details():
         user = User.query.filter_by(email=email_In_Token).first()
 
         if user and user.role=='admin':
-            lot_id = request.args.get('lot_id')        # Fetches the lot_id value from the query params
+            lot_id = request.args.get('lot_id')   # Fetches the lot_id value from the query params
             if not lot_id:
-                return jsonify({"error" : "Lot ID missing"}), 400
+                return render_template('/components/error_page.html', error='lot id is missing'), 400
 
             lot = Lot.query.filter_by(lot_id=lot_id, deleteLot=False).first()
             if not lot:
-                return jsonify({'error' : "Lot not found"}), 404
+                return render_template('/components/error_page.html', error='lot not found'), 404
             
             spots = ParkingSpot.query.filter_by(lot_id=lot_id, deleteSpot=False).all()
             if not spots:
-                return jsonify({'success' : False, 'msg' : 'No spots exists in this lot'}), 404   # never hits.
+                return render_template('/components/error_page.html', error='No spots exists in this lot'), 404
 
             return render_template('admin/links/view_lot_details.html', lot=lot, spots=spots)
         else:
             return render_template('/components/error_page.html', error='UnAuthorised Access, You are not an Admin...'), 400
     except Exception as error:
         print(error)
-        return jsonify({'success': False ,'msg' : 'Database Error, while verifying user or finding Lot'}), 400
+        return render_template('/components/error_page.html', error='Database Error, while verifying user or finding Lot'), 500
     
 
 @lot_bp.route('/update-parkingLot-form')
@@ -215,33 +198,29 @@ def update_parkingLot_form():
 @lot_bp.route('/update-parkingLot', methods=['POST'])
 @validate_form(lotModel)
 def update_parkingLot():
-    if request.form.get('_method') != 'PUT':
-        return jsonify({'success': False, 'error': 'Method not allowed'}), 405
-    
     token = request.cookies.get('token')
     if not token:
-        return render_template('/components/error_page.html', error='Unauthorized User / Admin (token missing)'), 401
+        return jsonify({'success': False, 'msg': 'Unauthorized User / Admin (token missing)'}), 400
     
     decoded = decode_jwt(token)
     if not decoded:
-        return render_template('/components/error_page.html', error='Unauthorized: Invalid or expired token'), 401
+        return jsonify({'success': False, 'msg':'Unauthorized: Invalid or expired token'}), 401
     
     email_In_Token = decoded.get('email')
 
     try:
+        validated_data = request.validated_data
         user = User.query.filter_by(email=email_In_Token).first()
 
         if user and user.role =='admin':
-            lot_id = request.form.get('lot_id')         # Fetches the lot_id value from form because PUT is not allowed in html forms.
+            lot_id = validated_data.lot_id       # Fetches the lot_id value from form because PUT is not allowed in html forms.
             if not lot_id:
-                return jsonify({'success': False, "error" : "Lot ID missing"}), 400
+                return jsonify({'success': False, "msg" : "Lot ID missing"}), 400
 
             lot = Lot.query.filter_by(lot_id=lot_id, deleteLot=False).first()
             if not lot:
-                return jsonify({'success': False, 'error' : "Lot not found"}), 404
+                return jsonify({'success': False, 'msg' : "Lot not found"}), 404
             
-            validated_data = request.validated_data
-
             fields_to_check = ['lot_name', 'description', 'price_per_hr', 'timing', 'capacity']
             no_changes = all(getattr(lot, field) == getattr(validated_data, field) for field in fields_to_check)
 
@@ -249,15 +228,7 @@ def update_parkingLot():
 
             if no_changes and other.location == validated_data.location and other.state == validated_data.state and other.country == validated_data.country:
                 alert_message = "No changes found in updating Lot. Redirecting to admin Dashboard... !"
-                redirect_url = f"/TruLotParking/role/adminDashboard"
-
-                html = f"""
-                <script>
-                    alert("{alert_message}");
-                    window.location.href = "{redirect_url}";
-                </script>
-                """
-                return make_response(html)
+                return jsonify({'success': False, 'msg': alert_message}), 400
             
             try:
                 lot.lot_name = validated_data.lot_name if validated_data.lot_name is not None else lot.lot_name
@@ -280,19 +251,21 @@ def update_parkingLot():
                                 spot.deleteSpot = True
                     else:
                         alert_message = "Too many occupied spots. Cannot reduce capacity right now !"
-                        redirect_url = "/TruLotParking/role/adminDashboard"
-
-                        html = f"""
-                        <script>
-                            alert("{alert_message}");
-                            window.location.href = "{redirect_url}";
-                        </script>
-                        """
-                        return make_response(html)
+                        return jsonify({'success': False, 'msg': alert_message}), 409
                     
                 elif len(all_spots) < validated_data.capacity:
                     new_spots_needed = validated_data.capacity - len(all_spots)
-                    for _ in range(new_spots_needed):
+                    deleted_spots = ParkingSpot.query.filter_by(lot_id=lot.lot_id, deleteSpot=True).limit(new_spots_needed).all()
+
+                    revived_count = 0
+                    for spot in deleted_spots:
+                        spot.deleteSpot = False
+                        db.session.add(spot)
+                        revived_count += 1
+
+                    # If more spots are still needed, create new ones
+                    remaining_needed = new_spots_needed - revived_count
+                    for _ in range(remaining_needed):
                         new_spot = ParkingSpot(lot_id=lot.lot_id)
                         db.session.add(new_spot)
 
@@ -303,45 +276,28 @@ def update_parkingLot():
                     db.session.commit()
                 except Exception as e:
                     db.session.rollback()
-                    print("COMMIT FAILED:", e)
-                    alert_message = "Database commit Failed. Redirecting to your admin dashboard... !"
+                    # print("COMMIT FAILED:", e)
+                    alert_message = "Could not made changes to the Database. Redirecting to your admin dashboard... !"     # database commit failed
                     redirect_url = "/TruLotParking/role/adminDashboard"
 
-                    html = f"""
-                    <script>
-                        alert("{alert_message}");
-                        window.location.href = "{redirect_url}";
-                    </script>
-                    """
-                    return make_response(html)
+                    return jsonify({'success': False, 'msg': alert_message}), 500
+                
 
                 alert_message = "Parking lot updated successfully. Redirecting to your admin dashboard... !"
                 redirect_url = "/TruLotParking/role/adminDashboard"
 
-                html = f"""
-                <script>
-                    alert("{alert_message}");
-                    window.location.href = "{redirect_url}";
-                </script>
-                """
-                return make_response(html)  
+                return jsonify({'success': True, 'msg': alert_message, 'redirect_url': redirect_url}), 200
             except Exception as error:
                 print(error)
                 db.session.rollback()
                 alert_message = "Database failure occurred, parking lot updation failed. Redirecting to your admin dashboard... !"
-                redirect_url = "/TruLotParking/role/adminDashboard"
 
-                html = f"""
-                <script>
-                    alert("{alert_message}");
-                    window.location.href = "{redirect_url}";
-                </script>
-                """
-                return make_response(html)
+                return jsonify({'success': False, 'msg': alert_message}), 200
         else:
-            return render_template('/components/error_page.html', error='UnAuthorised Access, You are not an Admin...'), 400
+            return jsonify({'success': False, 'msg': 'UnAuthorised Access, You are not an Admin'}), 400
     except Exception as error:
-        return render_template('/components/error_page.html', error='User not found'), 404
+        print(error)
+        return jsonify({'success': False, 'msg': 'User not found'}), 404
 
 
 # ---------------------------------------------------------------- Delete a Parking Lot -----------------------------------
@@ -349,11 +305,11 @@ def update_parkingLot():
 def delete_parkingLot():
     token = request.cookies.get('token')
     if not token:
-        return render_template('/components/error_page.html', error='Unauthorized User / Admin (token missing)'), 401
+        return jsonify({'success': False, 'msg': 'Unauthorized User / Admin (token missing)'}), 400
     
     decoded = decode_jwt(token)
     if not decoded:
-        return render_template('/components/error_page.html', error='Unauthorized: Invalid or expired token'), 401
+        return jsonify({'success': False, 'msg': 'Unauthorised User / Admin (expired Token)'}), 401
     
     email_In_Token = decoded.get('email')
 
@@ -389,12 +345,64 @@ def delete_parkingLot():
             except Exception as error:
                 print(error)
                 return jsonify({'success': False, 'msg': 'Internal server error...'}), 500
+        else:
+            return jsonify({'success': False, 'msg':'You r not an authorised admin'}), 403
     except Exception as error:
         print(error)
         return jsonify({'success': False, 'msg': 'Internal server error...'}), 500
 
 
+@lot_bp.route('/deleteSpot')
+def deleteSpot():
+    token = request.cookies.get('token')
+    if not token:
+        return jsonify({'success': False, 'msg': 'Unauthorized User / Admin (token missing)'}), 401
+    
+    decoded = decode_jwt(token)
+    if not decoded:
+        return jsonify({'success': False, 'msg': 'Unauthorised User / Admin (expired Token)'}), 401
+    
+    email_In_Token = decoded.get('email')
 
+    try:
+        user = User.query.filter_by(email=email_In_Token).first()
+
+        if user and user.role =='admin':
+            spot_id = request.args.get('spot_id', type=int)
+            print(spot_id)
+            if not spot_id:
+                return jsonify({'success':False, 'msg': 'spot id is missing'}), 400
+            
+            try:
+                spot = ParkingSpot.query.filter_by(spot_id=spot_id, deleteSpot=False).first()
+                if not spot:
+                    return jsonify({'success': False, 'msg': 'No spot exist with this id'}), 404
+                
+                if spot.occupied:
+                    return jsonify({'success': False, 'msg': 'spot is occupied, could not delete'}), 400
+                
+                if spot.under_maintenance:
+                    return jsonify({'success': False, 'msg': 'spot is under_maintenance, could not delete'}), 400
+                
+                lot = spot.lot_detail
+                if not lot or lot.deleteLot:
+                    return jsonify({'success': False, 'msg': 'No valid lot associated with this spot'}), 404
+                
+                spot.deleteSpot = True
+                lot.capacity -= 1
+                lot.available_spots -= 1
+
+                db.session.add(spot)
+                db.session.add(lot)
+                db.session.commit()
+
+                return jsonify({'success': True, 'msg': f"Sot deleted successfully"}), 200
+            except Exception as error:
+                return jsonify({'success': False, 'msg': 'Internal server error...'}), 500
+        else:
+            return jsonify({'success': False, 'msg': "Cannot delete Spot, You are not an authorised admin"}), 409
+    except Exception as error:
+        return jsonify({'success': False, 'msg': 'Internal server error...'}), 500
 
 
 

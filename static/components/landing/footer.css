@@ -31,6 +31,10 @@
     padding: 0.1rem;
 }
 
+.icons-container{
+    margin-bottom: 1rem;
+}
+
 .icons-container .icons div{
     height: 45px;
     width: 45px;

@@ -12,9 +12,6 @@
         </div>
 
         <div class="right-container">
-            <div class="greet-container">
-                <h1 class="comic-neue-regular">Hello {{ username }}, Welcome to the Admin dashboard. . . .</h1>
-            </div>
             <div class="parking-lots-container">
                 <div class="lots-card">
                     {% for lot in lots %}
@@ -76,5 +73,9 @@
         </div>
     </div>
     {% include 'components/loader.html' %}
+    {% include 'components/alert.html' %}
+    {% include 'components/prompt.html' %}
     <script src="{{ url_for('static', filename='JAVASCRIPT/admin/search.js')}}"></script>
+    <script src="{{ url_for('static', filename='JAVASCRIPT/alert.js')}}"></script>
+    <script src="{{ url_for('static', filename='JAVASCRIPT/custom_prompt.js')}}"></script>
 {% endblock %}

@@ -88,7 +88,7 @@ def delete_verified_unregistered_emails():
         db.session.commit()
 
 
-scheduler = BackgroundScheduler()
+scheduler = BackgroundScheduler(misfire_grace_time=300)
 scheduler.add_job(func=delete_expired_tokens, trigger="interval", minutes=10)
 scheduler.add_job(func=delete_verified_unregistered_emails, trigger='interval', minutes=360)
 scheduler.start()
@@ -97,8 +97,6 @@ def scheduler_error_listener(event):
     print(f"Scheduler Error: {event}")
 
 scheduler.add_listener(scheduler_error_listener, EVENT_JOB_ERROR)
-
-
 
 
 if __name__ == '__main__':

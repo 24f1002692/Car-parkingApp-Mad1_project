@@ -7,7 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename= '/CSS/admin_css/adminNavbar.css')}}">
-    <link rel="icon" href="{{ url_for('static', filename='/images/admin_page_images/registered-user.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='/images/landing_page_images/icon_image.JPG') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/admin_css/links/registeredUsers.css')}}">
     <style>
         body::-webkit-scrollbar {
@@ -24,15 +25,26 @@
             <div class="lots-card">
                 {% for user in registered_users %}
                     <div class="card user-card" data-name="{{ (user.name ~ ' ' ~ user.email) | lower }}">
-                        <img class="card-img-top" src="{{ user.image }}" alt="{{ user.user_id }}">
+                        <!-- <img class="card-img-top" src="{{ user.image }}" alt="{{ user.user_id }}"> -->
                         <div class="card-body">
-                            <p class="card-text-name">{{ user.name }}</p>
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.3rem;">
+                                <p class="card-text-name">{{ user.name }}</p>
+                                <p class="card-text-gender">
+                                    {% if user.gender|lower == 'male' %}
+                                        <i class="fas fa-mars" style="color: #007bff;"></i> Male
+                                    {% elif user.gender|lower == 'female' %}
+                                        <i class="fas fa-venus" style="color: #e83e8c;"></i> Female
+                                    {% else %}
+                                        <i class="fas fa-genderless" style="color: #6c757d;"></i> {{ user.gender }}
+                                    {% endif %}
+                                </p>
+                            </div>
                             <p class="card-text-email"><a href="#">{{ user.email }}</a></p>
-                            <p class="card-text-address">{{ user.address }}</p>
+                            <p class="card-text-address" style="margin-top: 0.5rem;">{{ user.address }}</p>
                         </div>
 
                         <div class="links">
-                            <a class='view-user' href="/TruLotParking/role/adminDashboard/registered-users/view-user?user_id={{ user.user_id }}">View User Details</a>
+                            <a class='view-user' id="view-user" data-user-id="{{ user.user_id }}">View User Details</a>
                             
                             <div class="user-action-wrapper">
                                 {% if user.restrictUser %}
@@ -49,6 +61,29 @@
             </div>
             <p id="no-results" class="result-container" style="display: none;">Sorry, No Users Found, Press Next</p>
         </div>
+        
+        <div class="user-detail-overlay"></div>
+        <div class="user-detail-panel">
+            <div class="left-side">
+                <img src="" alt="">
+                <p class="user-name-email"></p>
+                <p class="user-address"></p>
+                <p class="top-three-phone-numbers"></p>
+            </div>
+            <div class="right-side">
+                <div class="cross" id="cross-btn"><i class="fas fa-times close-panel"></i></div>
+                <div class="active-reservations">
+                    <h1>Active Reservations</h1>
+                </div>
+                <div class="all-active-reservations">
+                    
+                </div>
+                <div class="active-reservations">
+                    <button>Past Reservations</button>
+                </div>
+            </div>
+        </div>
+
         <div class="pagination-container">
             <ul class="pagination">
                 {% if pagination.has_prev %}
@@ -73,7 +108,11 @@
             </ul>
         </div>
     </div>
+
+{% include 'components/loader.html' %}
+
 <script src="{{ url_for('static', filename='JAVASCRIPT/admin/search.js')}}"></script>
 <script src="{{ url_for('static', filename='JAVASCRIPT/admin/restrict_unrestrict_user.js')}}"></script>
+<script src="{{ url_for('static', filename='JAVASCRIPT/admin/all_about_user.js')}}"></script>
 </body>
 </html>

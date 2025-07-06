@@ -13,10 +13,12 @@ function formatDateTime(isoString) {
 
 
 async function openSpotDetails(spotId) {
+    const deleteIcon = document.getElementById('delete-spot-i');
+    deleteIcon.setAttribute('data-spot-id', spotId);
+
     const panel = document.getElementById("spot-detail-panel");
     const overlay = document.getElementById("overlay-blur");
     const loader = document.getElementById('loader');
-    const link = document.getElementById('view-parked-vehicle-details');
     loader.style.display = 'flex';
     
     await new Promise(r => setTimeout(r, 200)); 
@@ -35,15 +37,12 @@ async function openSpotDetails(spotId) {
         switch (spot.status.toLowerCase()) {
             case 'available':
                 background_color = '#228B22';
-                link.style.visibility = 'hidden';
                 break;
             case 'occupied':
                 background_color = 'red';
-                link.style.visibility = 'visible';
                 break;
             case 'under_maintenance':
                 background_color = 'orange';
-                link.style.visibility = 'hidden';
                 break;
             default:
                 background_color = 'black';    // use black as fallback color
@@ -123,6 +122,8 @@ document.getElementById('lot-close-btn').addEventListener('click', () => {
 });
 
 
+
+// under maintenance ---------------------------------------------------------------------------------
 Array.from(document.getElementsByClassName('spot')).forEach(spot => {
     spot.addEventListener('contextmenu', async(e) => {
         e.preventDefault();      // prevent browser menu
@@ -173,4 +174,27 @@ Array.from(document.getElementsByClassName('spot')).forEach(spot => {
             return;
         }
     })
+});
+
+
+
+document.getElementById('delete-spot-i').addEventListener('click', async function() {
+    const loader = document.getElementById('loader');
+    const spot_id = this.getAttribute('data-spot-id');
+
+    loader.style.display = 'flex';
+    await new Promise(r => setTimeout(r, 400)); 
+    const url = `/TruLotParking/role/adminDashboard/deleteSpot?spot_id=${spot_id}`;
+    const response = await fetch(url);
+    const json_data = await response.json();
+    
+    console.log(json_data)
+    if(json_data.success){
+        customAlert(json_data.msg, () => {
+            window.location.reload();
+        });
+    }else{
+        loader.style.display = 'none';
+        customAlert(json_data.msg);
+    }
 });

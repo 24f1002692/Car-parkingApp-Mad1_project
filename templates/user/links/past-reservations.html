@@ -3,30 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Past Reservations</title>
+    <title>My Past Reservations</title>
+    <link rel="icon" href="{{ url_for('static', filename='/images/landing_page_images/icon_image.JPG') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/user_css/links/my_active_reservations.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/user_css/links/past_reservation.css')}}">
 </head>
 <body>
     {% if formatted_past_reserved_spots %}
-    {% for spot in formatted_past_reserved_spots %}
-        <div>
-            Reserved Spot ID: {{ spot.reserved_spot.reserved_spot_id }}<br>
-            Parking Time: {{ spot.parking_time }}<br>
-            Leaving Time: {{ spot.leaving_time }}<br>
-            Reserve by : {{ spot.reserved_spot.user_detail.name }}<br>
-            Email : {{ spot.reserved_spot.user_detail.email }}, {{ spot.reserved_spot.user_detail.restrictUser }}<br>
-            Address : {{ spot.reserved_spot.user_detail.address_detail.address }}<br>
-            Phone : {{ spot.reserved_spot.phone }}<br>
-            Spot ID: {{ spot.reserved_spot.spot_detail.spot_id }}<br>
-            Lot Name: {{ spot.reserved_spot.spot_detail.lot_detail.lot_name }}<br>
-            Spot price per hour : {{ spot.reserved_spot.spot_detail.lot_detail.price_per_hr }}<br>
-            Lot Location : {{ spot.reserved_spot.spot_detail.lot_detail.geographical_detail.location }}, {{ spot.reserved_spot.spot_detail.lot_detail.geographical_detail.country }}<br>
-            <br>
-            <button class="book-again" data-lot-id="{{ spot.reserved_spot.spot_detail.lot_detail.lot_id }}">Book a Spot Again</button>
-            <br>
-        </div>
-    {% endfor %}
+    <div class="card-container">
+        <h1>MY PAST RESERVATIONS</h1>
+        {% for spot in formatted_past_reserved_spots %}
+            <div class="card">
+                <div class="card-head">
+                    <div class="reserved-spot-circle">
+                        {{ spot.reserved_spot.reserved_spot_id }}
+                    </div>
+                    <div class="parking-info">
+                        <p>Parking Time : {{ spot.parking_time }}</p>
+                        <p>Leaving Time : {{ spot.leaving_time }}</p>
+                    </div>
+                </div>
+
+                <div class="basic-details">
+                    <div class="user-details">
+                        <p class="reservation-holder">Reservation Holder Information</p>
+                        <p>Spot was reserved by {{ spot.reserved_spot.user_detail.name }}, &nbsp;&nbsp;{{ spot.reserved_spot.phone }}</p>
+                        <p>{{ spot.reserved_spot.user_detail.email }}</p>
+                    </div>
+                    <div class="lot-details">
+                        <p class="parking-info-title">Parking Lot Information</p>
+                        <p>Reserved Spot ID : {{ spot.reserved_spot.spot_detail.spot_id }}</p>     
+                        <div>
+                            <p>{{ spot.reserved_spot.spot_detail.lot_detail.lot_name }},
+                                {% if spot.reserved_spot.spot_detail.lot_detail.geographical_detail.country|lower == 'india' %}
+                                    &#8377;{{ spot.reserved_spot.spot_detail.lot_detail.price_per_hr }}
+                                {% else %}
+                                    &#36;{{ spot.reserved_spot.spot_detail.lot_detail.price_per_hr }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="book-again-div">
+                    <button class="book-again" data-lot-id="{{ spot.reserved_spot.spot_detail.lot_detail.lot_id }}">Book a Spot Again</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
     {% else %}
-        <div style="color: #888; font-style: italic;">{{ message }}</div>
+        <div class="past-reservation-message">{{ message }}</div>
     {% endif %}
 
     <div class="pagination-container">
@@ -52,6 +78,7 @@
             {% endif %}
         </ul>
     </div>
+
     <script>
         Array.from(document.getElementsByClassName('book-again')).forEach(btn => {
             btn.addEventListener('click', () => {

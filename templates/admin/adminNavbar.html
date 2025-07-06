@@ -1,10 +1,10 @@
-<div class="navbar">
+<div class="navbar" id="navbar">
     <div class="links">
             {% if request.path == '/TruLotParking/role/adminDashboard/registered-users' %}
                 <ul style="margin-top: 0rem;">
                     <li style="display: none;"><a href="/TruLotParking/role/adminDashboard/registered-users">Registered Users</a></li>
                     <li><a href="/TruLotParking/role/adminDashboard" style="margin-left: 2.5rem; letter-spacing: 0.5px;">Explore Parking Lots</a></li>
-                    <li><a href="#">Read Users Queries</a></li>
+                    <li><a href="#">Read Queries</a></li>
                 </ul>
             {% elif request.path == '/TruLotParking/role/userDashboard' %}
                 <ul>

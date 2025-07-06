@@ -21,12 +21,12 @@
                 <div class="icons-div">
                      <span class="tooltip-wrapper">
                         <i class="fa-solid fa-circle-info fa-xl" style="margin-top: 0.5rem;" id="view-icon"></i>
-                        <span class="tooltip-text">View Parking lot information</span>
+                        <span class="tooltip-text">Parking lot information</span>
                     </span>
 
                     <span class="tooltip-wrapper">
                         <a href="/TruLotParking/role/adminDashboard/update-parkingLot-form?lot_id={{lot.lot_id}}"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
-                        <span class="tooltip-text">Edit this Parking lot</span>
+                        <span class="tooltip-text">Edit</span>
                     </span>
                 </div>
             </div>
@@ -55,7 +55,7 @@
             </div>
             <div class="spots-wrapper">
                 {% for spot in spots %}
-                    <div class="spot spot-box {% if spot.under_maintenance %} maintenance {% elif spot.occupied %} occupied{% else %} available {% endif %}" onclick="openSpotDetails('{{ spot.spot_id }}')" data-name="{{ spot.spot_id }}">
+                    <div class="spot spot-box {% if spot.under_maintenance %} maintenance {% elif spot.occupied %} occupied{% else %} available {% endif %}" onclick="openSpotDetails('{{ spot.spot_id }}')" data-name="P{{ spot.spot_id }}">
                         {{ spot.spot_id }}
                     </div>
                 {% endfor %}
@@ -67,7 +67,7 @@
         <div class="panel-content">
             <div class="heading-div">
                 <h2 id="head">Spot Details &nbsp; <p id="spot-id"></p></h2>
-                <a href="#" id="view-parked-vehicle-details">Parked Vehicle Details</a>
+                <div id="delete-spot-icon" style="margin-left: 12rem;"><i class="fas fa-trash-alt" id="delete-spot-i" style="font-size: 1.25rem; color: teal; cursor: pointer;"></i></div>
             </div>
             <div id="spot-content">
                 <p id="spot-status"></p>
@@ -92,16 +92,18 @@
                 <p>Capacity : {{lot.capacity}}</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <p>Spots Available : {{lot.available_spots}}</p>
             </div>
-            <p>Price : 
-                {% if lot.geographical_detail.country | lower == 'india' %}
-                    &#8377;{{ lot.price_per_hr }}/hr
-                {% else %}
-                    ${{ lot.price_per_hr }}/hr
-                {% endif %}
-            </p>
-            <p>Timing : {{lot.timing}}</p>
-            <div class="lot-content" style="margin-top: 0.25rem;">
-                <p>{{lot.geographical_detail.location}}, {{lot.geographical_detail.country}}</p>
+            <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+                <p class="price" style="display: flex; justify-content: center; align-items: center;">
+                    {% if lot.geographical_detail.country | lower == 'india' %}
+                        &#8377;{{ lot.price_per_hr }}/hr
+                    {% else %}
+                        ${{ lot.price_per_hr }}/hr
+                    {% endif %}
+                </p>
+                <p class="timing" style="display: flex; justify-content: center; align-items: center;">{{lot.timing}}</p>
+            </div>
+            <div class="lot-address" style="margin-top: 0.25rem;">
+                <p class="address-para">{{lot.geographical_detail.location}}, {{lot.geographical_detail.location}}, {{lot.geographical_detail.country}}</p>
             </div>
             <button id="lot-close-btn">Close</button>
         </div>

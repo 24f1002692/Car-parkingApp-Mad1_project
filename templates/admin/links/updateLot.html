@@ -10,9 +10,8 @@
     <link rel="icon" href="{{ url_for('static', filename='/images/form_images/form.webp') }}" type="image/x-icon">
 </head>
 <body>
-    <form action="/TruLotParking/role/adminDashboard/update-parkingLot" method="POST" id='parkingLot' class='update-lot-form' onsubmit="return validateParkingLot(event)">
-        <input type="hidden" name="lot_id" value="{{ lot.lot_id }}">
-        <input type="hidden" name="_method" value="PUT">
+    <form id='parkingLot' class='update-lot-form' onsubmit="validateParkingLot(event, { isUpdate: true, updateUrl: '/TruLotParking/role/adminDashboard/update-parkingLot' })">
+        <input id="lot_id_input" type="hidden" name="lot_id" value="{{ lot.lot_id }}">
         <div class="updateLot-container">
             <div class="heading">
                 <h1>UPDATE PARKING LOT</h1>
@@ -55,26 +54,10 @@
         </div>
     </form>
 
-    <div class="loader-box" style="visibility: hidden;">
-        {% include 'components/loader.html' %}
-    </div>
-
+    {% include 'components/loader.html' %}
     {% include 'components/alert.html' %}
     
     <script src="{{ url_for('static', filename='JAVASCRIPT/admin/addLot.js')}}"></script>
     <script src="{{ url_for('static', filename='JAVASCRIPT/alert.js')}}"></script>
-    <script>
-        window.addEventListener("load", function () {
-            if (window.alertData) {
-                const { message, redirect } = window.alertData;
-                if (typeof customAlert === 'function') {
-                    customAlert(message, () => window.location.href = redirect);
-                } else {
-                    alert(message);
-                    window.location.href = redirect;
-                }
-            }
-        });
-    </script>
 </body>
 </html>

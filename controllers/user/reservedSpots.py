@@ -22,7 +22,6 @@ def format_datetime(iso_string):
 
 def calculate_bill(parking_time, leaving_time, price_per_hr):
     duration = leaving_time - parking_time
-    print(duration)
     total_hours = duration.total_seconds() / 3600       # includes fractional hours
     base_bill = round(total_hours * price_per_hr, 2)
     gst = base_bill * 0.18
@@ -46,7 +45,7 @@ def reserved_spots():
         if json_res.get('success') and json_res.get('message') == 'user':
             user_id = json_res.get('user_id')     # getting user_id from cookie
             page = request.args.get('page', 1, type=int)
-            PER_PAGE = 50
+            PER_PAGE = 20
 
             pagination = ReservedSpot.query.filter_by(user_id=user_id, leaving_time=None).paginate(page=page, per_page=PER_PAGE, error_out=False)
             formatted_reserved_spots = [
@@ -56,7 +55,7 @@ def reserved_spots():
                 }
                 for spot in pagination.items
             ]
-            return render_template('/user/links/my_active_reservations.html', formatted_reserved_spots=formatted_reserved_spots, pagination=pagination, message='No Active Reservations!' if not formatted_reserved_spots else None), 200
+            return render_template('/user/links/my_active_reservations.html', formatted_reserved_spots=formatted_reserved_spots, pagination=pagination, message='No Active Reservations currently' if not formatted_reserved_spots else None), 200
             
     except Exception as error:
         print(error)
@@ -158,7 +157,7 @@ def pastReservations():
         if json_res.get('success') and json_res.get('message') == 'user':
             user_id = json_res.get('user_id')         # getting user_id from cookie
             page = request.args.get('page', 1, type=int)
-            PER_PAGE = 50
+            PER_PAGE = 30
 
             pagination = ReservedSpot.query.filter(              # filter_by not supports complex Sql expression (!= None)
                 and_(
@@ -176,7 +175,7 @@ def pastReservations():
                 }
                 for spot in pagination.items
             ]
-            return render_template('/user/links/past-reservations.html', formatted_past_reserved_spots=formatted_past_reserved_spots, pagination=pagination, message='No Past Reservations!' if not formatted_past_reserved_spots else None), 200
+            return render_template('/user/links/past-reservations.html', formatted_past_reserved_spots=formatted_past_reserved_spots, pagination=pagination, message='No Reservations made currently' if not formatted_past_reserved_spots else None), 200
             
     except Exception as error:
         print(error)

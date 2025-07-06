@@ -37,11 +37,9 @@ function validateNumberField({ value, input, min, max, errorDiv, loader, require
     return true;
 }
 
-async function validateParkingLot(event){
+async function validateParkingLot(event, { isUpdate = false, updateUrl = null } = {}){
     event.preventDefault();       
     const loader = document.getElementById('loader');
-    const loaderBox = document.querySelector('.loader-box');
-    loaderBox.style.visibility = 'visible';
     loader.style.display = 'flex';
 
     const lot_name_input = document.getElementById('lot_name');
@@ -207,6 +205,41 @@ async function validateParkingLot(event){
         }
     }
 
-    // everything is fine : submit form manually
-    document.getElementById('parkingLot').submit();  
+    const body = {
+        lot_name,
+        description,
+        price_per_hr,
+        timing,
+        capacity,
+        location,
+        state,
+        country
+    };
+    
+    const lot_id = document.getElementById('lot_id_input').value.trim();
+    if (isUpdate && lot_id) {
+        body.lot_id = parseInt(lot_id);
+    }
+    
+    loader.style.display = 'flex';
+    const url = isUpdate && updateUrl ? updateUrl : `/TruLotParking/role/adminDashboard/create_parkingLot`;
+    const resp = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(body)
+    });
+
+    const json_data = await resp.json();
+
+    if(json_data.success){
+        customAlert(json_data.msg, () => {
+            window.location.href = json_data.redirect_url;
+        });
+    }else{
+        loader.style.display = 'none';
+        customAlert(json_data.msg);
+    }
 }

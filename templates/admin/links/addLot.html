@@ -13,9 +13,10 @@
     <!-- <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet"> -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/admin_css/links/addLot.css')}}">
+
 </head>
 <body>
-    <form class='add-lot-form' action="/TruLotParking/role/adminDashboard/create_parkingLot" method="POST" id='parkingLot' onsubmit="return validateParkingLot(event)">
+    <form class='add-lot-form' id='parkingLot' onsubmit="validateParkingLot(event)">
         <div class="addLot-container">
             <div class="heading">
                 <h1>ADD A NEW PARKING LOT</h1>
@@ -59,10 +60,10 @@
         </div>
     </form>
 
-    <div class="loader-box" style="visibility: hidden;">
-        {% include 'components/loader.html' %}
-    </div>
+    {% include 'components/loader.html' %}
+    {% include 'components/alert.html' %}
     <script src="{{ url_for('static', filename='JAVASCRIPT/admin/addLot.js')}}"></script>
+    <script src="{{ url_for('static', filename='JAVASCRIPT/alert.js')}}"></script>
 </body>
 </html>
 
