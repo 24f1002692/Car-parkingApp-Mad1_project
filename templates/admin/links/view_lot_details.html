@@ -55,7 +55,7 @@
             </div>
             <div class="spots-wrapper">
                 {% for spot in spots %}
-                    <div class="spot spot-box {% if spot.under_maintenance %} maintenance {% elif spot.occupied %} occupied{% else %} available {% endif %}" onclick="openSpotDetails('{{ spot.spot_id }}')" data-name="P{{ spot.spot_id }}">
+                    <div class="spot spot-box {% if spot.under_maintenance %} maintenance {% elif spot.occupied %} occupied{% else %} available {% endif %}" onclick="openSpotDetails('{{ spot.spot_id }}')" data-name="{{ spot.spot_id }}">
                         {{ spot.spot_id }}
                     </div>
                 {% endfor %}
@@ -103,15 +103,18 @@
                 <p class="timing" style="display: flex; justify-content: center; align-items: center;">{{lot.timing}}</p>
             </div>
             <div class="lot-address" style="margin-top: 0.25rem;">
-                <p class="address-para">{{lot.geographical_detail.location}}, {{lot.geographical_detail.location}}, {{lot.geographical_detail.country}}</p>
+                <p class="address-para">{{lot.geographical_detail.location}}, {{lot.geographical_detail.country}}</p>
             </div>
             <button id="lot-close-btn">Close</button>
         </div>
     </div>
+
+    {% include 'components/loader.html' %}
+    {% include 'components/alert.html' %}
+    {% include 'components/prompt.html' %}
+    <script src="{{ url_for('static', filename='JAVASCRIPT/custom_prompt.js')}}"></script>
     <script src="{{ url_for('static', filename='JAVASCRIPT/admin/view_spot.js')}}"></script>
     <script src="{{ url_for('static', filename='JAVASCRIPT/admin/searchSpot.js')}}"></script>
     <script src="{{ url_for('static', filename='JAVASCRIPT/alert.js')}}"></script>
-    {% include 'components/loader.html' %}
-    {% include 'components/alert.html' %}
 </body>
 </html>

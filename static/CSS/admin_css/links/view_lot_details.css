@@ -483,12 +483,13 @@ button a{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 140%;
+    width: 90%;
     border-radius: 10px;
     background-color: #FFFFFF;
     color: #000;
     border : 2px solid teal;
     margin-top: 0rem;
+    padding: 0rem 4rem;
 }
 
 #spot-detail-btn{
@@ -524,7 +525,7 @@ button a{
 }
 
 #spot-status{
-    width: 70%;
+    width: 65%;
     display: flex;
     justify-content: center;
     align-items: center;

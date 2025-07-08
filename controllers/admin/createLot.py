@@ -103,13 +103,10 @@ def create_parkingLot():
                 db.session.add(new_lot)
                 db.session.flush()
                 
-                # adding all spots
-                num_spots = new_lot.capacity if new_lot.capacity else 30
-                spots = [
-                    ParkingSpot(lot_id=new_lot.lot_id)
-                    for _ in range(num_spots)
-                ]
-                db.session.add_all(spots)
+                # creating spots
+                num_required_spots = new_lot.capacity or 250
+                new_spots = [ParkingSpot(lot_id=new_lot.lot_id) for _ in range(num_required_spots)]
+                db.session.add_all(new_spots)
                 db.session.commit()
             except Exception as err:
                 db.session.rollback()
@@ -403,8 +400,6 @@ def deleteSpot():
             return jsonify({'success': False, 'msg': "Cannot delete Spot, You are not an authorised admin"}), 409
     except Exception as error:
         return jsonify({'success': False, 'msg': 'Internal server error...'}), 500
-
-
 
 
 

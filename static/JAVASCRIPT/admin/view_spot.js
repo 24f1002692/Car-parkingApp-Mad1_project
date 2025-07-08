@@ -31,7 +31,7 @@ async function openSpotDetails(spotId) {
         document.getElementById('spot-id').textContent = `${spot.spot_id}`;
 
         const spotStatusEl = document.getElementById('spot-status');
-        let statusText = `Status: Spot is ${spot.status} at the moment`;
+        let statusText = `Status: Spot is ${spot.status}`;
 
         let background_color;
         switch (spot.status.toLowerCase()) {
@@ -41,11 +41,8 @@ async function openSpotDetails(spotId) {
             case 'occupied':
                 background_color = 'red';
                 break;
-            case 'under_maintenance':
-                background_color = 'orange';
-                break;
             default:
-                background_color = 'black';    // use black as fallback color
+                background_color = '#FFA500';  
         }
 
         spotStatusEl.textContent = statusText;
@@ -57,8 +54,8 @@ async function openSpotDetails(spotId) {
         document.getElementById('reserved-by').textContent = spot.Reserved_by ? `Reserved By : Recent Reservation for this spot is made by ${spot.Reserved_by}` : `Reserved By : No Reservation Made for this spot`;
         document.getElementById('reserved-email').textContent = spot.Reserved_user_email ? `Reserved User Email : Email Id of the user is ${spot.Reserved_user_email}` : `Reserved User Email : N/A`;
         document.getElementById('parking-time').textContent = spot.Parking_time ? `Vehicle Parking Time : Vehicle Parked on this spot at : ${formatDateTime(spot.Parking_time)}` : `Vehicle Parking Time : N/A`;
-        document.getElementById('lot-name').textContent = `Parking Lot Name : ${spot.lot_name}`;
-        document.getElementById('lot-location').textContent = `Location of the parking Lot : ${spot.lot_location}`;
+        document.getElementById('lot-name').textContent = `${spot.lot_name}`;
+        document.getElementById('lot-location').textContent = `${spot.lot_location}`;
 
         panel.style.display = "block";
         document.body.classList.add("no-scroll");
@@ -130,8 +127,14 @@ Array.from(document.getElementsByClassName('spot')).forEach(spot => {
         const spotId = spot.dataset.name;
 
         if (spot.classList.contains('maintenance')) {
-            const confirmRemoval = prompt('This spot is already under maintenance.\nType "REMOVE" to remove it from maintenance status.');
-            if (confirmRemoval && confirmRemoval.toUpperCase() === 'REMOVE') {
+            const confirmed = await customPrompt({
+                heading: 'This spot is already under maintenance.',
+                placeholder: 'Type "REMOVE" to make it available',
+                confirmText: 'Remove',
+                cancelText: 'Cancel',
+                validator: (input) => input.trim().toLowerCase() === 'remove'
+            });
+            if (confirmed) {
                 const loader = document.getElementById('loader');
                 loader.style.display = 'flex';
                 await new Promise(r => setTimeout(r, 400)); 
@@ -151,8 +154,15 @@ Array.from(document.getElementsByClassName('spot')).forEach(spot => {
             }
 
         } else if (spot.classList.contains('available')) {
-            const confirmAdd = prompt('Mark this spot as under maintenance ? Type "YES" to confirm.');
-            if (confirmAdd && confirmAdd.toUpperCase() === 'YES') {
+            const confirmAdd = await customPrompt({
+                heading: 'Mark this spot as under maintenance ? Type "YES" to confirm',
+                placeholder: 'Type "YES" to put it under maintenance',
+                confirmText: 'Confirm',
+                cancelText: 'Cancel',
+                validator: (input) => input?.trim().toLowerCase() === 'yes'
+            });
+
+            if (confirmAdd) {
                 const loader = document.getElementById('loader');
                 loader.style.display = 'flex';
                 await new Promise(r => setTimeout(r, 400)); 

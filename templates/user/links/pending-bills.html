@@ -4,31 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Pending Bills</title>
+    <link rel="icon" href="{{ url_for('static', filename='/images/landing_page_images/icon_image.JPG') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/user_css/links/pending-bills.css')}}">
+    <style>
+
+    </style>
 </head>
 <body>
-    <h1>Your Pending Bills</h1>
-
-    {% if message %}
-        <p>{{ message }}</p>
-    {% else %}
-        <ul>
+    <div class="container">
+        {% if message %}
+            <p class="message">{{ message }}</p>
+        {% else %}
+            <h1>Your Pending Bills</h1>
             {% for bill in pending_bills_list %}
-                <li>
-                    <strong>Reserved Spot ID:</strong> {{ bill.bill.reserved_spot_id }} <br>
-                    <strong>Parking Time:</strong> {{ bill.parking_time }} <br>
-                    <strong>Leaving Time:</strong> {{ bill.leaving_time }} <br>
-                    <strong>Phone:</strong> {{ bill.bill.phone }} <br>
-                    <strong>Spot ID:</strong> {{ bill.bill.spot_detail.spot_id }} <br>
-                    <strong>Lot Name:</strong> {{ bill.bill.spot_detail.lot_detail.lot_name }} <br>
-                    <strong>Price/Hour:</strong> ₹{{ bill.bill.spot_detail.lot_detail.price_per_hr }} <br>
-                    
-                    <button class="pay-btn" data-reserved-id="{{ bill.bill.reserved_spot_id }}">Go to Billing Desk</button>
-                    <hr>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+                <div class="bill">
+                    <div class="head">
+                        <div class="bill-head">{{ bill.bill.reserved_spot_id }}</div>
+                        <div>
+                            <h3>{{ bill.bill.spot_detail.lot_detail.lot_name }} {{ bill.bill.spot_detail.lot_detail.lot_name }}</h3>
+                            
+                            <p><strong>Price per hr is &nbsp;</strong>
+                                {% if bill.bill.spot_detail.lot_detail.geographical_detail.country | lower == 'india' %}
+                                    <strong>₹{{ bill.bill.spot_detail.lot_detail.price_per_hr | round(2) }}</strong>
+                                {% else %}
+                                    <strong>${{ (bill.bill.spot_detail.lot_detail.price_per_hr * 0.012) | round(2) }}</strong>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bill-info-container">
+                        <div class="bill-info">
+                            <div class="timing">
+                                <p><strong>Check-In Date & Time : </strong> {{ bill.parking_time }}</p>
+                                <p><strong>Leaving Date & Time : </strong> {{ bill.leaving_time }}</p>
+                            </div>
+                            
+                            <div class="customer-info">
+                                <p><strong>This bill is issued to {{ bill.bill.user_detail.name }}</strong></p>
+                                <p>{{ bill.bill.phone }}</p>
+                            </div>
 
+                            <div class="bill-amount">
+                                <p><strong>Spot {{ bill.bill.spot_detail.spot_id }} is occupied for a duration of {{ bill.duration_hours * 60 }} minutes</strong></p>
+                                <p><strong>
+                                    The total amount due is
+                                    {% if bill.bill.spot_detail.lot_detail.geographical_detail.country | lower == 'india' %}
+                                        ₹{{ bill.amount | round(2) }} + ₹{{ bill.gst | round(2) }} GST
+                                    {% else %}
+                                        ${{ (bill.amount*0.012) | round(2) }} + ${{ (bill.gst*0.012) | round(2) }} GST
+                                    {% endif %}
+                                </strong></p>
+                            </div>
+                            
+                            <button class="pay-btn" data-reserved-id="{{ bill.bill.reserved_spot_id }}">Go to Billing Desk</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    
     <script>
         Array.from(document.getElementsByClassName('pay-btn')).forEach(btn => {
             btn.addEventListener('click', () => {

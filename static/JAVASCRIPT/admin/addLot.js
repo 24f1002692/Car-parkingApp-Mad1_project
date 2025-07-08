@@ -139,12 +139,12 @@ async function validateParkingLot(event, { isUpdate = false, updateUrl = null } 
         {
             value: capacity,
             input: capacity_input,
-            min: 80,
-            max: 400,
+            min: 150,
+            max: 1000,
             errorDiv: capacity_errorDiv,
             loader: loader,
             requiredMsg: 'Capacity for parking lot is required',
-            rangeMsg: 'Capacity of Parking Lot must be between 80 and 400.',
+            rangeMsg: 'Capacity of Parking Lot must be between 150 and 1000.',
             validator: validateNumberField
         },
 
@@ -216,9 +216,11 @@ async function validateParkingLot(event, { isUpdate = false, updateUrl = null } 
         country
     };
     
-    const lot_id = document.getElementById('lot_id_input').value.trim();
-    if (isUpdate && lot_id) {
-        body.lot_id = parseInt(lot_id);
+    if(isUpdate){
+        const lot_id = document.getElementById('lot_id_input').value.trim();
+        if (lot_id) {
+            body.lot_id = parseInt(lot_id);
+        }
     }
     
     loader.style.display = 'flex';

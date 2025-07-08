@@ -5,7 +5,7 @@ deleteIcons.forEach(deleteIcon => {
     deleteIcon.addEventListener('click', async () => {
         const lotId = deleteIcon.dataset.lotId;
         try{
-            await customPrompt({
+            const confirmed = await customPrompt({
                 heading: `Type "DELETE LOT" to confirm deletion of this parking Lot`,
                 placeholder: 'Type "DELETE LOT"',
                 confirmText: 'Delete',
@@ -30,9 +30,13 @@ deleteIcons.forEach(deleteIcon => {
             if (response.ok && result.success) {
                 await customAlert(result.msg);  
                 window.location.href = "/TruLotParking/role/adminDashboard";
+            }else{
+                await customAlert(result.msg);  
+                return;
             }
         } catch (err) {
             loader.style.display = 'none';
+            await customAlert(err.message || "Something went wrong while deleting the lot.");
             return;
         }
     });

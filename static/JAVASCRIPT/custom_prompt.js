@@ -62,6 +62,11 @@
         };
 
         confirmBtn.addEventListener('click', onConfirm);
+        promptInput.addEventListener('keydown', (e) => {    // as user/ admin is typing in input, so they press many keyboard keys, if they press enter, then we will submit their prompt
+        if (e.key === 'Enter') {
+            onConfirm();
+        }
+});
         cancelBtn.addEventListener('click', onCancel);
     });
   };

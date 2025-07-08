@@ -25,6 +25,7 @@ def calculate_bill(parking_time, leaving_time, price_per_hr):
     total_hours = duration.total_seconds() / 3600       # includes fractional hours
     base_bill = round(total_hours * price_per_hr, 2)
     gst = base_bill * 0.18
+
     return (base_bill, gst)
 
 
@@ -144,6 +145,36 @@ def billingDesk():
         return render_template('/components/error_page.html', error='Internal Server Error'), 500
 
 
+@reserved_spot_bp.route('/hasPendingBills')
+def hasPendingBills():
+    token = request.cookies.get('token')
+    res, status = check_authorisation(token)   # unpack the jsonify response
+    json_res = res.get_json()
+
+    if not json_res.get('success'):
+        return jsonify({'success': False, 'msg': 'Unauthorized: Invalid or expired token'}), status
+    
+    try:
+        if json_res.get('success') and json_res.get('message') == 'user':
+            user_id = json_res.get('user_id')
+            if not user_id:
+                return jsonify({'success': False, 'msg': 'Unauthoried User (user id is missing)'}), 404
+
+            hasPendingBill = ReservedSpot.query.filter(
+                and_(
+                    ReservedSpot.user_id == user_id,
+                    ReservedSpot.leaving_time != None,
+                    ReservedSpot.bill_pay == False
+                )
+            ).all()
+
+            if(hasPendingBill):
+                return jsonify({'success': True}), 200
+            else:
+                return jsonify({'success': False}), 200
+    except Exception as error:
+        return jsonify({'success': False, 'msg': 'Internal Server Error'}), 500
+
 @reserved_spot_bp.route('/my-past-reservations')
 def pastReservations():
     token = request.cookies.get('token')
@@ -199,15 +230,32 @@ def pendingBills():
                     ReservedSpot.leaving_time != None,
                     ReservedSpot.bill_pay==False)
                 ).all()
+            
+            formatted_bills = []
+            for bill in pending_bills_list:
+                parking_time = bill.parking_time
+                leaving_time = bill.leaving_time
 
-            formatted_bills = [
-                {
+                duration_seconds = (leaving_time - parking_time).total_seconds()
+                duration_hours = duration_seconds / 3600
+                rate_per_hr = bill.spot_detail.lot_detail.price_per_hr
+
+                total_amount = duration_hours * rate_per_hr
+                total_amount = round(total_amount, 2)
+
+                gst = round(total_amount * 0.18, 2)
+                final_amount = round(total_amount + gst, 2)
+
+                formatted_bills.append({
                     'bill': bill,
-                    'parking_time': format_datetime(str(bill.parking_time)),
-                    'leaving_time': format_datetime(str(bill.leaving_time))
-                }
-                for bill in pending_bills_list
-            ]
+                    'parking_time': format_datetime(str(parking_time)),
+                    'leaving_time': format_datetime(str(leaving_time)),
+                    'duration_hours': round(duration_hours, 2),
+                    'amount': total_amount,
+                    'gst': gst,
+                    'final_amount': final_amount
+                })
+
             return render_template('/user/links/pending-bills.html', pending_bills_list=formatted_bills, message='No Pending Bills !' if not pending_bills_list else None), 200
         else:
             return render_template('/components/error_page.html', error='Unauthorized User'), 403

@@ -1,0 +1,157 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to left, #f5f7fa, #ffeaa7);
+    color: #0B0B0B;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 1000px;
+    width: 1000px;
+    height: 540px;
+    margin: auto;
+    margin-top: 2.5rem;
+    background-color: #ffffff;
+    padding: 2rem 6rem;
+    border-radius: 6px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    background-color: #14d38d;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.head h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #FFFFFF;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    letter-spacing: 1.5px;
+     -webkit-text-stroke: 2.5px #FFFFFF;
+    color: transparent;
+    text-shadow:
+        1px 2px 0 #0B0B0B,
+        2px 2px 0 #999,
+        3px 3px 0 #999,
+        4px 4px 0 #777,
+        5px 5px 0 #666;
+}
+
+
+.sub-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    letter-spacing: 1px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+.sub-head p {
+    font-size: 1.05rem;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.sub-head .circle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #0B0B0B;
+    font-size: 0.96rem;
+    background: linear-gradient(to left, #f5f7fa, #ffeaa7);;
+}
+
+.bill-content, .sub-head{
+    width: 80%; 
+    margin: 0 auto; 
+    display: flex;
+    justify-content: center;
+    padding: 1rem 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border: 1px solid #e0e0e0;
+}
+
+.sub-head{
+    justify-content: space-between;
+}
+
+.sub-head .lot-name{
+    font-weight: 600;
+}
+
+
+.bill-content p{
+    font-weight: 600;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.975rem;
+}
+
+
+.bill-amt {
+    background: linear-gradient(to left, #f5f7fa, #fff2b2);
+    border: 1px solid #e0c97b;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 400;
+    margin-top: 3rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    letter-spacing: 1.2px;
+}
+
+
+.bill-amt p span{
+    letter-spacing: 0px;
+}
+
+.pay-button {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+button {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#pay-btn {
+    background-color: #00a86b; /* green */
+    color: white;
+}
+
+#pay-btn:hover {
+    background-color: #008a5b;
+}
+
+#pay-later {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+#pay-later:hover {
+    background-color: #e0e0e0;
+}

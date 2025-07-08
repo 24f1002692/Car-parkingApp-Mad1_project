@@ -4,31 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TruLot Billing desk</title>
+    <link rel="icon" href="{{ url_for('static', filename='/images/landing_page_images/icon_image.JPG') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/user_css/links/billing_desk.css')}}">
+
 </head>
 <body>
-    {{ reserved_spot.reserved_spot.reserved_spot_id }}<br>
+    <div class="container">
+        <div class="bill">
+            <div class="head">
+                <h1>Billing Desk</h1>
+            </div>
 
-    {{ reserved_spot.reserved_spot.spot_detail.lot_detail.lot_name }}<br>
-    {{ reserved_spot.parking_time }}<br>
-    {{ reserved_spot.leaving_time }}<br>
+            <div class="sub-head">
+                <p class="circle">{{ reserved_spot.reserved_spot.reserved_spot_id }}</p>
+                <p class="lot-name">{{ reserved_spot.reserved_spot.spot_detail.lot_detail.lot_name }}</p>
+            </div>
 
-    {{ bill_amt }} , {{ gst }}
-    <button id="pay-btn" data-reserved-id="{{ reserved_spot.reserved_spot.reserved_spot_id }}">Pay</button>
-    <button id="pay-later">Will Pay Later</button>
-    <script>
-        
-    </script>
+            <div class="bill">
+                <div class="bill-content">
+                    <p>Parking Date & time &nbsp; {{ reserved_spot.parking_time }}</p>
+                </div>
+
+                <div class="bill-content">
+                    <p>Exit Date & time &nbsp;{{ reserved_spot.leaving_time }}</p>
+                </div>
+
+                <div class="bill-amt">
+                    <p>
+                    The total amount to be paid is <strong>
+                        {% if reserved_spot.reserved_spot.spot_detail.lot_detail.geographical_detail.country | lower == 'india' %}
+                            <span>₹{{ bill_amt | round(2) }}</span>
+                        {% else %}
+                            <span>${{ (bill_amt*0.012) | round(2) }}</span>
+                        {% endif %}
+                    </strong>,
+                    which includes <strong>
+                        {% if reserved_spot.reserved_spot.spot_detail.lot_detail.geographical_detail.country | lower == 'india' %}
+                            <span>₹{{ gst }}</span>
+                        {% else %}
+                            <span>${{ (gst*0.012) | round(2) }}</span>
+                        {% endif %}
+                        </strong> GST. </p>
+                    
+                    <div class="pay-button">
+                        <button id="pay-btn" data-reserved-id="{{ reserved_spot.reserved_spot.reserved_spot_id }}">Pay</button>
+                        <button id="pay-later">Will Pay Later</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% include 'components/alert.html' %}
     {% include 'components/loader.html' %}
+    {% include 'components/prompt.html' %}
     <script type="module" src="{{ url_for('static', filename='JAVASCRIPT/user/billing_desk.js')}}"></script>
     <script src="{{ url_for('static', filename='/JAVASCRIPT/alert.js')}}"></script>
+    <script src="{{ url_for('static', filename='/JAVASCRIPT/custom_prompt.js')}}"></script>
     <script>
         document.getElementById('pay-later').addEventListener('click', async () => {
-            const input = prompt("Are you sure to pay Later? Type 'YES' to pay Later");
-            if (input === "YES") {
-                window.location.href = "/TruLotParking/role/userDashboard";
+            const loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+            await new Promise(resolve => setTimeout(resolve, 400));
+            loader.style.display = 'none';
+
+            const confirmed = await customPrompt({
+                heading: `Are you sure to pay Later? Type 'YES' to pay Later`,
+                placeholder: 'Type "YES"',
+                confirmText: 'Confirm',
+                cancelText: 'Cancel',
+                validator: (val) => val?.toLowerCase() === 'yes',
+                isUserDashboard: true
+            });
+
+            if (!confirmed) {
+                // else do nothing, stay on billing desk
+                return;
             }
-            // else do nothing, stay on billing desk
+            
+            await customAlert('Bill has been added to your pending bills section');
+            loader.style.display = 'flex';
+            await new Promise(resolve => setTimeout(resolve, 400));
+            window.location.href = "/TruLotParking/role/userDashboard";
         });
         </script>
 </body>

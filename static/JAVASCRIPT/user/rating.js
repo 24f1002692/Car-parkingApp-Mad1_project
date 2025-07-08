@@ -35,8 +35,8 @@ submitBtn.addEventListener('click', async() => {
         return;
     }
 
-    if(!description){
-        customAlert('Please provide a description before submitting');
+    if(!description || description.length > 200){
+        customAlert('Please provide a description within 30-40 words');
         return;
     }
 
@@ -67,6 +67,19 @@ submitBtn.addEventListener('click', async() => {
                 overlay.classList.remove("blurred");
                 ratingPanel.classList.remove("active");
                 document.getElementById('rating-description').value = '';
+                document.body.classList.remove('rating-active');     // searchbox also inactive when rating box is displayed
+                
+                if (searchBox) {
+                    searchBox.readOnly = false;
+                    searchBox.style.pointerEvents = '';
+                    searchBox.removeAttribute('tabindex');
+                }
+
+                // Restore navbar links
+                document.querySelectorAll('.navbar a').forEach(link => {
+                    link.style.pointerEvents = '';
+                });
+
             });
         } else {
             customAlert(result.message || 'Failed to submit rating.');

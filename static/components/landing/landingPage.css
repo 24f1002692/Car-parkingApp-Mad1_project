@@ -1,0 +1,758 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+html {
+  overflow: scroll;         
+  scrollbar-width: none;   
+}
+
+html::-webkit-scrollbar {
+  display: none;           
+}
+
+:root{
+    --color-primary: teal;
+    --color-white: #eaeaea; 
+    --color-dark: #333; 
+    --color-black: #222; 
+}
+
+.btn{
+    display: inline-block;
+    width: fit-content;
+    padding: 12px 28px;
+    background: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: var(--color-white);
+    letter-spacing: .4px;
+    font-weight: 600;
+    transition: .4s ease;
+    opacity: 0;
+    animation: logoAni 1s ease forwards; 
+    animation-delay: 1.3s;
+}
+
+.btn:hover{
+    background: transparent;
+    color: var(--color-primary);
+}
+
+.container{
+    max-width: 1620px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* .......................Start Nav Bar...................... */
+nav{
+    width: 100%; 
+    height: 5rem;
+    /* position: fixed; */
+    left: 0;
+    top: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+}
+
+.nav-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-container ul{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.logo{
+    text-decoration: none;
+}
+
+.logo h3{
+    font-size: 25px;
+    color: var(--color-black); 
+    opacity: 0;
+    animation: logoAni 1s ease forwards;   
+}
+.nav-link li a{
+    color: var(--color-black);
+    font-size: 17px;
+    transition: .4s ease;
+    display: inline-block;
+    animation: NavliaAni forwards 1s ease;
+    animation-delay: calc(.2s * var(--i));
+    opacity: 0;    
+    text-decoration: none;
+}
+.nav-link li a:hover{
+    color: var(--color-primary);
+}
+.nav-link li .active{
+    color: var(--color-primary);
+}
+
+.social-link li a{
+    height: 50px;
+    width: 50px; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    transform: rotate(45deg);
+    transition: .4s ease;   
+    animation: socialAni forwards 1s ease;
+    animation-delay: calc(.2s * var(--i));
+    opacity: 0;    
+    text-decoration: none;
+}
+.social-link li a:hover{
+    border-color: var(--color-primary);
+}
+.social-link li a i{
+    transform: rotate(-45deg);
+    font-size: 24px;
+    color: var(--color-primary);
+}
+
+
+/* .......................Start Header Section...................... */
+.header-container{
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center; 
+    height: 100%; 
+    justify-content: space-between;
+}
+
+/* header-tag */
+header, .section-team, .review-section{ 
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.section-team, .review-section{
+    align-items: start;
+    margin-bottom: 0.25rem;
+}
+
+.header-left{
+    max-width: 640px;
+    position: relative;
+}
+
+.header-left h1{
+    font-size: 54px;
+    line-height: 1.2;
+    color: var(--color-black);
+    animation: H1Ani forwards 1s ease;  
+    opacity: 0;    
+    animation-delay: 1s;  
+}
+.header-left h5{
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--color-primary);
+    margin-top: 0.5rem;
+    animation: H1Ani forwards 1s ease;  
+    opacity: 0;    
+    animation-delay: 0.8s;  
+}
+.header-left p{
+    letter-spacing: 1px;
+    margin: 15px 0 40px;
+    line-height: 160%;
+    font-size: 14px;
+    animation: logoAni forwards 1s ease;  
+    opacity: 0;    
+    animation-delay: .6s; 
+}
+
+/* parent of sq-box */
+.header-right{
+    position: relative;
+    width: 450px;
+    height: 450px;
+    transform: rotate(45deg);
+}
+
+.sq-box{
+    height: 90%;
+    width: 100%;
+    margin-top: -1.5rem;
+    border: 25px solid var(--color-primary);
+    background: var(--color-white);
+    box-shadow: -15px 15px 15px rgba(0, 0, 0, 0.2) ;
+    opacity: 0;
+    animation: zoomOut 1s ease forwards; 
+    animation-delay: 1.3s;
+}
+
+.sq-box img{
+    position: absolute;
+    max-width: 690px;
+    top: 110px;
+    left: -180px;
+    opacity: 0;
+    animation: carAni forwards 1s ease;
+    animation-delay: 1.6s;
+}
+
+.sq-box2{
+    position: absolute;
+    width: 720px;
+    height: 700px;
+    background: var(--color-primary);
+    transform: rotate(45deg);
+    top: -35%;
+    z-index: -1;
+    opacity: 0;
+    animation: sqbox2Ani forwards 1s ease;
+    animation-delay: .3s;
+}
+
+/* ------------------------------------------content start-------------------------- */
+.content{
+    width: 100%;
+}
+
+.content-h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.typewriter-text {
+  display: inline-block;
+  font-size: 2.25rem;
+  color: var(--color-black);
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  margin-left: 1rem;
+  color: var(--color-primary);
+}
+
+.parkease-review{
+    margin-left: 2rem;
+}
+
+.typewriter-text.typing {
+  animation: typing 3.5s steps(40, end) forwards, blink 0.75s step-end forwards;
+  opacity: 1;
+}
+
+.content-images{
+    height: 70.5vh;
+    margin: 0.5rem 0 0 1rem;
+    padding-top: 4rem;
+    display: flex;
+    justify-content: center;
+}
+
+.content-images .images-container{
+    height : 700px;
+    width: 90%;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.card {
+    width : 70px;
+    height: 65%;
+    position: relative;
+    overflow: hidden;
+    border: 2px soild var(--navbar-tertiary-color);
+    border-radius: 1.8rem;
+    background-size: cover;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: 0.6s cubic-bezier(0.28, -0.03, 0, 0.99);
+    opacity: 0;
+    transform: translateX(0);    /* original position of card */
+}
+
+.glass-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1;
+    border-radius: 1.8rem;
+    box-shadow: inset 0 0 0 1000px rgba(255, 255, 255, 0.05);
+}
+
+input{
+    display: none;
+}
+
+input:checked + label{
+    width : 850px;
+}
+
+input:checked + label .glass-overlay{
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+}
+
+.card[for = "c1"]{
+    background-image: url("https://media.istockphoto.com/id/1731252866/photo/salesman-and-a-female-customer-in-a-car-dealership.jpg?s=2048x2048&w=is&k=20&c=TrLQJPVz4Bk_xmR61CHiv43aPqGzgFelpglbTBCZhyw=");
+    background-size: cover;
+}
+
+.card[for="c2"]{
+    background-image: url("https://media.istockphoto.com/id/1659093384/photo/information-in-the-notepad-man-in-formal-clothes-is-with-woman-customer-with-the-electric-car.jpg?s=2048x2048&w=is&k=20&c=_F27VlItggkkMOfE1SrH4S8inag2va50J-zGJYkN0jc=");
+    background-size: cover;
+}
+
+.card[for="c3"]{
+    background-size: cover;
+    background-image: url("https://media.istockphoto.com/id/2170405732/photo/african-american-father-son-working-at-trucking-company.jpg?s=2048x2048&w=is&k=20&c=ieFTqesGI3V8zzezt4rYNIPRjIdXNfARAigSBRd4RHo=");
+}
+
+.card[for="c4"]{
+    background-image: url("https://media.istockphoto.com/id/518118726/photo/sunday-car-wash.jpg?s=2048x2048&w=is&k=20&c=eiCjjhz1xBTam4ZUW57m-oD1YWDS4m-kcp_CgvRGA4w=");
+    background-size: cover;
+}
+
+.card[for="c5"]{
+    background-image: url("https://media.istockphoto.com/id/1471762711/photo/weekly-environmental-cleanup-in-the-neighborhood.jpg?s=2048x2048&w=is&k=20&c=3KjQgyE3D6by1TAqwDCgYXzTMLTj11uPl6_ipl3PTwM=");
+    background-size: cover;
+}
+
+.card[for="c6"]{
+    background-image: url("https://media.istockphoto.com/id/1316755945/photo/parking-security-watching-over-the-parking-area.jpg?s=2048x2048&w=is&k=20&c=z9m09fWPNgW30X6Er9MG7YlBMRoJjFYhsw_S90LGkZ8=");
+    background-size: cover;
+}
+
+.card[for="c7"]{
+    background-image: url("https://media.istockphoto.com/id/2168574129/photo/senior-man-cleaning-snow-off-his-car-on-the-parking-lot.jpg?s=2048x2048&w=is&k=20&c=TukQaJGe0PSdPB1LWxOnWvUIGEXxKZTtUHDccKCpEvY=");
+    background-size: cover;
+
+}.card[for="c8"]{
+    background-size: cover;
+    background-image: url("https://media.istockphoto.com/id/2201629035/photo/business-professionals-giving-thumbs-up-in-parking-garage-setting.jpg?s=2048x2048&w=is&k=20&c=NzCjsUzo2dmZID81jLnoSNKszi2YvO7fmhc2N9tpVtc=");
+}
+
+.card.slide-left {
+    animation: slideInLeft 1s ease forwards;
+}
+
+.card.slide-right {
+    animation: slideInRight 1s ease forwards;
+}
+
+/* animation-delay */
+.card:nth-of-type(1) { animation-delay: 0.4s; }
+.card:nth-of-type(2) { animation-delay: 0.6s; }
+.card:nth-of-type(3) { animation-delay: 0.8s; }
+.card:nth-of-type(4) { animation-delay: 0.10s; }
+
+.card:nth-of-type(5) { animation-delay: 0.4s; }
+.card:nth-of-type(6) { animation-delay: 0.6s; }
+.card:nth-of-type(7) { animation-delay: 0.8s; }
+.card:nth-of-type(8) { animation-delay: 0.10s; }
+
+
+/* --------------------------------------------------------------- parking-lot-review ------------------------------- */
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr); /* 12-column layout with equal width */
+  gap: 2rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+.review-description {
+  grid-column: span 4;
+  border-radius: 5px;
+  height: 50%;
+  width: 480px;
+  margin-left: 7rem;
+  margin-bottom: 0.75rem;
+  margin-top: 0.75rem;
+  padding: 1rem;
+}
+
+.profile-pic{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+}
+
+.img-name{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 1.5rem;
+}
+
+.name-email{
+    height: 20px;
+}
+
+.name-email .email{
+    font-size: 0.9rem;
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0; 
+    color: var(--color-primary);
+}
+
+.name-email .email.animate-email{
+    animation: typing 3.5s steps(40, end) forwards, blink 0.75s step-end forwards;
+    opacity: 1;
+}
+
+.profile-pic img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.profile-pic img.flip-in {
+  animation: flipInY 0.6s ease forwards;
+}
+
+.profile-pic .gender{
+    font-size: 1.25rem;
+    color: pink;
+    margin-right: 1.5rem;
+}
+
+.review-body .review-para{
+    font-size: 0.9rem;
+    padding: 1rem;
+}
+
+.review-body .review-para.flip-in {
+  animation: flipInY 0.6s ease forwards;
+}
+
+.review-body .stars{
+    width: 30%;
+    height: 25px;
+    margin-left: 0.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.star{
+    font-size: 1.1rem;
+    margin-right: 0.15rem;
+}
+
+.star.flip-in {
+  animation: flipInY 0.6s ease forwards;
+}
+/* ---------------------------------------------- gallery parking image ------------------------ */
+.gallery {
+  grid-column: span 8;
+  width: 100%; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-right: 0rem;
+  margin-left: 3.5rem;
+}
+
+.gallery-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  max-width: 1000px; 
+  height: 400px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.gallery-item{
+    height : 190px;
+    width: 330px;
+    position: absolute;
+    border-radius: 5px;
+    background-size: contain;
+    opacity: 0;
+    z-index: 0;
+    transform: translateX(0);
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.fade-in {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto;
+    animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+.gallery-item-1{
+    left : 18%;
+    opacity: 0.5;
+}
+
+.gallery-item-2 , .gallery-item-4{
+    height : 240px;
+    opacity : 0.655;
+    z-index: 1;
+}
+
+.gallery-item-1, .gallery-item-5{
+    height : 210px;
+    z-index:0;
+}
+
+.gallery-item-6, .gallery-item-7{
+    height: 160px;
+    z-index: -1;
+
+}
+
+.gallery-item-2{
+    left : 30%;
+}
+
+.gallery-item-4{
+    left : 70%;
+}
+.gallery-item-3{
+    box-shadow : -2px 5px 33px 6px rgba(0,0,0,.35);
+    height : 270px;
+    width : 380px;
+    opacity: 1;
+    left : 50%;
+    z-index: 2;
+}
+
+.gallery-item-5{
+    left : 83%;
+    opacity: 0.5;
+}
+
+.gallery-item-6{
+    left: 8%;
+    opacity: 0.3;
+}
+
+.gallery-item-7{
+    left: 92%;
+    opacity: 0.3;
+}
+
+/* ---------------------------------------------------------------- js part ------------------------ */
+
+.gallery-controls{
+    display: flex;
+    justify-content: center;
+    margin: 25px 0;
+    height : 50px;
+    margin-top: -1.5rem;
+}
+
+.gallery-controls button{
+    border : 0;
+    cursor : pointer;
+    font-size: 24px;
+    font-weight: 500;
+    color: teal;
+    margin : 0 30px;
+    padding: 0 8px;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.gallery-controls-button:focus{
+    outline: none;
+}
+
+.gallery-controls-previous{
+    position: relative;
+}
+
+.gallery-controls-next{
+    position: relative;
+}
+
+/* ------------------------------------------------------------------------------------- */
+
+/* .......................Animation Start...................... */
+@keyframes logoAni {
+    0%{
+        transform: translateX(-100px);
+        opacity: 0;
+    }    
+    100%{
+        transform: translateX(0);
+        opacity: 1;
+    }    
+}
+
+/* li => anchor animation */
+@keyframes NavliaAni {    
+    0%{
+        transform: translateY(100px);
+        opacity: 0;
+    }    
+    100%{
+        transform: translateY(0);
+        opacity: 1;
+    }    
+}
+
+/* social media animation */
+@keyframes socialAni {
+    0%{
+        transform: translateX(100px) rotate(45deg);
+        opacity: 0;
+    }    
+    100%{
+        transform: translateX(0) rotate(45deg);
+        opacity: 1;
+    }    
+}
+
+@keyframes H1Ani {
+    0%{
+        transform: translateY(-100px) ;
+        opacity: 0;
+    }    
+    100%{
+        transform: translateY(0) ;
+        opacity: 1;
+    }    
+}
+
+@keyframes pAni{
+    0%{
+        transform: translateY(-20px) ;
+        opacity: 0;
+    }    
+    100%{
+        transform: translateY(0) ;
+        opacity: 1;
+    }  
+}
+
+@keyframes zoomOut {
+    0%{
+        transform:scale(1.2);
+        opacity: 0;
+    }    
+    100%{
+        transform: scale(1) ;
+        opacity: 1;
+    }    
+}
+
+/* translate(X, Y) */
+/* from high to low movement */
+@keyframes carAni {
+    0%{
+        transform: translate(180px, -300px) scale(0) rotate(-45deg);
+        opacity: 0;
+    }    
+    100%{
+        transform: translate(0, 0) scale(1) rotate(-45deg);
+        opacity: 1;
+    }    
+}
+
+
+/* from 0 to 100, move div towards the right */
+@keyframes sqbox2Ani {
+    0%{
+        right: 40%;
+        opacity: 0;
+    }    
+    100%{
+        right: -26%;
+        opacity: 1;
+    }    
+}
+
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-300px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(300px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 32ch }
+}
+
+@keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: #000 }
+}
+
+
+@keyframes flipInY {
+  0% {
+    transform: perspective(600px) rotateY(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(600px) rotateY(0);
+    opacity: 1;
+  }
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.95);
+        
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+/* .......................End Animation...................... */
