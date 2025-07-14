@@ -38,7 +38,7 @@
 1) flask => for Backend Apis.
 2) One important thing, I used to manage the route in different files in controllers folder, for which Blueprint module imported from flask module.
 2) SQlite and flask-SQLAlchemy => for database queries and models creation and binding backend with database.
-3) HTML5, CSS and BOOTSTRAP(cascading style sheets), basic javascript(for hitting backend using fetch function).
+3) HTML5, CSS and BOOTSTRAP(cascading style sheets), basic javascript(for hitting backend using fetch function and DOM manipulation).
 4) Jinja2 for templating....
 
 
@@ -185,14 +185,19 @@ Based on email, i will verify that the email provided is in my database or not.
 
 # WHY WE NEED TO DO BOTH FRONTEND AS WELL AS SERVER SIDE VALIDATION ?
 - Answer -
-- Front Validation of the form data, optimises the app such that end user can't hit our api unnecessary with invalid/ irrelevant data, reduces server load and increase the efficiency of our server.
-- Front end Validation must ensures that the form data send to end point must be valid/ relevant.
+- Frontend Validation of the form data, optimises the app such that end user can't hit our api unnecessary with invalid/ irrelevant data, reduces server load and increase the efficiency of our server.
+- Frontend Validation must ensures that the form data send to end point must be valid/ relevant.
 
 - Since, we are sending relevant data to our backend api, then why we are doing server side validation, also ?
 - Because, there are many platforms, such as postman, hopscottch etc, that allow end user, to hit our api with accessing our forms, which could be problematic in case, where our api is sending sensitive data or increase threat of SQL injections, database impurities etc.
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 
 # STEP 2 : CREATE LANDING PAGE
 - USING CSS AND BOOTSTRAP CREATE A LANDING PAGE OF YOUR OWN DESIGN & EMBED YOUR SIGNUP AND LOGIN ROUTES THERE.

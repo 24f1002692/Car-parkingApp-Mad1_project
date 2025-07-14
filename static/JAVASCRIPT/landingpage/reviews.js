@@ -46,7 +46,7 @@ function renderCurrentReviews() {
 
             img.src = data.image;
             email.textContent = data.email;
-            gender.innerHTML = data.gender === "female" ? "&#9792;" : "&#9794;";
+            gender.innerHTML = data.gender === "Female" ? `<span style="color:#C71585;">&#9792;</span>` : `<span style="color:blue;">&#9794;</span>`;  
             para.textContent = data.review;
             stars.innerHTML = renderStars(data.rating);
         });

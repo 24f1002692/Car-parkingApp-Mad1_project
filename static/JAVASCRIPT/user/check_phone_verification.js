@@ -106,11 +106,13 @@ async function check_phone_verification(){
         const json_booking_res = await bookingRes.json();
         if(json_booking_res.success){
             await customAlert(`Your Parking is Booked, your Spot id is ${json_booking_res.message}, Redirecting to your dashboard`);
-            setTimeout(() => {
-                window.location.href = '/TruLotParking/role/userDashboard';
-            }, 100);
+            window.location.href = '/TruLotParking/role/userDashboard';
         }else{
             await customAlert(json_booking_res.message);
+            if(json_booking_res.message == 'No available spot at the moment'){
+                window.location.href = `/TruLotParking/role/userDashboard/bookOneSpot?lot_id=${lotId_val}`;
+            }
+            loader.style.display = 'none';
         }
     }else{
         await new Promise(r => setTimeout(r, 500));

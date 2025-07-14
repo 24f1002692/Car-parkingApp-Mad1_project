@@ -8,6 +8,7 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+
 html {
   overflow: scroll;         
   scrollbar-width: none;   
@@ -137,20 +138,25 @@ nav{
 }
 
 /* header-tag */
-header, .section-team, .review-section{ 
+header, .section-team, .review-section, .parkEase-family{ 
     width: 100vw;
-    height: 100vh;
+    height: 97.5vh;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
 }
 
+.review-section{
+    height: 80vh;
+}
 
 .section-team, .review-section{
     align-items: start;
-    margin-bottom: 0.25rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
 }
+
 
 .header-left{
     max-width: 640px;
@@ -198,7 +204,7 @@ header, .section-team, .review-section{
     margin-top: -1.5rem;
     border: 25px solid var(--color-primary);
     background: var(--color-white);
-    box-shadow: -15px 15px 15px rgba(0, 0, 0, 0.2) ;
+    box-shadow: -15px 15px 15px rgba(0, 0, 0, 0.05) ;
     opacity: 0;
     animation: zoomOut 1s ease forwards; 
     animation-delay: 1.3s;
@@ -351,7 +357,9 @@ input:checked + label .glass-overlay{
     background-image: url("https://media.istockphoto.com/id/2168574129/photo/senior-man-cleaning-snow-off-his-car-on-the-parking-lot.jpg?s=2048x2048&w=is&k=20&c=TukQaJGe0PSdPB1LWxOnWvUIGEXxKZTtUHDccKCpEvY=");
     background-size: cover;
 
-}.card[for="c8"]{
+}
+
+.card[for="c8"]{
     background-size: cover;
     background-image: url("https://media.istockphoto.com/id/2201629035/photo/business-professionals-giving-thumbs-up-in-parking-garage-setting.jpg?s=2048x2048&w=is&k=20&c=NzCjsUzo2dmZID81jLnoSNKszi2YvO7fmhc2N9tpVtc=");
 }
@@ -385,6 +393,8 @@ input:checked + label .glass-overlay{
   margin-top: 2rem;
 }
 
+
+
 .review-description {
   grid-column: span 4;
   border-radius: 5px;
@@ -407,11 +417,12 @@ input:checked + label .glass-overlay{
     display: flex;
     justify-content: center;
     align-items: start;
-    gap: 1.5rem;
+    gap: 0.75rem;
 }
 
 .name-email{
-    height: 20px;
+    margin-top: 0.5rem;
+    height: 25px;
 }
 
 .name-email .email{
@@ -429,8 +440,8 @@ input:checked + label .glass-overlay{
 }
 
 .profile-pic img{
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     border-radius: 50%;
 }
 
@@ -445,8 +456,10 @@ input:checked + label .glass-overlay{
 }
 
 .review-body .review-para{
-    font-size: 0.9rem;
-    padding: 1rem;
+    font-size: 0.785rem;
+    padding: 0.25rem;
+    padding-left: 1rem;
+    height: 90px;
 }
 
 .review-body .review-para.flip-in {
@@ -456,14 +469,15 @@ input:checked + label .glass-overlay{
 .review-body .stars{
     width: 30%;
     height: 25px;
-    margin-left: 0.25rem;
+    margin-top: 0.5rem;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
+    margin-left: 0.75rem;
 }
 
 .star{
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     margin-right: 0.15rem;
 }
 
@@ -479,14 +493,14 @@ input:checked + label .glass-overlay{
   justify-content: center;
   align-items: center;
   padding-right: 0rem;
-  margin-left: 3.5rem;
+  margin-left: 4rem;
 }
 
 .gallery-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80%;
+  width: 85%;
   max-width: 1000px; 
   height: 400px;
   position: relative;
@@ -510,7 +524,7 @@ input:checked + label .glass-overlay{
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto;
-    animation: fadeIn 0.8s ease-in-out forwards;
+    animation: fadeIn 1.5s ease-in-out forwards;
 }
 
 .gallery-item-1{
@@ -544,8 +558,8 @@ input:checked + label .glass-overlay{
 }
 .gallery-item-3{
     box-shadow : -2px 5px 33px 6px rgba(0,0,0,.35);
-    height : 270px;
-    width : 380px;
+    height : 290px;
+    width : 400px;
     opacity: 1;
     left : 50%;
     z-index: 2;
@@ -600,7 +614,94 @@ input:checked + label .glass-overlay{
     position: relative;
 }
 
-/* ------------------------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------- parkease family section ----------------------------------------- */
+.video-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.parkEase-family .content .content-h1{
+    margin: 2rem;
+    margin-bottom: 3rem;
+}
+
+.parkEase-family{
+    margin-bottom: 2.5rem;
+}
+/* --------------------------------------------Footer section ----------------------------------------- */
+.footer-section {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    height: 360px;
+    padding: 40px 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-col {
+    grid-column: span 3;
+    height: 260px;
+    background-color: #2a2a2a25;
+    padding: 20px;
+    border-radius: 2px;
+}
+
+.footer-col ul li{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+}
+
+.footer-col ul li a{
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    padding-top: 0.5rem 0.5rem 0.25rem 0rem;
+    color: var(--color-white);
+    letter-spacing: 0.1rem;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.footer-col ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1.75px;
+    width: 0%;
+    background-color: var(--color-white);
+    transition: width 0.3s ease-in-out;
+}
+
+.footer-col ul li a:hover::after {
+    width: 100%;
+}
+
+.footer-base {
+    text-align: center;
+    font-size: 14px;
+    color: var(--color-white);
+    padding-top: 10px;
+    border-top: 1px solid #444;
+    width: 100%;
+    margin-top: 1rem;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+}
+
 
 /* .......................Animation Start...................... */
 @keyframes logoAni {

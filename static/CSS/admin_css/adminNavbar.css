@@ -15,9 +15,8 @@ body {
     --primary-color-3: #1e293b;
     --secondary-color: #38bdf8;
     --tertiary-color: #FFFFFF;
-    --label-notice-color: #333;
-    --input-field-box: #36454F;
     --bright: #fb7185;
+    --color-white: #eaeaea; 
 }
 
 .navbar {
@@ -49,6 +48,7 @@ body {
     padding: 8px 8px;
     transition: color 0.3s;
     position: relative;
+    color : var(--tertiary-color);
 }
 
 .links ul li a:hover{
@@ -91,9 +91,11 @@ body {
 }
 
 .search-input-btn input[type="text"] {
+    background-color: var(--tertiary-color);
     padding: 10px 12px;
     border-radius: 8px;
     outline: none;
+    border: none;
     width: 450px;
     transition: border-radius 0.3s ease;
     font-size: 0.95rem;
@@ -104,15 +106,8 @@ body {
     border-radius: 1rem;
 }
 
-.search-input-btn .btn {
-    padding: 6px 12px;
-    border: 1px solid var(--secondary-color);
-    color: var(--secondary-color);
-    background: transparent;
-    border-radius: 16px;
-    transition: all 0.3s ease;
-    width: 100px;
-    height: 39px;
+.search-input-btn input[type="text"]::placeholder {
+    color: gray;
 }
 
 .search-input-btn .btn:hover {

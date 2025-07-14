@@ -36,7 +36,7 @@ def ratingLot():
             if not (1 <= rating_value <= 5):
                 return jsonify({'success': False, 'message': 'Rating must be between 1 and 5'}), 400
             
-            if(len(rating_description) > 200):
+            if(len(rating_description) > 300):
                 return jsonify({'success': False, 'message': 'rating description should be within 30-40 words'}), 400
 
             existing_rating = Rating.query.filter_by(user_id=userId, lot_id=lotId).first()

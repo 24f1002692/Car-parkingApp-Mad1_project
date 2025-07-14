@@ -25,8 +25,8 @@ def view_spot_prices():
         json_res = res.get_json()
 
         if not json_res.get('success'):
-            return jsonify({'success': False, 'message': json_res.get('message')}), status
-        
+            return render_template('/components/error_page.html', error= json_res.get('message')), status
+                
         try:
             if json_res.get('success') and json_res.get('message') == 'user':
                 lot_id = request.args.get('lot_id')
@@ -34,6 +34,8 @@ def view_spot_prices():
                 return render_template('/user/links/view_book_spot.html', lot=lot, user_id=json_res.get('user_id')), 200
         except Exception as error:
             print(error)
+            return render_template('/components/error_page.html', error='Internal Server Error'), 500    
+            
     elif request.method == 'POST':
         data = request.get_json()
         user_id = data.get('userId_val')
@@ -172,8 +174,8 @@ def check_phone_verification():
             if not (phone.startswith("+") and re.fullmatch(r"\+\d{10,15}", phone)):
                 return jsonify({'success': False, 'message':'Phone number with country code is required'}), 400
             
-            if phone == '+919810661732':
-                return jsonify({"success": True, "message": 'user is verified'}), 200
+            # if phone == '+919810661732':
+            #     return jsonify({"success": True, "message": 'user is verified'}), 200
             
             try:
                 is_verified = ReservedSpot.query.filter_by(phone=phone).first() is not None

@@ -1,15 +1,15 @@
 :root{
     --navbar-primary-color: #EFEEEA;
-    --navbar-secondary-color: #000000;
-    --navbar-secondary-color-2 : #FFFFFF;
     --navbar-tertiary-color: #FE7743;
     --navbar-tertiary-color-2: #273F4F;
     --charcoal : #212121;
     --bright: #fb7185;
+    --color-primary: teal;
+    --color-white: #FFFFFF; 
 }
 
 body{
-    background-color: var(--navbar-secondary-color-2);
+    background-color: var(--secondary-color-2);
 }
 
 body.rating-active {
@@ -17,7 +17,7 @@ body.rating-active {
 }
 
 .navbar{
-    background-color: #0B0B0B;
+    background-color: var(--color-primary);
 }
 
 .container{
@@ -51,13 +51,15 @@ body.rating-active {
 .lots-card{
     padding-top: 2rem;
     display: flex;
-    flex: wrap;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: start;
+    gap: 1.25rem;
 }
 
+
 .card{
-    margin-right: 1.75rem;
+    flex: 1 1 calc(25% - 1rem);
     padding-bottom: 0.25rem;
     transition: transform 0.3s ease;
 }
@@ -148,8 +150,10 @@ body.rating-active {
 
 .status{
     font-size: 0.85rem;
-    color: green;
-    font-weight: 600;
+    color: rgb(123, 211, 123);
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .status-red {
@@ -161,7 +165,7 @@ body.rating-active {
 }
 
 .status-green {
-    color: #28a745; 
+    color: var(--color-primary);
 }
 
 .card-body-link{
@@ -177,6 +181,8 @@ body.rating-active {
     padding: 0.45rem 1.6rem;
     font-size: 0.7rem;
     background-color: #000;
+    background-color: var(--color-primary);
+    color: var(--color-white);
     border-radius: 2px;
     transition: border-radius 0.3s ease;
 }

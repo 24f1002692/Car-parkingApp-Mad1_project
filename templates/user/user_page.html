@@ -5,9 +5,6 @@
 
 {% block userPage %}
     <div class="container">
-        <!-- <div class="greet-container">
-            <h1 class="comic-neue-regular">Hello {{ username }}, Welcome to the Your Dashboard. . . .</h1>
-        </div> -->
         <div class="parking-lots-container">
             <div class="lots-card">
                 {% for lot in lots %}
@@ -84,7 +81,7 @@
                 <i class="bi bi-star star" data-value="4"></i>
                 <i class="bi bi-star star" data-value="5"></i>
             </div>
-            <textarea id="rating-description" rows="3"  cols="40" maxlength="150" placeholder="Write a short comment (max 200 characters)"></textarea>
+            <textarea id="rating-description" rows="3"  cols="40" maxlength="300" placeholder="Write a short comment (max 300 characters)"></textarea>
             <button id="rating-submit-btn">Submit</button>
         </div>
     </div>

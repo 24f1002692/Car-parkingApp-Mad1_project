@@ -1,6 +1,6 @@
 :root{
     --primary-color: #4a90e2;
-    --primary-color-2: #0CA678;
+    /* --primary-color-2: #0CA678; */
     --secondary-color: #f9f9f9b0;
     --tertiary-color: #FFFFFF;
     --label-notice-color: #333;
@@ -32,7 +32,7 @@ body{
     padding-top: 2.25rem;
     background-color: transparent;
     border-radius: 1rem; 
-    border: 0.0999rem solid teal;
+    border: 0.0999rem solid var(--primary-color);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
     transition: all 0.3s ease-in-out;
     z-index: 2;
@@ -58,7 +58,7 @@ body{
 }
 
 .cross a i{
-  color: var(--primary-color-2);
+  color: var(--primary-color);
 }
 
 h2{
@@ -75,7 +75,7 @@ h2{
 
 .Notice-list li {
   background-color: transparent;
-  border-left: 2.5px solid var(--primary-color-2);
+  border-left: 2.5px solid var(--primary-color);
   padding: 0.8rem 1rem; 
   margin-bottom: 0.55rem;
   border-radius: 0.5rem;
@@ -167,7 +167,7 @@ textarea::placeholder {
 
 #toggle-password-div {
   cursor: pointer;
-  color: var(--primary-color-2);
+  color: var(--primary-color);
   font-size: 1.3rem;
   display: flex;
   align-items: center;
@@ -199,7 +199,7 @@ textarea::placeholder {
     margin-top: 0rem;
     margin-bottom: 0rem;
     padding: 0.45rem 1.25rem;
-    background-color: var(--primary-color-2);
+    background-color: var(--primary-color);
     color: var(--tertiary-color);
     border: none;
     border-radius: 8px;
@@ -212,7 +212,7 @@ textarea::placeholder {
 }
 
 #login-form button:hover {
-    background-color: var(--primary-color-2);
+    background-color: var(--primary-color);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     transform: scale(0.95);
 }
@@ -230,7 +230,7 @@ textarea::placeholder {
 }
 
 .forget-password a:hover{
-  color: var(--primary-color-2);
+  color: var(--primary-color);
 }
 
 .forget-password p{

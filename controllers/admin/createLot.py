@@ -150,7 +150,7 @@ def parking_lot_details():
             
             spots = ParkingSpot.query.filter_by(lot_id=lot_id, deleteSpot=False).all()
             if not spots:
-                return render_template('/components/error_page.html', error='No spots exists in this lot'), 404
+                return render_template('/components/error_page.html', error='No spots found'), 404
 
             return render_template('admin/links/view_lot_details.html', lot=lot, spots=spots)
         else:

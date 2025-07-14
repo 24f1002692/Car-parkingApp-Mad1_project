@@ -35,8 +35,8 @@ submitBtn.addEventListener('click', async() => {
         return;
     }
 
-    if(!description || description.length > 200){
-        customAlert('Please provide a description within 30-40 words');
+    if(!description || description.length > 300){
+        customAlert('Please provide a description within 40-45 words');
         return;
     }
 
@@ -95,7 +95,7 @@ submitBtn.addEventListener('click', async() => {
 
 const searchBox = document.getElementById('search-box');
 
-document.querySelectorAll('.rating-icon').forEach(icon => {         // Each card has rating icon, so get all of them and add click event listener to each of them.
+document.querySelectorAll('.rating-icon').forEach(icon => {      // Each card has rating icon, so get all of them and add click event listener to each of them.
     icon.addEventListener('click', (event) => {
         selectedLotId = icon.getAttribute('data-lot-id');
         userId = icon.getAttribute('data-user-id');
