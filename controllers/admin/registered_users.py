@@ -19,6 +19,17 @@ def format_datetime(iso_string):
         return dt.strftime('%d-%m-%Y, %I:%M %p')  # e.g., 26-06-2025, 01:49 AM
     except ValueError:
         return 'Invalid date'
+    
+def serialize_reservation(spot, include_leaving_time=False):
+    data = {
+        'reserved_spot_id': spot.spot_id,
+        'parking_time': format_datetime(str(spot.parking_time)) if spot.parking_time else None,
+        'phone': spot.phone
+    }
+
+    if include_leaving_time:
+        data['leaving_time'] = format_datetime(str(spot.leaving_time)) if spot.leaving_time else None
+    return data
 
 
 @registered_user_bp.route('/registered-users')
@@ -101,7 +112,6 @@ def unrestrict_user(user_id):
         return jsonify({'success': False, 'message': 'Internal Server Error'}), 500
 
 
-
 @registered_user_bp.route('/registered-users/view-user')
 def view_user():
     token = request.cookies.get('token')
@@ -116,16 +126,18 @@ def view_user():
     try:
         user = User.query.filter_by(email=email_In_Token).first()
         if user and user.role =='admin':
-            user_id = request.args.get('user_id')
+            user_id = request.args.get('user_id')   # get user_id from query string
+            if not user_id:
+                return jsonify({'success': False, 'msg': 'Missing user_id'}), 400
+            
             user = User.query.filter_by(user_id=user_id).first()
+            if not user:
+                return jsonify({'success': False, 'msg': 'User not found'}), 404
+            
             active_reservations = ReservedSpot.query.filter_by(user_id=user_id, leaving_time=None).order_by(ReservedSpot.parking_time.desc()).limit(50).all()
+            past_reservations = ReservedSpot.query.filter(ReservedSpot.user_id == user_id,ReservedSpot.leaving_time != None).order_by(ReservedSpot.parking_time.desc()).limit(50).all()
 
             phone_list = list({spot.phone for spot in user.reserved_spot_detail})
-            rating_list = [
-                rating.lot_detail.lot_name
-                for rating in user.ratings_detail
-                if rating.lot_detail                      # user.rating_detail is a list of lots
-            ]
             user_detail = {
                 'name': user.name,
                 'email': user.email,
@@ -133,20 +145,16 @@ def view_user():
                 'address': user.address_detail.address if user.address_detail else None,
                 'isRestricted' : user.restrictUser,
                 'image_url': user.image,
-                'rating_list': rating_list,
-                'reserved_spots': [
-                    {
-                        'reserved_spot_id': spot.spot_id,
-                        'parking_time': format_datetime(str(spot.parking_time)) if spot.parking_time else None,
-                        'phone': spot.phone
-                    }
-                    for spot in active_reservations
-                ]
             }
 
-            return jsonify({'success': True, 'user': user_detail}), 200
+            active_reservations_data = [serialize_reservation(spot) for spot in active_reservations]
+            past_reservations_data = [serialize_reservation(spot, include_leaving_time=True) for spot in past_reservations]
+
+            return jsonify({'success': True, 'user': user_detail, 'active_reservations': active_reservations_data, 'past_reservations': past_reservations_data}), 200
+        else:
+            return jsonify({'success': False, 'msg': 'Invalid User Type'}), 403
     except Exception as error:
         print(error)
         return jsonify({'success': False, 'msg': 'Internal Server Error'}), 500
-
+    
     

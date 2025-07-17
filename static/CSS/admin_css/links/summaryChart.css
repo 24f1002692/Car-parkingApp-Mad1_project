@@ -1,0 +1,13 @@
+.back-icon{
+    background-color: #60a5fa;
+}
+
+.back-icon:hover{
+    background-color: #74b0f97b;
+}
+
+.canvas-insights{
+    border-left: 4px solid #60a5fa;
+    font-size: 1.05rem;
+    line-height: 2;
+}

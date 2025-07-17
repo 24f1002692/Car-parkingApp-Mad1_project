@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-box');
     if (!searchInput) return;
 
-    const targetClass = searchInput.dataset.targetClass;     // e.g., 'lot-card' or 'user-card'
-    const cards = document.querySelectorAll(`.card.${targetClass}`);
+    const targetClass = searchInput.dataset.targetClass;     // e.g., 'lot-card' or 'user-card or reservation'
+    const cards = document.querySelectorAll(`.card.${targetClass}`);    // collect all card from the page with the targetClass value
 
     searchInput.addEventListener('input', () => {
         const searchValue = searchInput.value.toLowerCase();

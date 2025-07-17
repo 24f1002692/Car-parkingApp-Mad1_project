@@ -51,7 +51,6 @@ class ParkingSpot(db.Model):
     deleteSpot = db.Column(db.Boolean, default=False)
 
 
-
 class ReservedSpot(db.Model):
     __tablename__ = 'reserved_parking_spots'
     reserved_spot_id = db.Column(db.Integer, primary_key=True)
@@ -61,6 +60,7 @@ class ReservedSpot(db.Model):
     parking_time = db.Column(db.DateTime , nullable=False)
     leaving_time = db.Column(db.DateTime, nullable=True)
     bill_pay = db.Column(db.Boolean, default=False)
+    bill_amount = db.Column(db.Float)
     
     spot_detail = db.relationship('ParkingSpot', back_populates='reserved_spot_detail')    # many-one (many reservation of a spot can be done over the time)
     user_detail = db.relationship('User', back_populates='reserved_spot_detail')       # many-one (many reservations can be done by one user)

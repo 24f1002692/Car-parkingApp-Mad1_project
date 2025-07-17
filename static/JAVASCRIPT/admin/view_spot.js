@@ -1,7 +1,7 @@
 function formatDateTime(isoString) {
     if (!isoString) return 'N/A';
     const date = new Date(isoString);
-    return date.toLocaleString('en-IN', {
+    return date.toLocaleString('en-IN', {    // .toLocaleString() in JS is used to format numbers, dates, or currencies in a way that's appropriate for a specific locale.
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
@@ -11,10 +11,10 @@ function formatDateTime(isoString) {
     });
 }
 
-
+// ---------------------------------------------------------- OPEN SPOT PANEL -------------------------------------
 async function openSpotDetails(spotId) {
     const deleteIcon = document.getElementById('delete-spot-i');
-    deleteIcon.setAttribute('data-spot-id', spotId);
+    deleteIcon.setAttribute('data-spot-id', spotId);    // to spot-id to access it while deleting the spot
 
     const panel = document.getElementById("spot-detail-panel");
     const overlay = document.getElementById("overlay-blur");
@@ -83,10 +83,9 @@ function closeSpotDetails() {
 }
 
 
+//-------------------------------------------------------------------------- OPEN LOT PANEL ------------------------
 
-//--------------------------------------------------------------------------------------------------
-
-document.getElementById('view-icon').addEventListener('click', async() => {
+document.getElementById('view-icon').addEventListener('click', async() => {     // view-lot-details, i icon on top(left of update lot link)
     const lotPanel = document.getElementById('lot-detail-panel');
     const overlay = document.getElementById("overlay-blur");
     const loader = document.getElementById('loader');
@@ -118,6 +117,27 @@ document.getElementById('lot-close-btn').addEventListener('click', () => {
     }, 300);
 });
 
+
+document.getElementById('delete-spot-i').addEventListener('click', async function() {
+    const loader = document.getElementById('loader');
+    const spot_id = this.getAttribute('data-spot-id');
+
+    loader.style.display = 'flex';
+    await new Promise(r => setTimeout(r, 400)); 
+    const url = `/TruLotParking/role/adminDashboard/deleteSpot?spot_id=${spot_id}`;
+    const response = await fetch(url);
+    const json_data = await response.json();
+    
+    console.log(json_data)
+    if(json_data.success){
+        customAlert(json_data.msg, () => {
+            window.location.reload();
+        });
+    }else{
+        loader.style.display = 'none';
+        customAlert(json_data.msg);
+    }
+});
 
 
 // under maintenance ---------------------------------------------------------------------------------
@@ -184,27 +204,4 @@ Array.from(document.getElementsByClassName('spot')).forEach(spot => {
             return;
         }
     })
-});
-
-
-
-document.getElementById('delete-spot-i').addEventListener('click', async function() {
-    const loader = document.getElementById('loader');
-    const spot_id = this.getAttribute('data-spot-id');
-
-    loader.style.display = 'flex';
-    await new Promise(r => setTimeout(r, 400)); 
-    const url = `/TruLotParking/role/adminDashboard/deleteSpot?spot_id=${spot_id}`;
-    const response = await fetch(url);
-    const json_data = await response.json();
-    
-    console.log(json_data)
-    if(json_data.success){
-        customAlert(json_data.msg, () => {
-            window.location.reload();
-        });
-    }else{
-        loader.style.display = 'none';
-        customAlert(json_data.msg);
-    }
 });

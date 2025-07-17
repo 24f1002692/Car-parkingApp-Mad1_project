@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruLot Parking Summary</title>
+    <link rel="icon" href="{{ url_for('static', filename='/images/landing_page_images/icon_image.JPG') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/user_css/links/summaryChart.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/admin_css/links/summaryChart.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <button class="back-icon"><i class="fa-solid fa-arrow-left" id="back-i"></i></button>
+        <div class="head">
+            <h1 id="summaryTitle"></h1>
+            <select id="yearSelect" onchange="handleYearChange()">
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+            </select>
+        </div>
+
+        <div class="container-content">
+            <div class="canvas-content">
+                <div class="canvas-wrapper" id="canvas-wrapper-monthly">
+                    <div class="canvas-content-body">
+                        <canvas id="monthlyEarningChart" width="975px" height="475px"></canvas>
+                        <div class="about-canvas">
+                            <div class="canvas-insights"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="canvas-wrapper" id="canvas-wrapper-daily" style="display: none;">
+                    <canvas id="dailyEarningChart" width="1350px" height="475px" ></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="lotWiseReservationChart">
+            <div class="head">
+                <h1 id="active-past-reservation-h1"></h1>
+            </div>
+
+            <div class="canvas-wrapper">
+                <div class="canvas-content-body">
+                    <canvas id="lotWiseReservationChart" width="975px" height="425px"></canvas>
+                    <div class="about-canvas">
+                        <div class="canvas-insights"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="lot-wise-earning-pie-chart">
+            <div class="head">
+                <h1 id="lot-wise-earning-pie-chart-h1"></h1>
+            </div>
+
+            <div class="canvas-wrapper">
+                <div class="canvas-content-body">
+                    <canvas id="lot-wise-earning-pie-chart" width="975px" height="425px"></canvas>
+                    <div class="about-canvas">
+                        <div class="canvas-insights"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="daily-progress-chart">
+            <div class="head">
+                <h1 id="daily-progress-h1"></h1>
+            </div>
+
+            <div class="canvas-wrapper">
+                <div class="canvas-content-body">
+                    <canvas id="daily-progress-chart" width="975px" height="425px"></canvas>
+                    <div class="about-canvas">
+                        <div class="canvas-insights"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% include 'components/alert.html' %}
+    {% include 'components/loader.html' %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline"></script>
+    <script src="{{ url_for('static', filename='/JAVASCRIPT/alert.js')}}"></script>
+    <script src="{{ url_for('static', filename='/JAVASCRIPT/admin/summaryChart.js')}}"></script>
+</body>
+</html>

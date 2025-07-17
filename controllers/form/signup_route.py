@@ -202,7 +202,7 @@ def otpPage():
                 return jsonify({'success':False, 'message':'Your Email is already Verified, Creating your account on TruLot.....'}), 200
             
             otp_limit_key = email
-            otp_max_requests = 3
+            otp_max_requests = 2
             otp_limit_window = 3600
 
             current_count = redis_client.get(otp_limit_key)
@@ -241,7 +241,6 @@ def otpPage():
             print(e)
             return jsonify({'success': False, 'message':'Failed to send OTP, check your internet connection....'})
         
-
 
 @otpForm_bp.route('/verifyOtp', methods=['POST'])
 def verifyOtp():

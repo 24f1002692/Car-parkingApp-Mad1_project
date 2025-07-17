@@ -174,7 +174,7 @@ def check_phone_verification():
             if not (phone.startswith("+") and re.fullmatch(r"\+\d{10,15}", phone)):
                 return jsonify({'success': False, 'message':'Phone number with country code is required'}), 400
             
-            # if phone == '+919810661732':
+            # if phone == '+919810661732' or phone == '+919871487239':
             #     return jsonify({"success": True, "message": 'user is verified'}), 200
             
             try:

@@ -55,7 +55,6 @@ def spot_details():
         return jsonify({'success':False, 'message': 'Internal Server Error'}), 500
 
 
-
 @spot_bp.route('/put-spot-under-maintenance')
 def under_maintenance():
     token = request.cookies.get('token')
@@ -97,7 +96,6 @@ def under_maintenance():
         return jsonify({'success': False, 'message':'Internal Server Error'}), 200
 
             
-
 @spot_bp.route('/remove-spot-under-maintenance')
 def remove_under_maintenance():
     token = request.cookies.get('token')

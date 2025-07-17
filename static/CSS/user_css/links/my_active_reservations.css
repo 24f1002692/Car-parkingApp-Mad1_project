@@ -123,7 +123,7 @@ html::-webkit-scrollbar{
     border-radius: 6px;
     font-size: 0.9rem;
     text-align: center;
-    width: 40%;
+    width: 60%;
     background: linear-gradient(to left, #FFFDD0, #FFFFFF, #D8B4F8);
     background: linear-gradient(to left, #fffdd0ed, #FFFFFF, #00808094);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -295,4 +295,61 @@ html::-webkit-scrollbar{
     display: inline-block;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     border: 1px solid #ffd3a3;
+}
+
+/* ----------------------------------------------------- SEARCH BAR ----------------------- */
+.search-bar {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: start;
+    width: 67.5%;
+    margin-left: 1rem;
+    margin-bottom: 4rem;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 80%;
+    max-width: 400px;
+    margin-left: 4rem;
+}
+
+.search-wrapper input[type="text"] {
+    width: 125%;
+    padding: 0.8rem 2.5rem 0.8rem 1rem;
+    border: 2px solid  #008080d9;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-radius 1s ease;
+}
+
+.search-wrapper input[type="text"]::placeholder {
+    padding-left: 0.5rem;
+    color: #0B0B0B;
+    /* color:  #008080d9; */
+    font-weight: 600;
+}
+
+.search-wrapper input[type="text"]:focus {
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    border-radius: 99px;
+}
+
+.search-wrapper .search-icon {
+    position: absolute;
+    font-size: 1.3rem;
+    color: #0B0B0B;
+    right: -8rem;
+    top: 50%;
+    transform: translateY(-50%);      /* to center the icon vertically*/
+    pointer-events: none;
+}
+
+ #no-results{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
+    color: red;
+    margin-top: 1rem;
+    font-size: 1.5rem;
 }

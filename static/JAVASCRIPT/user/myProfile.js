@@ -12,7 +12,7 @@ document.getElementById('profile').addEventListener('click', async(e) => {
     loader_div.style.display = 'flex';
 
     try{
-        await new Promise(r => setTimeout(r, 100));
+        await new Promise(r => setTimeout(r, 1000));
         const res = await fetch(url);
         const json_res = await res.json();
         loader_div.style.display = 'none';

@@ -7,13 +7,31 @@
     <link rel="icon" href="{{ url_for('static', filename='/images/landing_page_images/icon_image.JPG') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/user_css/links/my_active_reservations.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/user_css/links/past_reservation.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
     {% if formatted_past_reserved_spots %}
     <div class="card-container">
         <h1>MY PAST RESERVATIONS</h1>
+        <div class="search-bar">
+            <div class="search-wrapper">
+                <input type="text" id="search-box"  placeholder="Search reservations..." data-target-class="reservation"/>
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </div>
+        </div>
+
+        <div id="no-results" style="display: none;">
+            No matching reservations found.
+        </div>
+
         {% for spot in formatted_past_reserved_spots %}
-            <div class="card">
+            <div class="card reservation" data-name="{{ 
+                (spot.reserved_spot.user_detail.name ~ ' ' ~ 
+                spot.reserved_spot.user_detail.email ~ ' ' ~ 
+                spot.reserved_spot.phone ~ ' ' ~
+                spot.reserved_spot.user_detail.address_detail.address ~ ' ' ~ 
+                spot.reserved_spot.spot_detail.spot_id ~ ' ' ~ 
+                spot.reserved_spot.spot_detail.lot_detail.lot_name) | lower }}">
                 <div class="card-head">
                     <div class="reserved-spot-circle">
                         {{ spot.reserved_spot.reserved_spot_id }}
@@ -78,7 +96,8 @@
             {% endif %}
         </ul>
     </div>
-
+    
+    <script src="{{ url_for('static', filename='JAVASCRIPT/admin/search.js')}}"></script>
     <script>
         Array.from(document.getElementsByClassName('book-again')).forEach(btn => {
             btn.addEventListener('click', () => {

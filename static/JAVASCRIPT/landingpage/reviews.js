@@ -8,9 +8,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     const res = await fetch("/TruLotParking/role/userDashboard/14-randomRating");
     const jsonData = await res.json();
     allReviews = jsonData.result_array;
-
-    console.log(allReviews)
-
     renderCurrentReviews();
 });
 
@@ -59,7 +56,7 @@ function renderCurrentReviews() {
 document.querySelector(".gallery-controls").addEventListener("click", (e) => {
     if (allReviews.length <= 2) return;
 
-    const isNext = e.target.closest(".gallery-controls-next");
+    const isNext = e.target.closest(".gallery-controls-next");     // .closest(".gallery-controls-next"): goes up/down the DOM tree from e.target and finds the nearest ancestor (or itself) that matches the selector .gallery-controls-next
     const isPrev = e.target.closest(".gallery-controls-previous");
 
     if (isNext) {

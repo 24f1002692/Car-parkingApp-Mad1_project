@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Expenditures Summary</title>
+    <link rel="icon" href="{{ url_for('static', filename='/images/landing_page_images/icon_image.JPG') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/CSS/user_css/links/summaryChart.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <button class="back-icon"><i class="fa-solid fa-arrow-left" id="back-i"></i></button>
+        <div class="head">
+            <h1 id="summaryTitle">Your Monthly Expenditures Summary</h1>
+            <select id="yearSelect" onchange="handleYearChange()">
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+            </select>
+        </div>
+
+        <div class="container-content">
+            <div class="canvas-content">
+                <div class="canvas-wrapper" id="canvas-wrapper-monthly">
+                    <div class="canvas-controls">
+                        <i class="fa-solid fa-expand zoom-icon" onclick="zoomCanvas(this)" style="display: none;"></i>
+                        <i class="fas fa-times close-icon" onclick="unzoomCanvas(this)" style="display: none;"></i>
+                    </div>
+                    
+                    <div class="canvas-content-body">
+                        <canvas id="monthlyChart" width="950px" height="475px"></canvas>
+                        <div class="about-canvas">
+                            <div class="canvas-insights"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="canvas-wrapper" id="canvas-wrapper-daily" style="display: none;">
+                    <div class="canvas-controls">
+                        <i class="fa-solid fa-expand zoom-icon zoom-icon-daily" onclick="zoomCanvas(this)" style="display: none;"></i>
+                        <i class="fas fa-times close-icon zoom-icon-daily" onclick="unzoomCanvas(this)" style="display: none;"></i>
+                    </div>
+
+                    <canvas id="dailyChart" width="1350px" height="475px" ></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="Lot-wise-expenditure">
+            <div class="head">
+                <h1 id="summaryTitle-lotwise"></h1>
+            </div>
+            <div class="canvas-wrapper">
+                <div class="canvas-controls">
+                    <i class="fa-solid fa-expand zoom-icon" onclick="zoomCanvas(this)" style="display: none;"></i>
+                    <i class="fas fa-times close-icon" onclick="unzoomCanvas(this)" style="display: none;"></i>
+                </div>
+                
+                <div class="canvas-content-body">
+                    <canvas id="lotWiseSpendingChart" width="950px" height="475px"></canvas>
+                    <div class="about-canvas">
+                        <div class="canvas-insights"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <div class="container">
+        <div class="lot-wise-reservations-pie-chart">
+            <div class="head">
+                <h1 id="lot-wise-reservations-pie-chart-h1"></h1>
+            </div>
+
+            <div class="canvas-wrapper">
+                <div class="canvas-controls">
+                    <i class="fa-solid fa-expand zoom-icon" onclick="zoomCanvas(this)" style="display: none;"></i>
+                    <i class="fas fa-times close-icon" onclick="unzoomCanvas(this)" style="display: none;"></i>
+                </div>
+                
+                <div class="canvas-content-body">
+                    <canvas id="lot-wise-reservations-pie-chart" width="950px" height="450px"></canvas>
+                    <div class="about-canvas">
+                        <div class="canvas-insights"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="lotWiseReservationChart">
+            <div class="head">
+                <h1 id="active-past-reservation-h1"></h1>
+            </div>
+
+            <div class="canvas-wrapper">
+                <div class="canvas-content-body">
+                    <canvas id="lotWiseReservationChart" width="975px" height="450px"></canvas>
+                    <div class="about-canvas">
+                        <div class="canvas-insights"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'components/alert.html' %}
+    {% include 'components/loader.html' %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="{{ url_for('static', filename='/JAVASCRIPT/alert.js')}}"></script>
+    <script src="{{ url_for('static', filename='/JAVASCRIPT/user/summaryChart.js')}}"></script>
+    <script>
+        function zoomCanvas(iconElement) {
+            const wrapper = iconElement.closest('.canvas-wrapper');    // it looks for nearest parent with class canvas wrapper 
+            wrapper.classList.add('zoomed');
+
+            const zoomIcon = wrapper.querySelector('.zoom-icon');
+            const closeIcon = wrapper.querySelector('.close-icon');
+
+            zoomIcon.style.display = 'none';
+            closeIcon.style.display = 'block';
+            document.getElementById('backButton').style.display = 'none';
+        }
+
+        function unzoomCanvas(iconElement) {
+            const wrapper = iconElement.closest('.canvas-wrapper');
+            wrapper.classList.remove('zoomed');
+
+            const zoomIcon = wrapper.querySelector('.zoom-icon');
+            const closeIcon = wrapper.querySelector('.close-icon');
+
+            zoomIcon.style.display = 'block';
+            closeIcon.style.display = 'none';
+            document.getElementById('backButton').style.display = 'block';
+        }
+</script>
+</body>
+</html>

@@ -24,10 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener("click", async() => {
             const loader = document.getElementById('loader');
             loader.style.display = 'flex';
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, 750));
             loader.style.display = 'none';
 
-            const card = button.closest(".card");
+            const card = button.closest(".card");   // jis card pe wo button khud present hai
             const details = card.querySelector(".details");
 
             if (!details){ 

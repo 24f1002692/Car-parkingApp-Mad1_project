@@ -62,6 +62,8 @@
             </div>
         </div>
     </div>
+
+    <!-- uses dom manipulation -->
     <div id="overlay-blur"></div>
     <div id="spot-detail-panel" class="detail-panel">
         <div class="panel-content">
@@ -84,7 +86,9 @@
             <button onclick="closeSpotDetails()" id="spot-detail-btn">Close</button>
         </div>
     </div>
+    
 
+    <!-- uses jinja because lot data already present while getting the page -->
     <div class="lot-detail-panel" id="lot-detail-panel">
         <div class="detail">
             <h1>{{lot.lot_name}}</h1>

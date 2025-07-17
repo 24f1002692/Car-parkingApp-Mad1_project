@@ -24,7 +24,7 @@ def calculate_bill(parking_time, leaving_time, price_per_hr):
     duration = leaving_time - parking_time
     total_hours = duration.total_seconds() / 3600       # includes fractional hours
     base_bill = round(total_hours * price_per_hr, 2)
-    gst = base_bill * 0.18
+    gst = base_bill * 0.0       # gst is 0 for now
 
     return (base_bill, gst)
 
@@ -135,7 +135,13 @@ def billingDesk():
                 if not reserved_spot:
                     return jsonify({'success': False, 'message': 'Reserved spot not found'}), 404
                 
+                spot = reserved_spot.spot_detail
+                lot = spot.lot_detail
+                bill_amount, gst = calculate_bill(reserved_spot.parking_time, reserved_spot.leaving_time, lot.price_per_hr)
+                
                 reserved_spot.bill_pay = True
+                reserved_spot.bill_amount = (reserved_spot.bill_amount or 0.0) + bill_amount + gst
+                db.session.add(reserved_spot)
                 db.session.commit()
                 return jsonify({'success': True, 'message': 'Bill Paid Successfully, Redirecting to your dashboard', 'path':'/TruLotParking/role/userDashboard'}), 200
         else:
@@ -264,7 +270,6 @@ def pendingBills():
         return render_template('/components/error_page.html', error='Internal Server Error'), 500
 
 
-
 @admin_view_reservation_bp.route('/active-reservations')
 def activeReservations():
     token = request.cookies.get('token')
@@ -289,6 +294,42 @@ def activeReservations():
             ]
 
             return render_template('/admin/links/active-reservations.html', formatted_reserved_spots=formatted_reserved_spots, pagination=pagination, message='Not a single user made any reservation' if not formatted_reserved_spots else None), 200
+        else:
+            return render_template('/components/error_page.html', error='Unauthorised User'), 403
+    except Exception as error:
+        print(error)
+        return render_template('/components/error_page.html', error='Internal Server Error'), 500
+    
+
+@admin_view_reservation_bp.route('/reservation-history')
+def allReservations():
+    token = request.cookies.get('token')
+    res, status = check_authorisation(token)
+    json_res = res.get_json()
+
+    if not json_res.get('success'):
+        return render_template('/components/error_page.html', error='Unauthorized: Invalid or expired token'), status
+    
+    try:
+        if json_res.get('success') and json_res.get('message') == 'admin':
+            page = request.args.get('page', 1, type=int)
+            PER_PAGE = 200
+
+            pagination = ReservedSpot.query \
+                .filter(ReservedSpot.leaving_time.isnot(None)) \
+                .order_by(ReservedSpot.parking_time.desc()) \
+                .paginate(page=page, per_page=PER_PAGE, error_out=False)
+            
+            formatted_reserved_spots = [
+                {
+                    'spot': reserved_spot,
+                    'parking_time': format_datetime(str(reserved_spot.parking_time)),
+                    'leaving_time': format_datetime(str(reserved_spot.leaving_time))
+                }
+                for reserved_spot in pagination.items
+            ]
+
+            return render_template('/admin/links/reservation-history.html', formatted_reserved_spots=formatted_reserved_spots, pagination=pagination, message='Not a single user made any reservation' if not formatted_reserved_spots else None), 200
         else:
             return render_template('/components/error_page.html', error='Unauthorised User'), 403
     except Exception as error:

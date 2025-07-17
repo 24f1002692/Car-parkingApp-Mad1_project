@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Completed Reservations | TruLot</title>
+    <link rel="icon" href="{{ url_for('static', filename='/images/landing_page_images/icon_image.JPG') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/CSS/user_css/links/my_active_reservations.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename= '/CSS/admin_css/adminNavbar.css')}}"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        .card .head{
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .card{
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    {% if formatted_reserved_spots %}
+    <div class="card-container">
+        <h1>Completed Reservations Log</h1>
+        <div class="search-bar">
+            <div class="search-wrapper">
+                <input type="text" id="search-box"  placeholder="Search reservations..." data-target-class="reservation"/>
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </div>
+        </div>
+
+        <div id="no-results" style="display: none;">
+            No matching reservations found.
+        </div>
+
+
+        {% for spot in formatted_reserved_spots %}
+        <div class="card reservation" data-name="{{ 
+            (spot.spot.user_detail.name ~ ' ' ~ 
+            spot.spot.user_detail.email ~ ' ' ~ 
+            spot.spot.phone ~ ' ' ~ 
+            spot.spot.user_detail.address_detail.address ~ ' ' ~ 
+            spot.spot.spot_detail.spot_id ~ ' ' ~ 
+            spot.spot.spot_detail.lot_detail.lot_name) | lower }}">
+
+            <div class="head">
+            <p class="reserve-id">{{ spot.spot.reserved_spot_id }}</p>
+            <div>
+                <p>Parking Time: {{ spot.parking_time }}</p>
+                    {% if spot.spot.leaving_time %}
+                <p>Leaving Time: {{ spot.leaving_time }}</p>
+                {% endif %}
+            </div>
+            </div>
+            <div class="details">
+                <p class="reserve-para">
+                    Reserved by <strong>{{ spot.spot.user_detail.name }}</strong> &nbsp; | &nbsp; {{ spot.spot.user_detail.email }} | &nbsp; {{ spot.spot.phone }}
+                </p>
+                <p style="display: none;">{{ spot.spot.user_detail.email }}</p>
+                <p style="display: none;">{{ spot.spot.user_detail.address_detail.address }}</p>
+                <p style="display: none;">{{ spot.spot.spot_detail.lot_detail.lot_name }}</p>
+                <p style="display: none;">
+                    {% if spot.spot.spot_detail.lot_detail.geographical_detail.country | lower == 'india' %}
+                    &#8377;{{ spot.spot.spot_detail.lot_detail.price_per_hr }}
+                    {% else %}
+                    &#36;{{ spot.spot.spot_detail.lot_detail.price_per_hr }}
+                    {% endif %}
+                </p>
+                <p style="display: none;">
+                    {{ spot.spot.spot_detail.lot_detail.geographical_detail.location }},
+                    {{ spot.spot.spot_detail.lot_detail.geographical_detail.country }}
+                </p>
+                <p>
+                    Spot ID: {{ spot.spot.spot_detail.spot_id }} Reserved &nbsp; | &nbsp; {{ spot.spot.spot_detail.lot_detail.lot_name }} | &nbsp;
+                    {% if spot.spot.bill_pay %} 
+                        ✅ <strong style="color: rgb(6, 79, 6);">Bill Paid</strong>
+                    {% else %} 
+                        ⚠️ <strong style="color: red;">Payment Pending</strong>
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="temp">
+            <div class="view-details">
+                <div class="btn">
+                <button class="btn-class user-detail-btn">User Details</button>
+                <button class="btn-class lot-detail-btn">Parking Lot Details</button>
+                {% if not spot.spot.bill_pay %} 
+                    <button class="btn-class lot-detail-btn" style="width: 10rem; background-color: orangered;"><i class="fa-solid fa-bell"></i>&nbsp;&nbsp;Notify for Payment</button>
+                {% endif %}
+                </div>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-active-reservations">{{ message or "No completed reservations yet." }}</div>
+    {% endif %}
+
+    <!-- User details panel -->
+    <div class="user-details-panel hidden" id="userDetailsPanel">
+        <div class="user-details-content">
+            <button class="close-user-details">&times;</button>
+            <div class="content">
+                <h2>User Details</h2>
+                <p><span id="panel-name"></span></p>
+                <p><span id="panel-email"></span></p>
+                <p><span id="panel-phone"></span></p>
+                <p><span id="panel-location"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lot details panel -->
+    <div class="lot-details-panel hidden" id="lotDetailsPanel">
+        <div class="lot-details-content">
+            <button class="close-lot-details">&times;</button>
+            <div class="content">
+                <h2>Parking Lot Info</h2>
+                <p><strong><span id="Lot-name"></span></strong></p>
+                <p><span id="Lot-price"></span></p>
+                <p><span id="Lot-location"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container">
+        <ul class="pagination">
+            {% if pagination.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('view-reserved-spots.activeReservations', page=pagination.prev_num) }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Previous</span></li>
+            {% endif %}
+
+            {% if pagination.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('view-reserved-spots.activeReservations', page=pagination.next_num) }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    {% include 'components/loader.html' %}
+    {% include 'components/prompt.html' %}
+    {% include 'components/alert.html' %}
+
+    <script type="module" src="{{ url_for('static', filename='JAVASCRIPT/user/my_active_reservations_panel.js')}}"></script>
+    <script src="{{ url_for('static', filename='/JAVASCRIPT/alert.js')}}"></script>
+    <script src="{{ url_for('static', filename='JAVASCRIPT/admin/search.js')}}"></script>
+</body>
+</html>

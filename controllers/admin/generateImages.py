@@ -30,7 +30,6 @@ def generate_random_parking_image_url():
     return "https://images.unsplash.com/photo-1565043666747-69f6646db940?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NTk0MTB8MHwxfHNlYXJjaHw3fHxjYXIlMjBwYXJraW5nfGVufDB8fHx8MTc0ODk1NDk0OXww&ixlib=rb-4.1.0&q=80&w=1080"
 
 
-
 def generate_random_user_image_url(gender):
     var = 'men' if gender == 'Male' else 'women'
     try:

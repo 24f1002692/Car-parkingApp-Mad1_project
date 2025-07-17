@@ -25,7 +25,6 @@
             <div class="lots-card">
                 {% for user in registered_users %}
                     <div class="card user-card" data-name="{{ (user.name ~ ' ' ~ user.email) | lower }}">
-                        <!-- <img class="card-img-top" src="{{ user.image }}" alt="{{ user.user_id }}"> -->
                         <div class="card-body">
                             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.3rem;">
                                 <p class="card-text-name">{{ user.name }}</p>
@@ -73,13 +72,12 @@
             <div class="right-side">
                 <div class="cross" id="cross-btn"><i class="fas fa-times close-panel"></i></div>
                 <div class="active-reservations">
-                    <h1>Active Reservations</h1>
+                    <h1 id="reservation-heading"></h1>
                 </div>
-                <div class="all-active-reservations">
-                    
-                </div>
+                <div class="all-active-reservations"></div>
+                <div class="all-past-reservations"></div>
                 <div class="active-reservations">
-                    <button>Past Reservations</button>
+                    <button id="toggle-reservation-btn"></button>
                 </div>
             </div>
         </div>
@@ -110,8 +108,10 @@
     </div>
 
 {% include 'components/loader.html' %}
+{% include 'components/alert.html' %}
 
 <script src="{{ url_for('static', filename='JAVASCRIPT/admin/search.js')}}"></script>
+<script src="{{ url_for('static', filename='JAVASCRIPT/alert.js')}}"></script>
 <script src="{{ url_for('static', filename='JAVASCRIPT/admin/restrict_unrestrict_user.js')}}"></script>
 <script src="{{ url_for('static', filename='JAVASCRIPT/admin/all_about_user.js')}}"></script>
 </body>

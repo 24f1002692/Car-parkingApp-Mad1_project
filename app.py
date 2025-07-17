@@ -26,6 +26,8 @@ from controllers.user.view_book_spot import spot_booking_bp
 from controllers.user.reservedSpots import reserved_spot_bp
 from controllers.user.reservedSpots import admin_view_reservation_bp
 from controllers.user.myProfile import profile_bp
+from controllers.user.user_summaryChart import summaryChart_bp
+from controllers.admin.admin_summaryChart import overViewChart_bp
 
 
 app = Flask(__name__)
@@ -60,6 +62,8 @@ app.register_blueprint(spot_booking_bp)
 app.register_blueprint(reserved_spot_bp)
 app.register_blueprint(admin_view_reservation_bp)
 app.register_blueprint(profile_bp)
+app.register_blueprint(summaryChart_bp)
+app.register_blueprint(overViewChart_bp)
 
 
 # --------------------------------------------------------------------------------

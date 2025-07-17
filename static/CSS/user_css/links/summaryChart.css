@@ -1,0 +1,221 @@
+:root{
+    --primary-black: black;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+html{
+    overflow: auto;
+    scrollbar-width: none;     
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar{
+    display: none;              
+}
+
+
+.container{
+    padding: 2rem 4rem;
+    margin-bottom: 2rem;
+}
+.head{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+    margin: 0.5rem 0rem 1rem 2rem;
+}
+
+.head h1 {
+    font-size: 3rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    letter-spacing: 1px;
+    font-weight: 500;
+    -webkit-text-stroke: 1.5px 	#7d7d7d; 
+    /* -webkit-text-stroke: 1.5px #14b8a6;  */
+    color: transparent;
+    text-shadow:
+        0 0 2px #fff,              
+        1px 1px 0 #e0e0e0,        
+        3px 3px 2px rgba(0, 0, 0, 0.2),
+        4px 4px 3px rgba(0, 0, 0, 0.25),
+}
+
+
+
+#yearSelect {
+    appearance: none;      /* removes default browser styling */
+    background-color: #ffffff;
+    border: 1.5px solid #d1d5db;
+    border-radius: 0.25rem;
+    padding: 0.6rem 2.5rem 0.6rem 0.75rem;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #111827; /* dark text */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23333' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");   
+    /* dropdown arrow => M6 9l6 6 6-6: draws a chevron shape (like a "V")*/
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;    /* 0.75rem from right and center it vertically */
+    background-size: 1rem;
+    cursor: pointer;
+}
+
+#yearSelect:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.1);
+}
+
+#yearSelect:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+
+/* ---------------------------------------------------------- monthly-canvas ----------------------- */
+.canvas-wrapper {
+    position: relative;
+    display: inline-block;
+    padding: 1rem;
+    border-radius: 0.1rem;
+    width: 97.5%;
+    height: 475px;
+}
+
+.canvas-content-body{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.about-canvas{
+    width: 40%;
+    height: 475px;
+    padding: 1.5rem;
+}
+
+.canvas-insights{
+    width: 100%;
+    height: 375px;
+    padding: 1rem;
+    font-size: 1.1rem;
+    color: #333;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+    border-left: 4px solid #14b8a6;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    line-height: 1.8;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    word-spacing: 0.15rem;
+}
+
+.canvas-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    display: flex;
+    gap: 1rem;
+}
+
+
+.zoom-icon,
+.close-icon {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    font-size: 1.25rem;
+    color: #0B0B0B;
+    cursor: pointer;
+    z-index: 10;
+    padding: 0.3rem;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+}
+
+.zoom-icon:hover,
+.close-icon:hover {
+    transform: scale(1.05);
+}
+
+.canvas-wrapper.zoomed {
+    position: fixed;
+    top: 47.5%;
+    left: 48%;
+    transform: translate(-50%, -50%);
+    padding: 1rem;
+    z-index: 1000;
+    background: white;
+}
+
+.canvas-wrapper.zoomed canvas {
+    width: 85vw !important;
+    height: 80vh !important;   
+}
+
+.back-btn-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#backButton{
+    width: 12rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    letter-spacing: 1px;
+    margin-top: 0.75rem ;
+    margin-left: 3rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.01rem;
+    background-color: black;
+    background-color: #14b8a6;
+    background-color: 	#7d7d7d;
+    border: none;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-radius 0.3s ease;
+}
+
+#backButton:hover{
+    border-radius: 10px;
+}
+
+/* ------------------------------------------------------------------------- back-icon ----------------------------------- */
+.back-icon {
+    border:none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #14b8a6;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 1000;
+}
+
+.back-icon:hover {
+    background-color: #0d9488;
+    transform: scale(1.05);
+}
+
+#back-i {
+    color: white;
+    font-size: 1.2rem;
+}

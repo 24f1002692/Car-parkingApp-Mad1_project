@@ -38,7 +38,7 @@ html::-webkit-scrollbar {
     font-weight: 600;
     transition: .4s ease;
     opacity: 0;
-    animation: logoAni 1s ease forwards; 
+    animation: logoAnimation 1s ease forwards; 
     animation-delay: 1.3s;
 }
 
@@ -85,15 +85,15 @@ nav{
     font-size: 25px;
     color: var(--color-black); 
     opacity: 0;
-    animation: logoAni 1s ease forwards;   
+    animation: logoAnimation 1s ease forwards;   
 }
 .nav-link li a{
     color: var(--color-black);
     font-size: 17px;
     transition: .4s ease;
     display: inline-block;
-    animation: NavliaAni forwards 1s ease;
-    animation-delay: calc(.2s * var(--i));
+    animation: NavlianchorAnimation forwards 1s ease;
+    animation-delay: calc(.2s * var(--i));    /* delay is like 0.2s 0.4s 0.6s to each anchor link*/
     opacity: 0;    
     text-decoration: none;
 }
@@ -113,8 +113,8 @@ nav{
     border: 2px solid transparent;
     transform: rotate(45deg);
     transition: .4s ease;   
-    animation: socialAni forwards 1s ease;
-    animation-delay: calc(.2s * var(--i));
+    animation: socialIconAnimation forwards 1s ease;
+    animation-delay: calc(0.2s * var(--i));
     opacity: 0;    
     text-decoration: none;
 }
@@ -138,7 +138,7 @@ nav{
 }
 
 /* header-tag */
-header, .section-team, .review-section, .parkEase-family{ 
+header, .section-team, .review-section, .TruLot-family{ 
     width: 100vw;
     height: 97.5vh;
     display: flex;
@@ -167,7 +167,7 @@ header, .section-team, .review-section, .parkEase-family{
     font-size: 54px;
     line-height: 1.2;
     color: var(--color-black);
-    animation: H1Ani forwards 1s ease;  
+    animation: H1Animation forwards 1s ease;  
     opacity: 0;    
     animation-delay: 1s;  
 }
@@ -176,7 +176,7 @@ header, .section-team, .review-section, .parkEase-family{
     font-weight: 400;
     color: var(--color-primary);
     margin-top: 0.5rem;
-    animation: H1Ani forwards 1s ease;  
+    animation: H1Animation forwards 1s ease;  
     opacity: 0;    
     animation-delay: 0.8s;  
 }
@@ -185,7 +185,7 @@ header, .section-team, .review-section, .parkEase-family{
     margin: 15px 0 40px;
     line-height: 160%;
     font-size: 14px;
-    animation: logoAni forwards 1s ease;  
+    animation: logoAnimation forwards 1s ease;  
     opacity: 0;    
     animation-delay: .6s; 
 }
@@ -216,7 +216,7 @@ header, .section-team, .review-section, .parkEase-family{
     top: 110px;
     left: -180px;
     opacity: 0;
-    animation: carAni forwards 1s ease;
+    animation: carAnimation forwards 1s ease;
     animation-delay: 1.6s;
 }
 
@@ -229,7 +229,7 @@ header, .section-team, .review-section, .parkEase-family{
     top: -35%;
     z-index: -1;
     opacity: 0;
-    animation: sqbox2Ani forwards 1s ease;
+    animation: SqBoxAnimation2 forwards 1s ease;
     animation-delay: .3s;
 }
 
@@ -255,7 +255,7 @@ header, .section-team, .review-section, .parkEase-family{
   color: var(--color-primary);
 }
 
-.parkease-review{
+.TruLot-review{
     margin-left: 2rem;
 }
 
@@ -291,7 +291,6 @@ header, .section-team, .review-section, .parkEase-family{
     background-size: cover;
     cursor: pointer;
     margin: 0 10px;
-    transition: 0.6s cubic-bezier(0.28, -0.03, 0, 0.99);
     opacity: 0;
     transform: translateX(0);    /* original position of card */
 }
@@ -322,6 +321,7 @@ input:checked + label .glass-overlay{
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
 }
+
 
 .card[for = "c1"]{
     background-image: url("https://media.istockphoto.com/id/1731252866/photo/salesman-and-a-female-customer-in-a-car-dealership.jpg?s=2048x2048&w=is&k=20&c=TrLQJPVz4Bk_xmR61CHiv43aPqGzgFelpglbTBCZhyw=");
@@ -623,12 +623,12 @@ input:checked + label .glass-overlay{
     margin-bottom: 2rem;
 }
 
-.parkEase-family .content .content-h1{
+.TruLot-family .content .content-h1{
     margin: 2rem;
     margin-bottom: 3rem;
 }
 
-.parkEase-family{
+.TruLot-family{
     margin-bottom: 2.5rem;
 }
 /* --------------------------------------------Footer section ----------------------------------------- */
@@ -703,8 +703,8 @@ input:checked + label .glass-overlay{
 }
 
 
-/* .......................Animation Start...................... */
-@keyframes logoAni {
+/* .......................Animation Section...................... */
+@keyframes logoAnimation {
     0%{
         transform: translateX(-100px);
         opacity: 0;
@@ -716,7 +716,7 @@ input:checked + label .glass-overlay{
 }
 
 /* li => anchor animation */
-@keyframes NavliaAni {    
+@keyframes NavlianchorAnimation {    
     0%{
         transform: translateY(100px);
         opacity: 0;
@@ -728,7 +728,7 @@ input:checked + label .glass-overlay{
 }
 
 /* social media animation */
-@keyframes socialAni {
+@keyframes socialIconAnimation {
     0%{
         transform: translateX(100px) rotate(45deg);
         opacity: 0;
@@ -739,7 +739,7 @@ input:checked + label .glass-overlay{
     }    
 }
 
-@keyframes H1Ani {
+@keyframes H1Animation {
     0%{
         transform: translateY(-100px) ;
         opacity: 0;
@@ -750,7 +750,7 @@ input:checked + label .glass-overlay{
     }    
 }
 
-@keyframes pAni{
+@keyframes paraAnimation{
     0%{
         transform: translateY(-20px) ;
         opacity: 0;
@@ -774,7 +774,7 @@ input:checked + label .glass-overlay{
 
 /* translate(X, Y) */
 /* from high to low movement */
-@keyframes carAni {
+@keyframes carAnimation {
     0%{
         transform: translate(180px, -300px) scale(0) rotate(-45deg);
         opacity: 0;
@@ -787,7 +787,7 @@ input:checked + label .glass-overlay{
 
 
 /* from 0 to 100, move div towards the right */
-@keyframes sqbox2Ani {
+@keyframes SqBoxAnimation2 {
     0%{
         right: 40%;
         opacity: 0;

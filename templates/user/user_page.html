@@ -18,7 +18,9 @@
                                 <div class="hover-box">Leave a rating&nbsp;?</div>
                             </div>
                         </div>
-                        <p class="card-text" id="description">{{ lot.description }}</p>
+                        <p class="card-text" id="description">
+                            {{ lot.description[:100] }}{% if lot.description|length > 50 %}...more{% endif %}
+                        </p>
                         <p id="location">{{ lot.geographical_detail.location }}, {{ lot.geographical_detail.country }}</p>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -93,13 +95,22 @@
                 <div class="image-border">
                     <img src="" alt="" id="user-image">
                 </div>
-                <div class="info"></div>
+                <div class="info-div">
+                    <div class="info"></div>
+                    <button id="expenditures-summary-btn">Expenditures Summary</button>
+                </div>
             </div>
         </div>
     </div>
 
 {% include 'components/loader.html' %}
 <script src="{{ url_for('static', filename='JAVASCRIPT/user/rating.js')}}"></script>
+<script>
+    document.getElementById('expenditures-summary-btn').addEventListener('click', () => {
+        document.getElementById('loader').style.display = 'flex';
+        window.location.href = '/TruLotParking/role/userDashboard/expenditures-summary';
+    });
+</script>
 
 {% endblock %}
 

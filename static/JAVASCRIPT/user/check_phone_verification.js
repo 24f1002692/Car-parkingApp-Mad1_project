@@ -20,7 +20,7 @@ async function check_phone_already_verified(phone){
 
         const data = await res.json();
         if(!data.success){
-            await customAlert(data.message);
+            // await customAlert(data.message);
             if(data.message == 'user is not verified'){
                 return data.success;
             }
@@ -33,7 +33,6 @@ async function check_phone_already_verified(phone){
         return null;
     }
 }
-
 
 async function check_pending_bills(){
     try{
@@ -147,7 +146,6 @@ async function check_phone_verification(){
     }
 }
 
-
 const submitOtp_btn = document.getElementById('submitOtp_btn');   // submit otp button 
 
 submitOtp_btn.addEventListener('click', async () => {
@@ -219,11 +217,11 @@ submitOtp_btn.addEventListener('click', async () => {
 });
 
 
-window.addEventListener("beforeunload", () => {
+window.addEventListener("beforeunload", () => {   // triggered just before the page is about to be closed, refreshed, or navigated away, checks for any active interval
     if (pollingIntervalId) {
         clearInterval(pollingIntervalId);
         pollingIntervalId = null;
     }
 });
 
-window.check_phone_verification = check_phone_verification;
+window.check_phone_verification = check_phone_verification;    // btn.addEvenListener or use it via onClick = check_ph_vryfy
