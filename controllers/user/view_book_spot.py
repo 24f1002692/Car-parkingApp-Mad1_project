@@ -174,9 +174,6 @@ def check_phone_verification():
             if not (phone.startswith("+") and re.fullmatch(r"\+\d{10,15}", phone)):
                 return jsonify({'success': False, 'message':'Phone number with country code is required'}), 400
             
-            # if phone == '+919810661732' or phone == '+919871487239':
-            #     return jsonify({"success": True, "message": 'user is verified'}), 200
-            
             try:
                 is_verified = ReservedSpot.query.filter_by(phone=phone).first() is not None
                 if is_verified:
@@ -191,7 +188,6 @@ def check_phone_verification():
     except Exception as error:
         print(error)
         return jsonify({'success': False, 'message':'Internal Server Error'}), 500
-
 
 
 @spot_booking_bp.route("/bookOneSpot/check-otp-sent")

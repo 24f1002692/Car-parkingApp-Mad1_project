@@ -79,6 +79,9 @@ def delete_expired_tokens():
         db.session.commit()
 
 
+# if end user from the platform like postman hit our brevo service and verify his email but do, not create account, then we keep his email in database for next 6hrs.
+# Also, a better way to wrap signup process in a function, and as user verify the email, call the function.
+# This way, we do not have explicitly hit two routes (verify otp & signup account route).
 def delete_verified_unregistered_emails():
     with app.app_context():
         verified_emails = EmailVerification.query.filter_by(isVerified=True).all()

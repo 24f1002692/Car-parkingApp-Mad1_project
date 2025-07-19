@@ -6,8 +6,6 @@ from models.user_model.user import User
 from models.adminDashboard_model.parkingLots import ParkingSpot, ReservedSpot
 from controllers.form.generators import decode_jwt
 
-from sqlalchemy.orm import joinedload
-
 
 spot_bp = Blueprint('parkingSpot', __name__, url_prefix='/TruLotParking/role/adminDashboard/parking-lot-details')
 

@@ -357,7 +357,8 @@ requestOtp_btn.addEventListener('click', async () => {
     const email = formData.email;
     const loader = document.getElementById('loader');
     loader.style.display = 'flex';
-
+    await new Promise(r => setTimeout(r, 750));
+    
     const res = await fetch('/signup/emailVerification/verifyOtp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

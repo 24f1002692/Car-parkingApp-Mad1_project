@@ -139,8 +139,8 @@ async function validateParkingLot(event, { isUpdate = false, updateUrl = null } 
         {
             value: capacity,
             input: capacity_input,
-            min: 150,
-            max: 1000,
+            min: 0,
+            max: 1000000,
             errorDiv: capacity_errorDiv,
             loader: loader,
             requiredMsg: 'Capacity for parking lot is required',

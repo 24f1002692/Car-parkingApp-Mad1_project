@@ -52,14 +52,14 @@ body.rating-active {
     padding-top: 2rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: start;
     align-items: start;
     gap: 1.25rem;
 }
 
 
 .card{
-    flex: 1 1 calc(25% - 1rem);
+    width: 310px !important;
     padding-bottom: 0.25rem;
     transition: transform 0.3s ease;
 }
@@ -230,8 +230,8 @@ body.rating-active {
 }
 
 .lot-card {
-  opacity: 1;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .lot-card.hide {

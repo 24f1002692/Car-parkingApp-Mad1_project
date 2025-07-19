@@ -80,7 +80,7 @@ document.getElementById('login-button').addEventListener('click', async(event) =
     }
 
     loader.style.display = 'flex';
-    await new Promise(resolve => setTimeout(resolve, 400)); 
+    await new Promise(resolve => setTimeout(resolve, 1000)); 
     const resp = await fetch('/TruLotParking/yourDashboard', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

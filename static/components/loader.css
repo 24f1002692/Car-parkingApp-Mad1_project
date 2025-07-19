@@ -25,19 +25,19 @@
     animation: blink 1.2s infinite ease-in-out;
 }
 
-.red {
+.red-color {
     background-color: #FF6B6B;
     animation-delay: 0s;
 }
-.yellow {
+.yellow-color {
     background-color: #FFD93D;
     animation-delay: 0.2s;
 }
-.green {
+.green-color {
     background-color: #6BCB77;  
     animation-delay: 0.4s;
 }
-.blue {
+.blue-color {
     background-color: #4D96FF;  
     animation-delay: 0.6s;
 }

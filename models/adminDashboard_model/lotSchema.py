@@ -48,8 +48,8 @@ class lotModel(BaseModel):
 
     @validator('capacity')
     def validate_capacity(cls, v):
-        if v is not None and not (150 <= v <= 1000):           # if v is None then default value will be assigned.
-            raise ValueError('Capacity must be between 80 and 1000 if provided.')
+        if v is not None and not (0 <= v <= 1000000):           # if v is None then default value will be assigned.
+            raise ValueError('Capacity must be between 0 and 1000000 if provided.')
         
         return v
     

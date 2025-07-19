@@ -128,6 +128,7 @@ async function check_phone_verification(){
                 const pollData = await pollRes.json();
 
                 if (pollData.success) {
+                    await new Promise(r => setTimeout(r, 750));
                     clearInterval(pollingIntervalId);   // stop polling
                     
                     alert_box.style.display = 'none';
@@ -185,6 +186,7 @@ submitOtp_btn.addEventListener('click', async () => {
     loader.style.display = 'none';
     const data = await res.json();
     if(data.success){
+        await new Promise(r => setTimeout(r, 750));
         await customAlert(data.message);
         loader.style.display = 'flex';
 
@@ -194,7 +196,7 @@ submitOtp_btn.addEventListener('click', async () => {
             return;
         }
         
-        await new Promise(r => setTimeout(r, 200)); 
+        await new Promise(r => setTimeout(r, 200));
         const bookingRes = await fetch('/TruLotParking/role/userDashboard/bookOneSpot', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
