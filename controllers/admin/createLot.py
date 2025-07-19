@@ -334,6 +334,8 @@ def delete_parkingLot():
                             spot.deleteSpot = True
                     
                     lot.deleteLot = True
+                    db.session.add(lot)
+                    db.session.add(spot)
                     db.session.commit()
 
                     return jsonify({'success': True, 'msg': f"{lotName} Lot deleted successfully..."}), 200

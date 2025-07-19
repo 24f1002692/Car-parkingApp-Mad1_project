@@ -31,7 +31,8 @@
                 spot.reserved_spot.phone ~ ' ' ~
                 spot.reserved_spot.user_detail.address_detail.address ~ ' ' ~ 
                 spot.reserved_spot.spot_detail.spot_id ~ ' ' ~ 
-                spot.reserved_spot.spot_detail.lot_detail.lot_name) | lower }}">
+                spot.reserved_spot.spot_detail.lot_detail.lot_name ~ ' ' ~
+                spot.reserved_spot.spot_detail.lot_detail.geographical_detail.location) | lower }}">
                 <div class="card-head">
                     <div class="reserved-spot-circle">
                         {{ spot.reserved_spot.reserved_spot_id }}

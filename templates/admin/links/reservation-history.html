@@ -44,7 +44,8 @@
             spot.spot.phone ~ ' ' ~ 
             spot.spot.user_detail.address_detail.address ~ ' ' ~ 
             spot.spot.spot_detail.spot_id ~ ' ' ~ 
-            spot.spot.spot_detail.lot_detail.lot_name) | lower }}">
+            spot.spot.spot_detail.lot_detail.lot_name ~ ' ' ~
+            spot.spot.spot_detail.lot_detail.geographical_detail.location) | lower }}">
 
             <div class="head">
             <p class="reserve-id">{{ spot.spot.reserved_spot_id }}</p>
