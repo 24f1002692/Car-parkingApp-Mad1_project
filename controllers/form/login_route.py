@@ -220,7 +220,8 @@ def resetPasswordForm():
                 db.session.add(reset_token)
                 db.session.commit()
 
-                url = f'http://localhost:5000/TruLotParking/reset/change-password?token={token}'
+                # url = f'http://localhost:5000/TruLotParking/reset/change-password?token={token}'
+                url = f"{os.getenv('BASE_URL', 'http://localhost:5000').rstrip('/')}/TruLotParking/reset/change-password?token={token}"
                 subject = "TruLot Reset Password link....."
                 sender = {"name": "TruLot Parking App", "email": "shivamkumar987148@gmail.com"}
                 to = [{"email": email}]

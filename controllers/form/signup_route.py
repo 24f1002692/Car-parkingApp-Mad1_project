@@ -224,7 +224,7 @@ def otpPage():
             }
 
             subject = "TruLot Email Verification....."
-            sender = {"name": "TruLot Parking App", "email": "shivamkumar987148@gmail.com"}
+            sender = {"name": "TruLot Parking App", "email": "jerrypersonal735@gmail.com"}
             to = [{"email": email}]
             html_content = f"<html><body><p>Your OTP is: {otp}, Don't share this OTP with anyone ! OTP is provided you to verify your Email address....</p></body></html>"
 

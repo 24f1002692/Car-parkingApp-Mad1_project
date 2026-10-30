@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: trulot-parking
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 1 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: DEPLOYED
+        value: "1"

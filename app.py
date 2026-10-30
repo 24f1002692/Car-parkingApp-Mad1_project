@@ -35,7 +35,14 @@ app.secret_key = os.getenv('APP_SECRET_KEY')      # used for session cookies
 
 current_dir = os.path.abspath(os.path.dirname(__file__))      # app.py is in the directory parking_app, value of current_dir is path to the parking_app
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(current_dir,  os.getenv('DATABASE_NAME'))
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(current_dir,  os.getenv('DATABASE_NAME'))
+db_url = os.getenv('DATABASE_URL')
+if db_url:
+    if db_url.startswith('postgres://'):
+        db_url = db_url.replace('postgres://', 'postgresql://', 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(current_dir, os.getenv('DATABASE_NAME', 'appdev_database.sqlite3'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False   # imporves performance of sqlalchemy
 
 
@@ -106,6 +113,14 @@ def scheduler_error_listener(event):
 scheduler.add_listener(scheduler_error_listener, EVENT_JOB_ERROR)
 
 
+# if __name__ == '__main__':
+#     init_user_db()
+#     app.run(debug=True)
+
+try:
+    init_user_db()   # needed under gunicorn, where __main__ never runs
+except Exception as e:
+    print(f"DB init failed: {e}")
+
 if __name__ == '__main__':
-    init_user_db()
     app.run(debug=True)
