@@ -42,6 +42,10 @@ def view_spot_prices():
         lot_id = data.get('lotId_val')
         phone = data.get('phone_num')
 
+        phone = (phone or "").strip()
+        if not re.fullmatch(r"\d{10}", phone):
+            return jsonify({'success': False, 'message': 'Phone number must be exactly 10 digits'}), 400
+
         if not user_id or not lot_id:
             return jsonify({'success': False, 'message':'userId / lotId is missing'}), 400
         
@@ -52,6 +56,14 @@ def view_spot_prices():
             
             if user.restrictUser:
                 return jsonify({'success': False, 'message': 'You are restricted by Admin'}), 403
+
+            pending = ReservedSpot.query.filter(
+                and_(ReservedSpot.user_id == user_id,
+                     ReservedSpot.leaving_time != None,
+                     ReservedSpot.bill_pay == False)
+            ).first()
+            if pending:
+                return jsonify({'success': False, 'message': 'Pay your pending bill to process your next booking'}), 403
             
             lot = Lot.query.filter_by(lot_id=lot_id).first()
             if not lot:

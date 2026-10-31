@@ -61,17 +61,17 @@ async function check_phone_verification(){
         phone_error_div.innerHTML = '';
     });
 
-    if(!phone){
-        phone_input.style.border = '1px solid red';
-        phone_error_div.innerHTML = 'Phone number is required';
-        return false;
-    }else if(!(phone.startsWith("+") && phone.length >= 10 && /^\+\d{10,15}$/.test(phone))){
-        phone_input.style.border = '1px solid red';
-        phone_error_div.innerHTML = 'Your country code is also required along with your phone number';
-        return false;
-    }else{
-        phone_error_div.innerHTML = '';
-    }
+    // if(!phone){
+    //     phone_input.style.border = '1px solid red';
+    //     phone_error_div.innerHTML = 'Phone number is required';
+    //     return false;
+    // }else if(!(phone.startsWith("+") && phone.length >= 10 && /^\+\d{10,15}$/.test(phone))){
+    //     phone_input.style.border = '1px solid red';
+    //     phone_error_div.innerHTML = 'Your country code is also required along with your phone number';
+    //     return false;
+    // }else{
+    //     phone_error_div.innerHTML = '';
+    // }
 
     localStorage.setItem("user_phone", phone);
     loader.style.display = 'flex';
@@ -79,12 +79,14 @@ async function check_phone_verification(){
     const pendingBills = await check_pending_bills();
     if(!pendingBills){
         window.location.href = '/TruLotParking/role/userDashboard/my-pending-bills';
+        return;
     }
     
-    const res = await check_phone_already_verified(phone);
-    if(res == null){
-        window.location.href = '/TruLotParking/role/userDashboard';
-    }
+    // const res = await check_phone_already_verified(phone);
+    // if(res == null){
+    //     window.location.href = '/TruLotParking/role/userDashboard';
+    // }
+    const res = true;
 
     if(res){
         await new Promise(r => setTimeout(r, 500)); 
@@ -223,6 +225,14 @@ window.addEventListener("beforeunload", () => {   // triggered just before the p
     if (pollingIntervalId) {
         clearInterval(pollingIntervalId);
         pollingIntervalId = null;
+    }
+});
+
+// When user comes back (back arrow) to this page, don't show a stuck loader; go to dashboard
+window.addEventListener('pageshow', (event) => {
+    const navType = performance.getEntriesByType('navigation')[0]?.type;
+    if (event.persisted || navType === 'back_forward') {
+        window.location.replace('/TruLotParking/role/userDashboard');
     }
 });
 
